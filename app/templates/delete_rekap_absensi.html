@@ -1,0 +1,383 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='assets/css/rapotthemes.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2><i class="ri-delete-bin-6-line"></i> Hapus Rekap Absensi</h2>
+        <p>Hapus rekap absensi siswa berdasarkan kelas dan semester</p>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {% if category == 'success' %}<i class="ri-checkbox-circle-line me-2"></i>{% endif %}
+        {% if category == 'danger' %}<i class="ri-error-warning-line me-2"></i>{% endif %}
+        {% if category == 'info' %}<i class="ri-information-line me-2"></i>{% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Filter Card -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="filter-card">
+                <div class="card-header">
+                    <i class="ri-filter-3-line"></i>
+                    <h5>Filter Data Absensi</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="row g-3" id="filterForm">
+                        <div class="col-md-5">
+                            <label for="kelas" class="form-label">Pilih Kelas</label>
+                            <select name="kelas" id="kelas" class="form-select">
+                                <option value="">--Pilih Kelas--</option>
+                                {% for k in kelas_list %}
+                                <option value="{{ k.id_kelas }}" {% if request.form.kelas == k.id_kelas|string %}selected{% endif %}>
+                                    {{ k.nama_kelas }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="semester" class="form-label">Pilih Semester</label>
+                            <select name="semester" id="semester" class="form-select">
+                                <option value="">--Pilih Semester--</option>
+                                {% for s in semester_list %}
+                                <option value="{{ s.id }}" {% if request.form.semester == s.id|string %}selected{% endif %}>
+                                    {{ s.tahun_ajaran }} - {{ s.semester }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label d-block" style="visibility: hidden;">Action</label>
+                            <button type="submit" class="btn btn-primary btn-icon w-100" id="btnSearch">
+                                <i class="ri-search-line"></i> Cari
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if rekap_list %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="data-preview-card">
+                <div class="data-preview-header">
+                    <div class="preview-title">
+                        <i class="ri-file-list-3-line"></i>
+                        <h3>Data Rekap Absensi</h3>
+                    </div>
+                    <span class="badge bg-info">{{ rekap_list|length }} Data</span>
+                </div>
+                <div class="data-preview-body">
+                    <div class="table-responsive">
+                        <table class="modern-table enhanced-table">
+                            <thead>
+                                <tr>
+                                    <th width="50" class="text-center">#</th>
+                                    <th>Nama Siswa</th>
+                                    <th width="100" class="text-center">Sakit</th>
+                                    <th width="100" class="text-center">Izin</th>
+                                    <th width="100" class="text-center">Tanpa Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rekap, siswa in rekap_list %}
+                                <tr>
+                                    <td class="text-center">{{ loop.index }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-circle">{{ siswa.nama[:1] }}</div>
+                                            <span class="ms-2">{{ siswa.nama }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge-pill sakit">{{ rekap.total_sakit }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge-pill izin">{{ rekap.total_izin }}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge-pill alpha">{{ rekap.total_tanpa_keterangan }}</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="actions-container">
+                        <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="ri-delete-bin-5-line"></i> Hapus Semua Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Empty State -->
+    {% if request.form.kelas and request.form.semester and not rekap_list %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="empty-state">
+                <img src="{{ url_for('static', filename='assets/images/empty-data.svg') }}" alt="No Data" 
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/6598/6598519.png';">
+                <h4>Tidak ada data ditemukan</h4>
+                <p>Silakan ubah filter atau periksa kembali kriteria pencarian Anda</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="ri-error-warning-line me-2"></i> Konfirmasi Penghapusan
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <div class="warning-icon">
+                        <i class="ri-alert-line"></i>
+                    </div>
+                    <h4 class="mt-3">Apakah Anda yakin?</h4>
+                    <p>Tindakan ini akan menghapus <strong>{{ rekap_list|length if rekap_list else 0 }} data</strong> rekap absensi dan tidak dapat dibatalkan.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-icon" data-bs-dismiss="modal">
+                    <i class="ri-close-line"></i> Batal
+                </button>
+                <form method="POST">
+                    <input type="hidden" name="kelas" value="{{ request.form.kelas }}">
+                    <input type="hidden" name="semester" value="{{ request.form.semester }}">
+                    <button type="submit" name="confirm_delete" class="btn btn-danger btn-icon">
+                        <i class="ri-delete-bin-5-line"></i> Hapus Semua
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.warning-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(239, 68, 68, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.warning-icon i {
+    font-size: 3rem;
+    color: var(--danger);
+}
+
+/* Extra style for better vertical alignment */
+.align-items-end {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Enhanced table styling */
+.enhanced-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.enhanced-table thead {
+    background-color: #f8fafc;
+}
+
+.enhanced-table thead th {
+    font-weight: 600;
+    color: #334155;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    padding: 1rem 1.25rem;
+    border-bottom: 2px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.enhanced-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.enhanced-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.enhanced-table tbody tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.enhanced-table td {
+    padding: 1rem 1.25rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #edf2f7;
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.enhanced-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Avatar circle */
+.avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #4361ee;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Badge pills for absence types */
+.badge-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0 8px;
+}
+
+.sakit {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.izin {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.alpha {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* For higher absence counts */
+td:has(.badge-pill[innerHTML*='5']),
+td:has(.badge-pill[innerHTML*='6']),
+td:has(.badge-pill[innerHTML*='7']),
+td:has(.badge-pill[innerHTML*='8']),
+td:has(.badge-pill[innerHTML*='9']) {
+    font-weight: 600;
+}
+
+/* Animation for row hover */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.badge-pill:hover {
+    animation: pulse 0.5s ease-in-out;
+    cursor: default;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .enhanced-table thead th,
+    .enhanced-table tbody td {
+        padding: 0.75rem 1rem;
+    }
+    
+    .avatar-circle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Form validation before submit
+        $('#filterForm').on('submit', function(e) {
+            var kelas = $('#kelas').val();
+            var semester = $('#semester').val();
+            
+            if (!kelas || !semester) {
+                e.preventDefault();
+                alert('Silakan pilih kelas dan semester terlebih dahulu');
+                return false;
+            }
+            
+            // Show loading state on button
+            $('#btnSearch').html('<i class="ri-loader-2-line"></i> Mencari...').prop('disabled', true);
+        });
+        
+        // Handle dropdown changes with visual feedback
+        $('#kelas, #semester').change(function() {
+            $(this).addClass('border-primary');
+            
+            // Enable/disable search button based on both dropdowns having values
+            if ($('#kelas').val() && $('#semester').val()) {
+                $('#btnSearch').prop('disabled', false);
+            } else {
+                $('#btnSearch').prop('disabled', true);
+            }
+        });
+        
+        // Initialize with correct button state
+        if ($('#kelas').val() && $('#semester').val()) {
+            $('#btnSearch').prop('disabled', false);
+        } else {
+            $('#btnSearch').prop('disabled', true);
+        }
+        
+        // Reset loading state if back button is used
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                $('#btnSearch').html('<i class="ri-search-line"></i> Cari').prop('disabled', false);
+            }
+        };
+    });
+</script>
+{% endblock content %}

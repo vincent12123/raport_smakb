@@ -1,0 +1,230 @@
+Routes:
+@app.route('/dashboard')
+@app.route('/bulk_delete_kelas')
+@app.route('/bulk_delete_nilai_akhir', methods=['POST'])
+@app.route('/download_excel_siswa', methods=['POST'])
+@app.route('/download_excel_absensi', methods=['POST'])
+@app.route('/download_excel_kegiatan_industri', methods=['POST'])
+@app.route('/download_siswa', methods=['POST'])
+@app.route("/")
+@app.route("/login", methods=['GET', 'POST'])
+@app.route("/logout")
+@app.route("/register", methods=['GET', 'POST'])
+@app.route('/create', methods=['POST'])
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+@app.route("/admin/dashboard")
+@app.route("/guru/dashboard")
+@app.route("/add-guru", methods=['GET', 'POST'])
+@app.route('/edit-guru/<int:id>', methods=['GET', 'POST'])
+@app.route('/delete-guru/<int:id>', methods=['POST'])
+@app.route('/list-guru')
+@app.route('/add-sekolah', methods=['GET', 'POST'])
+@app.route('/edit-sekolah/<int:id>', methods=['GET', 'POST'])
+@app.route('/delete-sekolah/<int:id>', methods=['POST'])
+@app.route('/list-sekolah')
+@app.route('/add-siswa', methods=['GET', 'POST'])
+@app.route('/edit-siswa/<int:id_siswa>', methods=['GET', 'POST'])
+@app.route('/delete-siswa/<int:id_siswa>', methods=['POST'])
+@app.route('/list-siswa')
+@app.route('/download-siswa-excel')
+@app.route('/add-kelas', methods=['GET', 'POST'])
+@app.route('/edit-kelas/<int:id_kelas>', methods=['GET', 'POST'])
+@app.route('/delete-kelas/<int:id_kelas>', methods=['POST'])
+@app.route('/list-kelas')
+@app.route('/add-mapel', methods=['GET', 'POST'])
+@app.route('/edit-mapel/<int:id_mapel>', methods=['GET', 'POST'])
+@app.route('/delete-mapel/<int:id_mapel>', methods=['POST'])
+@app.route('/list-mapel')
+@app.route('/settings', methods=['GET', 'POST'])
+@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/form_page', methods=['GET'])
+@app.route('/submit', methods=['POST'])
+@app.route('/submit', methods=['POST'])
+@app.route('/add-nilai-akhir', methods=['GET', 'POST'])
+@app.route('/edit-nilai-akhir/<int:id_nilai>', methods=['GET', 'POST'])
+@app.route('/delete-nilai-akhir/<int:id_nilai>', methods=['POST'])
+@app.route('/list-nilai-akhir')
+@app.route('/upload-rekap-absensi', methods=['GET', 'POST'])
+@app.route('/upload-ekstrakurikuler', methods=['GET', 'POST'])
+@app.route('/upload-kegiatan-industri', methods=['GET', 'POST'])
+@app.route('/get-guru-by-kelas/<int:kelas_id>')
+@app.route('/laporan-kelas', methods=['GET', 'POST'])
+@app.route('/laporan-kelas', methods=['GET', 'POST'])
+@app.route('/laporan-kelas', methods=['GET', 'POST'])
+@app.route('/update-nilai', methods=['POST'])
+@app.route('/laporan-kelas', methods=['GET', 'POST'])
+@app.route('/update-nilai', methods=['POST'])
+@app.route('/edit-nilai/<int:id>', methods=['GET', 'POST'])
+@app.route('/laporan-kelas1', methods=['GET', 'POST'])
+@app.route('/laporan-guru', methods=['GET'])
+@app.route('/generate-rapor-rplxi/<int:id_kelas>/<int:id_semester>')
+@app.route('/generate-rapor-tsmxi/<int:id_kelas>/<int:id_semester>')
+@app.route('/generate-rapor-htlxi/<int:id_kelas>/<int:id_semester>')
+@app.route('/generate-rapor-rplx/<int:id_kelas>/<int:id_semester>')
+@app.route('/generate-rapor-tsmx/<int:id_kelas>/<int:id_semester>')
+@app.route('/generate-rapor-htlx/<int:id_kelas>/<int:id_semester>')
+@app.route('/download-laporan-kelas/<int:id_kelas>')
+@app.route('/laporan_guru', methods=['GET'])
+@app.route('/laporan_guru_sudah', methods=['GET'])
+@app.route('/peringkat', methods=['GET', 'POST'])
+@app.route('/absensi_harian', methods=['GET', 'POST'])
+@app.route('/get_siswa_by_kelas/<int:kelas_id>', methods=['GET'])
+@app.route('/get_orang_tua_by_siswa/<int:siswa_id>', methods=['GET'])
+@app.route('/kirim_pesan_bulk', methods=['POST'])
+@app.route('/form-generate-rapor-name')
+@app.route('/generate-rapor-nama')
+@app.route('/generate-raporsiswa', methods=['GET', 'POST'])
+@app.route('/get_siswa_by_kelas/<kelas_id>')
+@app.route('/generate-rapor-kelas/<int:id_kelas>/<int:id_semester>')
+@app.route('/download/rekap_absensi')
+@app.route('/download/rekap_kegiatan_industri')
+@app.route('/download/rekap_kegiatan_ekstrakurikuler')
+@app.route('/api/student_count_per_class')
+@app.route('/api/average_score_per_subject')
+@app.route('/api/attendance_per_class')
+@app.route('/api/top_students')
+@app.route('/api/semesters')
+@app.route('/api/classes')
+@app.route('/api/progress_per_class/<int:class_id>/<int:semester_id>')
+@app.route('/api/ranking_per_class/<int:class_id>/<int:semester_id>')
+@app.route('/api/semesterall')
+@app.route('/api/class_absensi/<int:class_id>/<int:semester_id>')
+@app.route('/api/classes_absensi')
+@app.route('/api/students_in_class/<int:class_id>')
+@app.route('/api/student_subject_scores/<int:student_id>')
+@app.route('/charts')
+@app.route('/api/performance_over_time/<int:student_id>')
+@app.route('/api/subject_difficulty')
+@app.route('/chart1')
+@app.route('/api/top_performers/<int:class_id>/<int:semester_id>')
+@app.route('/api/student_performance/<int:class_id>/<int:semester_id>/<int:student_id>')
+@app.route('/api/subject_scores/<int:class_id>/<int:semester_id>/<int:student_id>', methods=['GET'])
+@app.route('/api/attendance/<int:student_id>', methods=['GET'])
+@app.route('/api/ranking/<int:class_id>/<int:semester_id>', methods=['GET'])
+@app.route('/generate-rapor/<int:id_kelas>/<int:id_semester>/<int:id_siswa>')
+@app.route('/generate-rapor-form')
+@app.route('/download_files')
+
+Functions:
+def load_user(user_id):
+def admin_required(f):
+def decorated_function(*args, **kwargs):
+def forbidden(error):
+def dashboard():
+def bulk_delete_kelas():
+def bulk_delete_nilai_akhir():
+def download_excel_siswa():
+def download_excel_absensi():
+def download_excel_kegiatan_industri():
+def download_siswa():
+def index():
+def login():
+def logout():
+def register():
+def create():
+def delete(id):
+def admin_dashboard():
+def guru_dashboard():
+def add_guru():
+def edit_guru(id):
+def delete_guru(id):
+def list_guru():
+def add_sekolah():
+def edit_sekolah(id):
+def delete_sekolah(id):
+def list_sekolah():
+def add_siswa():
+def edit_siswa(id_siswa):
+def delete_siswa(id_siswa):
+def list_siswa():
+def download_siswa_excel():
+def add_kelas():
+def edit_kelas(id_kelas):
+def delete_kelas(id_kelas):
+def list_kelas():
+def add_mapel():
+def edit_mapel(id_mapel):
+def delete_mapel(id_mapel):
+def list_mapel():
+def read_config():
+def settings():
+def upload():
+def form_page():
+def submit():
+def submit():
+def add_nilai_akhir():
+def edit_nilai_akhir(id_nilai):
+def delete_nilai_akhir(id_nilai):
+def list_nilai_akhir():
+def upload_rekap_absensi():
+def upload_ekstrakurikuler():
+def upload_kegiatan_industri():
+def get_guru_by_kelas(kelas_id):
+def nilai_akhir():
+def nilai_akhir():
+def nilai_akhir():
+def update_nilai():
+def nilai_akhir():
+def update_nilai():
+def edit_nilai(id):
+def laporan():
+def laporan_guru():
+def atur_gaya_sel(sel, nama_font='Times New Roman', ukuran_font=12, tengah_align=False, justify_align=False):
+def atur_tinggi_baris(tabel, tinggi_cm):
+def atur_tinggi_baris(tabel, baris, tinggi_cm):
+def generate_rapor_kelas_rplxi(id_kelas, id_semester):
+def generate_rapor_kelas_tsmxi(id_kelas, id_semester):
+def generate_rapor_kelas_htlxi(id_kelas, id_semester):
+def generate_rapor_kelas_rplx(id_kelas, id_semester):
+def generate_rapor_kelas_tsmx(id_kelas, id_semester):
+def generate_rapor_kelas_htlx(id_kelas, id_semester):
+def generate_excel(kelas_id):
+def download_laporan_kelas(id_kelas):
+def laporan_gurublm():
+def laporan_gurusdh():
+def peringkat_kelas():
+def absensi_harian():
+def get_siswa_by_kelas(kelas_id):
+def get_orang_tua_by_siswa(siswa_id):
+def kirim_pesan_bulk(tanggal_pilihan):
+def route_kirim_pesan_bulk():
+def form_generate_rapor():
+def generate_rapor_nama():
+def generate_rapor_rplxi(id_siswa):
+def generate_rapor_tsmxi(id_siswa):
+def generate_rapor_htlxi(id_siswa):
+def generate_rapor_rplx(id_siswa):
+def generate_rapor_tsmx(id_siswa):
+def generate_rapor_htlx(id_siswa):
+def generate_rapor(id_siswa, template_path, mapel_ke_baris, include_kegiatan_industri=False):
+def generate_raporsiswa():
+def get_siswa_by_kelas(kelas_id):
+def generate_rapor_kelas(id_kelas, id_semester):
+def download_rekap_absensi():
+def download_rekap_kegiatan_industri():
+def download_rekap_kegiatan_ekstrakurikuler():
+def get_student_count_per_class():
+def get_average_score_per_subject():
+def get_attendance_per_class():
+def get_top_students():
+def get_semesters():
+def get_classes():
+def get_progress_per_class(class_id, semester_id):
+def get_ranking_per_class(class_id, semester_id):
+def get_semester_all():
+def class_absensi(class_id, semester_id):
+def get_classes_absensi():
+def get_students_in_class(class_id):
+def get_student_subject_scores(student_id):
+def charts():
+def get_performance_over_time(student_id):
+def get_subject_difficulty():
+def chart1():
+def get_top_performers(class_id, semester_id):
+def get_student_performance(class_id, semester_id, student_id):
+def get_subject_scores(class_id, semester_id, student_id):
+def get_attendance(student_id):
+def get_ranking(class_id, semester_id):
+def generate_rapor(id_kelas, id_semester, id_siswa):
+def generate_rapor_form():
+def download_files():

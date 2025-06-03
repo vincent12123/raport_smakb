@@ -1,0 +1,77 @@
+{% extends "basedashboardone.html" %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<h1>Absensi Harian</h1>
+
+<!-- Menampilkan Pesan Flash -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+<h1>Absensi Harian</h1>
+<form method="POST" id="absensiForm">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.id_kelas.label }} {{ form.id_kelas(class="form-control", id="kelasSelect") }}
+    </div>
+    <div class="form-group">
+        {{ form.id_siswa.label }} {{ form.id_siswa(class="form-control", id="siswaSelect") }}
+    </div>
+    
+    <div class="form-group">
+        {{ form.tanggal.label }} {{ form.tanggal(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.status_kehadiran.label }} {{ form.status_kehadiran(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.keterangan.label }} {{ form.keterangan(class="form-control") }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+
+<script>
+    document.getElementById('kelasSelect').addEventListener('change', function() {
+        var kelasId = this.value;
+        var siswaSelect = document.getElementById('siswaSelect');
+        siswaSelect.options.length = 0; // Clear all options
+    
+        // Fetch siswa data based on selected kelasId
+        fetch('/get_siswa_by_kelas/' + kelasId).then(function(response) {
+            response.json().then(function(data) {
+                data.forEach(function(siswa) {
+                    var option = new Option(siswa.nama, siswa.id_siswa);
+                    siswaSelect.options.add(option);
+                });
+            });
+        });
+    });
+    
+    document.getElementById('siswaSelect').addEventListener('change', function() {
+        var siswaId = this.value;
+        var orangTuaSelect = document.getElementById('orangTuaSelect');
+        orangTuaSelect.options.length = 0; // Clear all options
+    
+        // Fetch orang tua data based on selected siswaId
+        fetch('/get_orang_tua_by_siswa/' + siswaId).then(function(response) {
+            response.json().then(function(data) {
+                data.forEach(function(orang_tua) {
+                    var option = new Option(orang_tua.nama_orang_tua, orang_tua.id_orang_tua);
+                    orangTuaSelect.options.add(option);
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

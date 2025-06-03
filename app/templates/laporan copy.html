@@ -1,0 +1,102 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb r-15">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Laporan Kelas</li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+
+                <h4 class="card-title text-center">Laporan Kelas</h4>
+                
+                <form method="POST" class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="kelas" class="sr-only">Pilih Kelas:</label>
+                        <select name="kelas" id="kelas" class="form-control r-15">
+                            <option value="">--Pilih Kelas--</option>
+                            {% for k in kelas %}
+                            <option value="{{ k.id_kelas }}">{{ k.nama_kelas }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="guru" class="sr-only">Pilih Guru:</label>
+                        <select name="guru" id="guru" class="form-control r-15">
+                            <option value="">--Pilih Guru--</option>
+                            <!-- Guru options will be populated by AJAX -->
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="semester" class="sr-only">Pilih Semester:</label>
+                        <select name="semester" id="semester" class="form-control r-15">
+                            <option value="">--Pilih Semester--</option>
+                            {% for s in semesters %}
+                            <option value="{{ s.id }}">{{ s.tahun_ajaran }} - {{ s.semester }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2 r-15">Cari</button>
+                </form>
+                
+                {% if hasil %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Siswa</th>
+                                <th>Nilai</th>
+                                <th>Nama Mapel</th>
+                                <th>Nama Guru</th>
+                                <th>Capaian Kompetensi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for n, s, m, g in hasil %}
+                            <tr class="{% if n.nilai < 75 %}bg-danger text-white{% elif n.nilai == 75 %}bg-warning text-blue{% endif %}">
+                                <td>{{ s.nama }}</td>
+                                <td>{{ n.nilai }}</td>
+                                <td>{{ m.nama_mapel }}</td>
+                                <td>{{ g.nama_guru }}</td>
+                                <td>{{ n.capaian_kompetensi }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#kelas').change(function() {
+            var kelas_id = $(this).val();
+            if (kelas_id) {
+                $.ajax({
+                    url: '/get-guru-by-kelas/' + kelas_id,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#guru').empty();
+                        $('#guru').append('<option value="">--Pilih Guru--</option>');
+                        $.each(data, function(key, value) {
+                            $('#guru').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#guru').empty();
+                $('#guru').append('<option value="">--Pilih Guru--</option>');
+            }
+        });
+    });
+</script>
+{% endblock %}

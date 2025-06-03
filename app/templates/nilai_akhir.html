@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Nilai Akhir</title>
+</head>
+<body>
+    <h1>Daftar Nilai Akhir</h1>
+    <form method="POST">
+        <label for="kelas">Pilih Kelas:</label>
+        <select name="kelas" id="kelas">
+            {% for k in kelas %}
+            <option value="{{ k.id_kelas }}">{{ k.nama_kelas }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Cari">
+    </form>
+    {% if hasil %}
+    <table>
+        <tr>
+            <th>Nama Siswa</th>
+            <th>Nilai</th>
+            <th>Nama Mapel</th>
+            <th>Nama Guru</th>
+            <th>Capaian Kompetensi</th>
+        </tr>
+        {% for n, s, m, g in hasil %}
+        <tr>
+            <td>{{ s.nama }}</td>
+            <td>{{ n.nilai }}</td>
+            <td>{{ m.nama_mapel }}</td>
+            <td>{{ g.nama_guru }}</td>
+            <td>{{ n.capaian_kompetensi }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>

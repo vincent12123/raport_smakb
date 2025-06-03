@@ -1,0 +1,72 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="breadcrumb-title pe-3">Admin</div>
+        <div class="ps-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}"><i class="bx bx-home-alt"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('semester_admin.list_semester') }}">Manajemen Semester</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Semester</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Edit Semester</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('semester_admin.edit_semester', id=semester.id) }}">
+                <div class="mb-3">
+                    <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran</label>
+                    <select name="id_tahun_ajaran" id="id_tahun_ajaran" class="form-select" required>
+                        <option value="">-- Pilih Tahun Ajaran --</option>
+                        {% for tahun in tahun_ajaran_list %}
+                        <option value="{{ tahun.id }}" {% if semester.id_tahun_ajaran == tahun.id %}selected{% endif %}>{{ tahun.tahun }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="semester" class="form-label">Semester</label>
+                    <select name="semester" id="semester" class="form-select" required>
+                        <option value="">-- Pilih Semester --</option>
+                        <option value="I" {% if semester.semester == "I" %}selected{% endif %}>I (Ganjil)</option>
+                        <option value="II" {% if semester.semester == "II" %}selected{% endif %}>II (Genap)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="fase" class="form-label">Fase (Opsional)</label>
+                    <select name="fase" id="fase" class="form-select">
+                        <option value="">-- Pilih Fase --</option>
+                        <option value="A" {% if semester.fase == "A" %}selected{% endif %}>A</option>
+                        <option value="B" {% if semester.fase == "B" %}selected{% endif %}>B</option>
+                        <option value="C" {% if semester.fase == "C" %}selected{% endif %}>C</option>
+                        <option value="D" {% if semester.fase == "D" %}selected{% endif %}>D</option>
+                        <option value="E" {% if semester.fase == "E" %}selected{% endif %}>E</option>
+                        <option value="F" {% if semester.fase == "F" %}selected{% endif %}>F</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            Status: {% if semester.aktif %}<span class="badge bg-success">Aktif</span>{% else %}<span class="badge bg-secondary">Tidak Aktif</span>{% endif %}
+                        </label>
+                    </div>
+                    <small class="text-muted">*Untuk mengubah status aktif, gunakan fitur "Ubah Semester Aktif"</small>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('semester_admin.list_semester') }}" class="btn btn-secondary">Kembali</a>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

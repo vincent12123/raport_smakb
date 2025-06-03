@@ -1,0 +1,53 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title"><font face="times new roman">Add Sekolah</font></h4>
+            </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class ="alert alert-{{ category}}">{{ message}} </div>
+                    {% endfor %}
+                {% endif %}    
+            {% endwith %}
+            <div class="card-body">
+                <h6 class="card-title">Form Grid</h6>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                
+                    <div class="form-group">
+                        {{ form.nama_guru.label(class="form-label") }}
+                        {{ form.nama_guru(class="form-control") }}
+                        {% for error in form.nama_guru.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                
+                    <div class="form-group">
+                        {{ form.user_id.label(class="form-label") }}
+                        {{ form.user_id(class="form-control") }}
+                        {% for error in form.user_id.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                     <br>   
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--column siswa-->
+
+{% endblock content %}  

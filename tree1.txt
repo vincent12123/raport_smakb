@@ -1,0 +1,26 @@
+.
+├── app
+│   ├── download
+│   ├── forms.py
+│   ├── __init__.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── static
+│   ├── templates
+│ 
+├── instance
+├── migrations
+│   ├── env.py
+│   └── versions
+├── run.py
+├── templateraport
+│   ├── template_rapor_newxi_htl.docx
+│   ├── template_rapor_newxi_rpl (copy).docx
+│   ├── template_rapor_newxi_rpl.docx
+│   ├── template_rapor_newxi_tsm.docx
+│   ├── template_rapor_x_htl.docx
+│   ├── template_rapor_x_rpl.docx
+│   └── template_rapor_x_tsm.docx
+
+
+8 directories, 28 files

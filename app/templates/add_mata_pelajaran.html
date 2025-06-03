@@ -1,0 +1,52 @@
+{% extends "basedashboardone.html" %}
+
+{%  block content  %}
+<h1>Tambah Mata Pelajaran</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class ="alert alert-{{ category}}">{{ message}} </div>
+        {% endfor %}
+    {% endif %}    
+{% endwith %}
+<form method="POST" class="forms-sample">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+        <label name="nama" class="form-label"> Nama Mata Pelajaran:</label>
+        <select name="nama" class="form-control">
+            <option value="Rekayasa Perangkat Lunak">Rekayasa Perangkat Lunak</option>
+            <option value="Digital Marketing">Digital Marketing</option>
+            <option value="Matematika">Matematika</option>
+            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+            <option value="Bahasa Inggris">Bahasa Inggris</option>
+            <option value="Bahasa Mandarin">Bahasa Mandarin</option>
+            <option value="Agama">Agama</option>
+            <option value="Sejarah">Sejarah</option>
+            <option value="PJOK">PJOK</option>
+            <option value="PKK">PKK</option>
+          </select>
+    </div>
+    <div class="mb-3">
+        <label name="bobot" class="form-label"> bobot:</label>
+        {{ form.bobot(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label name="bobot_tugas_harian" class="form-label"> bobot tugas harian:</label>
+        {{ form.bobot_tugas_harian(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label name="bobot_tugas_proyek" class="form-label"> bobot tugas proyek:</label>
+        {{ form.bobot_tugas_proyek(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label name="bobot_uts" class="form-label"> bobot uts:</label>
+        {{ form.bobot_uts(class="form-control") }}
+    </div>
+    <div class="mb-3">
+        <label name="bobot_uas" class="form-label"> bobot uas:</label>
+        {{ form.bobot_uas(class="form-control") }}
+    </div>
+    <input type="submit" value="Tambah" class="btn btn-primary">
+</form>
+
+{% endblock content  %}

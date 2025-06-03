@@ -1,0 +1,21 @@
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Flask-WTF
+Werkzeug
+itsdangerous
+pandas
+openpyxl
+python-docx
+docxtpl
+PyJWT
+sqlalchemy
+Flask-CORS
+Flask-CKEditor
+
+# Opsional (tambahkan jika perlu)
+Flask-Migrate        # Untuk migrasi database (opsional)
+gunicorn             # Untuk deployment di server Linux (opsional)
+psycopg2-binary      # Jika Anda pakai PostgreSQL (opsional)
+PyMySQL              # Jika Anda pakai MySQL (opsional)
+# mysqlclient        # Alternatif driver MySQL, gunakan salah satu saja

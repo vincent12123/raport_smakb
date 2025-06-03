@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="SMA Karsa - Sistem Informasi Akademik">
+    <meta name="description" content="Sistem informasi akademik SMA Karsa untuk manajemen nilai, absensi, dan rapor siswa">
+    <meta name="keywords" content="SMA Karsa, rapor, nilai, akademik, sekolah, pendidikan">
+    <meta name="author" content="SMA Karsa Developer Team">
+    <meta name="robots" content="index, follow">
+
+
+    <!-- Mobile Meta -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!--favicon-->
+    <link rel="icon" href="{{ url_for('static', filename='assets/images/smk.png') }}" type="image/png" />
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='assets/images/smk.png') }}">
+
+    <!--plugins-->
+    <link href="{{ url_for('static', filename='assets/plugins/vectormap/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+    <!-- loader-->
+    <link href="{{ url_for('static', filename='assets/css/pace.min.css') }}" rel="stylesheet" />
+    <script src="{{ url_for('static', filename='assets/js/pace.min.js') }}"></script>
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/app.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/icons.css') }}" rel="stylesheet">
+    <!-- Theme Style CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/dark-theme.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/semi-dark.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/header-colors.css') }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/highcharts/css/highcharts.css') }}" />
+    {% block title %}{{ title }}{% endblock %}
+    {% block head %}
+
+    {% endblock head %}
+</head>
+
+<body>
+    <!--wrapper-->
+    <div class="wrapper">
+        <!--sidebar wrapper -->
+        {% include "_sidebar.html" %}
+        <!--end sidebar wrapper -->
+        <!--start header -->
+        {% include "_navbar.html" %}
+        <!--end header -->
+        <!--start page wrapper -->
+        <div class="page-wrapper">
+            <div class="page-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+					{% if messages %}
+						{% for category, message in messages %}
+							<div class="alert border-0 border-start border-5 border-{{ category }} alert-dismissible fade show py-2">
+								<div class="d-flex align-items-center">
+									<div class="fs-3 text-{{ category }}">
+										<i class="bi bi-exclamation-triangle-fill"></i>
+									</div>
+									<div class="ms-3">
+										<div class="text-{{ category }}">{{ message }}</div>
+									</div>
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+							</div>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+        <!--end page wrapper -->
+        <!--start overlay-->
+        <div class="overlay toggle-icon"></div>
+        <!--end overlay-->
+        <!--Start Back To Top Button-->
+        <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+        <!--End Back To Top Button-->
+        <footer class="page-footer">
+            <p class="mb-0">Copyright © 2024. By Sukardi.</p>
+        </footer>
+    </div>
+    <!--end wrapper-->
+    <!--start switcher-->
+    <!--end switcher-->
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!--plugins-->
+    
+    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/chartjs/js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/vectormap/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/sparkline-charts/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/jquery-knob/excanvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/apexcharts-bundle/js/apex-custom.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#example2').DataTable({
+                lengthChange: false,
+                buttons: ['copy', 'excel', 'pdf', 'print']
+            });
+
+            table.buttons().container()
+                .appendTo('#example2_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    <!--app JS-->
+    <script src="{{ url_for('static', filename='assets/js/app.js') }}"></script>
+    <script>
+        $(function() {
+            $(".knob").knob();
+        });
+    </script>
+    <script src="{{ url_for('static', filename='assets/js/index.js') }}"></script>
+    <!--app JS-->
+    <script src="{{ url_for('static', filename='assets/js/dashboard-eCommerce.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/app.js') }}"></script>
+    <script>
+        new PerfectScrollbar('.product-list');
+        new PerfectScrollbar('.customers-list');
+    </script>
+
+    {% block script %}
+
+    {% endblock script %}
+
+</body>
+
+</html>

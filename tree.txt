@@ -1,0 +1,119 @@
+.
+├── app
+│   ├── download
+│   ├── forms.py
+│   ├── __init__.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── static
+│   │   └── assets
+│   │       ├── css
+│   │       ├── flags
+│   │       ├── fonts
+│   │       ├── images
+│   │       ├── js
+│   │       └── plugins
+│   ├── templates
+│   │   ├── 403.html
+│   │   ├── absensi_harian.html
+│   │   ├── add_guru.html
+│   │   ├── add_kelas.html
+│   │   ├── add_mapel.html
+│   │   ├── add_mata_pelajaran.html
+│   │   ├── add_nilaiakhir1.html
+│   │   ├── add_nilai_akhir.html
+│   │   ├── add_nilaiakhir.html
+│   │   ├── add_sekolah.html
+│   │   ├── add_siswa.html
+│   │   ├── basedashboardone1.html
+│   │   ├── basedashboardone.html
+│   │   ├── bulk_delete_and_download_nilai.html
+│   │   ├── bulk_delete_kelas.html
+│   │   ├── bulk_delete_nilai_akhir.html
+│   │   ├── chart1.html
+│   │   ├── charts copy.html
+│   │   ├── charts.html
+│   │   ├── charts_pdf.html
+│   │   ├── dashboard copy.html
+│   │   ├── dashboard.html
+│   │   ├── dashboard_update.html
+│   │   ├── delete_rekap_absensi.html
+│   │   ├── download_files.html
+│   │   ├── edit_guru.html
+│   │   ├── edit_kelas.html
+│   │   ├── edit_mapel.html
+│   │   ├── edit_nilai_akhir.html
+│   │   ├── edit_nilai.html
+│   │   ├── edit_siswa.html
+│   │   ├── form_generate_rapor.html
+│   │   ├── generate_rapor_form copy.html
+│   │   ├── generate_rapor_form.html
+│   │   ├── home.html
+│   │   ├── input_nilai.html
+│   │   ├── laporan1.html
+│   │   ├── laporan copy.html
+│   │   ├── laporan_form_kelas.html
+│   │   ├── laporan_guru copy.html
+│   │   ├── laporan_guru.html
+│   │   ├── laporan.html
+│   │   ├── laporan_kelas.html
+│   │   ├── laporan_nilai_perkelas.html
+│   │   ├── list_guru.html
+│   │   ├── list_kelas.html
+│   │   ├── list_mapel.html
+│   │   ├── list_nilai_akhir.html
+│   │   ├── list_sekolah.html
+│   │   ├── list_siswa copy.html
+│   │   ├── list_siswa.html
+│   │   ├── login.html
+│   │   ├── _navbar.html
+│   │   ├── nilai_akhir.html
+│   │   ├── nilai_akhir_table.html
+│   │   ├── peringkat_kelas.html
+│   │   ├── pilih-kelas.html
+│   │   ├── progress_bar.html
+│   │   ├── progress_guru.html
+│   │   ├── rapor.html
+│   │   ├── rapor_siswa copy.html
+│   │   ├── rapor_siswa.html
+│   │   ├── register.html
+│   │   ├── restore_database.html
+│   │   ├── settings.html
+│   │   ├── _sidebar1.html
+│   │   ├── _sidebar.html
+│   │   ├── student_count_chart.html
+│   │   ├── student_score_chart.html
+│   │   ├── test_dashboard.html
+│   │   ├── test.html
+│   │   ├── upload_ekstrakurikuler copy.html
+│   │   ├── upload_ekstrakurikuler.html
+│   │   ├── upload_kegiatan_industri.html
+│   │   ├── upload_rekap_absensi.html
+│   │   └── wali_kelas_dashboard.html
+│   ├── testc.py
+│   └── test.py
+├── instance
+├── migrate_data.py
+├── migrations
+│   ├── env.py
+│   └── versions
+│       ├── 534f1860dca1_add_id_semester_to_kegiatanindustri.py
+│       ├── 66a09e529ba0_update_models_with_adjusted_.py
+│       ├── 67df322f02b6_menambahkan_model_jurusan_dan_.py
+│       ├── 6bcf80c98047_add_id_semester_to_ekstrakurikuler.py
+│       ├── 8b512054aeae_add_foreign_key_to_nilaiakhir.py
+│       ├── 93d0b00fb231_added_fix_semester_column.py
+│       ├── a64029eb9775_added_semester_support.py
+│       ├── d7ef367f7d98_added_semester_fase_support.py
+│       └── eb8789e19290_add_id_semester_to_rekapabsensi.py
+├── run.py
+├── templateraport
+│   ├── template_rapor_newxi_htl.docx
+│   ├── template_rapor_newxi_rpl (copy).docx
+│   ├── template_rapor_newxi_rpl.docx
+│   ├── template_rapor_newxi_tsm.docx
+│   ├── template_rapor_x_htl.docx
+│   ├── template_rapor_x_rpl.docx
+│   └── template_rapor_x_tsm.docx
+
+

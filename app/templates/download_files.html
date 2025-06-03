@@ -1,0 +1,314 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='assets/css/rapotthemes.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2><i class="ri-download-cloud-line"></i> Download Center</h2>
+        <p>Download template files and reports for your classes</p>
+    </div>
+
+    <div class="row">
+        <!-- Quick Download Files -->
+        <div class="col-lg-5 mb-4">
+            <div class="download-card">
+                <div class="card-header">
+                    <i class="ri-file-download-line"></i>
+                    <h5>Direct Downloads</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="download-list">
+                        <li class="download-item">
+                            <div class="download-icon file-type-excel">
+                                <i class="ri-file-excel-2-line"></i>
+                            </div>
+                            <div class="download-info">
+                                <span class="download-title">Rekap Kegiatan Ekstrakurikuler</span>
+                                <p class="download-desc">Format Excel (.xlsx) • Semua Kelas</p>
+                            </div>
+                            <a href="{{ url_for('download_files.download_rekap_kegiatan_ekstrakurikuler') }}" class="download-link">
+                                <i class="ri-download-2-line"></i>
+                            </a>
+                        </li>
+                        
+                        <li class="download-item">
+                            <div class="download-icon file-type-excel">
+                                <i class="ri-file-excel-2-line"></i>
+                            </div>
+                            <div class="download-info">
+                                <span class="download-title">Template Input Nilai</span>
+                                <p class="download-desc">Format Excel (.xlsx) • Untuk Guru</p>
+                            </div>
+                            <a href="#" class="download-link">
+                                <i class="ri-download-2-line"></i>
+                            </a>
+                        </li>
+                        
+                        <li class="download-item">
+                            <div class="download-icon file-type-pdf">
+                                <i class="ri-file-pdf-line"></i>
+                            </div>
+                            <div class="download-info">
+                                <span class="download-title">Panduan Penggunaan Aplikasi</span>
+                                <p class="download-desc">Format PDF (.pdf) • Manual Book</p>
+                            </div>
+                            <a href="#" class="download-link">
+                                <i class="ri-download-2-line"></i>
+                            </a>
+                        </li>
+                        
+                        <li class="download-item">
+                            <div class="download-icon file-type-zip">
+                                <i class="ri-file-zip-line"></i>
+                            </div>
+                            <div class="download-info">
+                                <span class="download-title">Backup Database</span>
+                                <p class="download-desc">Format SQL (.sql) • Admin Only</p>
+                            </div>
+                            <a href="#" class="download-link">
+                                <i class="ri-download-2-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Class-Specific Downloads -->
+        <div class="col-lg-7">
+            <div class="download-card">
+                <div class="card-header">
+                    <i class="ri-filter-3-line"></i>
+                    <h5>Class-Based Reports</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Nilai Akhir -->
+                        <div class="col-md-6 file-selection-group">
+                            <div class="form-group">
+                                <label for="kelasSelectNilaiAkhir" class="form-label">
+                                    <i class="ri-file-chart-line me-1"></i> Rekap Nilai Akhir
+                                </label>
+                                <form id="downloadFormNilaiAkhir" action="{{ url_for('download_files.download_siswa') }}" method="post">
+                                    <select class="form-select" name="kelas" id="kelasSelectNilaiAkhir">
+                                        <option value="" selected disabled>Pilih Kelas</option>
+                                        {% for kls in kelas %}
+                                            <option value="{{ kls.id_kelas }}">{{ kls.nama_kelas }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="button" class="download-button" id="downloadNilaiAkhir" disabled>
+                                        <i class="ri-download-cloud-line"></i> Download Nilai Akhir
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Absensi -->
+                        <div class="col-md-6 file-selection-group">
+                            <div class="form-group">
+                                <label for="kelasSelectAbsensi" class="form-label">
+                                    <i class="ri-calendar-check-line me-1"></i> Rekap Absensi Siswa
+                                </label>
+                                <form id="downloadFormAbsensi" action="{{ url_for('download_files.download_excel_absensi') }}" method="post">
+                                    <select class="form-select" name="kelas" id="kelasSelectAbsensi">
+                                        <option value="" selected disabled>Pilih Kelas</option>
+                                        {% for kls in kelas %}
+                                            <option value="{{ kls.id_kelas }}">{{ kls.nama_kelas }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="button" class="download-button" id="downloadAbsensi" disabled>
+                                        <i class="ri-download-cloud-line"></i> Download Absensi
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Kegiatan Industri -->
+                        <div class="col-md-6 file-selection-group">
+                            <div class="form-group">
+                                <label for="kelasSelectKegiatanIndustri" class="form-label">
+                                    <i class="ri-building-4-line me-1"></i> Rekap Kegiatan Industri
+                                </label>
+                                <form id="downloadFormKegiatanIndustri" action="{{ url_for('download_files.download_excel_kegiatan_industri') }}" method="post">
+                                    <select class="form-select" name="kelas" id="kelasSelectKegiatanIndustri">
+                                        <option value="" selected disabled>Pilih Kelas</option>
+                                        {% for kls in kelas %}
+                                            <option value="{{ kls.id_kelas }}">{{ kls.nama_kelas }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="button" class="download-button" id="downloadKegiatanIndustri" disabled>
+                                        <i class="ri-download-cloud-line"></i> Download Kegiatan
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <!-- Semester Selection -->
+                        <div class="col-md-6 file-selection-group">
+                            <div class="form-group">
+                                <label for="semesterSelect" class="form-label">
+                                    <i class="ri-calendar-2-line me-1"></i> Pilih Semester
+                                </label>
+                                <select class="form-select" id="semesterSelect">
+                                    <option value="" selected disabled>Pilih Semester</option>
+                                    <option value="1">Semester Ganjil 2025</option>
+                                    <option value="2">Semester Genap 2025</option>
+                                </select>
+                                <button type="button" class="download-button" id="downloadSemester" disabled>
+                                    <i class="ri-download-cloud-line"></i> Download Laporan Semester
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3" id="result"></div>
+                </div>
+            </div>
+            
+            <!-- Recent Downloads -->
+            <div class="download-card">
+                <div class="card-header">
+                    <i class="ri-history-line"></i>
+                    <h5>Recent Downloads</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="download-list">
+                        <li class="download-item">
+                            <div class="download-icon file-type-excel">
+                                <i class="ri-file-excel-2-line"></i>
+                            </div>
+                            <div class="download-info">
+                                <span class="download-title">Rekap Nilai Akhir - X IPA 1</span>
+                                <p class="download-desc">Downloaded 2 hours ago</p>
+                            </div>
+                            <a href="#" class="download-link">
+                                <i class="ri-download-2-line"></i>
+                            </a>
+                        </li>
+                        <li class="download-item">
+                            <div class="download-icon file-type-excel">
+                                <i class="ri-file-excel-2-line"></i>
+                            </div>
+                            <div class="download-info">
+                                <span class="download-title">Rekap Absensi - XII IPS 2</span>
+                                <p class="download-desc">Downloaded yesterday</p>
+                            </div>
+                            <a href="#" class="download-link">
+                                <i class="ri-download-2-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle Nilai Akhir download
+    const kelasSelectNilaiAkhir = document.getElementById('kelasSelectNilaiAkhir');
+    const downloadNilaiAkhir = document.getElementById('downloadNilaiAkhir');
+    
+    kelasSelectNilaiAkhir.addEventListener('change', function() {
+        downloadNilaiAkhir.disabled = !this.value;
+    });
+    
+    downloadNilaiAkhir.addEventListener('click', function() {
+        if (kelasSelectNilaiAkhir.value) {
+            this.innerHTML = '<span class="loading-indicator"></span> Downloading...';
+            this.disabled = true;
+            document.getElementById('downloadFormNilaiAkhir').submit();
+            
+            // Reset button after 3 seconds (for demo purposes)
+            setTimeout(() => {
+                this.innerHTML = '<i class="ri-download-cloud-line"></i> Download Nilai Akhir';
+                this.disabled = false;
+            }, 3000);
+        }
+    });
+    
+    // Handle Absensi download
+    const kelasSelectAbsensi = document.getElementById('kelasSelectAbsensi');
+    const downloadAbsensi = document.getElementById('downloadAbsensi');
+    
+    kelasSelectAbsensi.addEventListener('change', function() {
+        downloadAbsensi.disabled = !this.value;
+    });
+    
+    downloadAbsensi.addEventListener('click', function() {
+        if (kelasSelectAbsensi.value) {
+            this.innerHTML = '<span class="loading-indicator"></span> Downloading...';
+            this.disabled = true;
+            document.getElementById('downloadFormAbsensi').submit();
+            
+            // Reset button after 3 seconds (for demo purposes)
+            setTimeout(() => {
+                this.innerHTML = '<i class="ri-download-cloud-line"></i> Download Absensi';
+                this.disabled = false;
+            }, 3000);
+        }
+    });
+    
+    // Handle Kegiatan Industri download
+    const kelasSelectKegiatanIndustri = document.getElementById('kelasSelectKegiatanIndustri');
+    const downloadKegiatanIndustri = document.getElementById('downloadKegiatanIndustri');
+    
+    kelasSelectKegiatanIndustri.addEventListener('change', function() {
+        downloadKegiatanIndustri.disabled = !this.value;
+    });
+    
+    downloadKegiatanIndustri.addEventListener('click', function() {
+        if (kelasSelectKegiatanIndustri.value) {
+            this.innerHTML = '<span class="loading-indicator"></span> Downloading...';
+            this.disabled = true;
+            document.getElementById('downloadFormKegiatanIndustri').submit();
+            
+            // Reset button after 3 seconds (for demo purposes)
+            setTimeout(() => {
+                this.innerHTML = '<i class="ri-download-cloud-line"></i> Download Kegiatan';
+                this.disabled = false;
+            }, 3000);
+        }
+    });
+    
+    // Handle Semester Selection
+    const semesterSelect = document.getElementById('semesterSelect');
+    const downloadSemester = document.getElementById('downloadSemester');
+    
+    semesterSelect.addEventListener('change', function() {
+        downloadSemester.disabled = !this.value;
+    });
+    
+    downloadSemester.addEventListener('click', function() {
+        if (semesterSelect.value) {
+            this.innerHTML = '<span class="loading-indicator"></span> Downloading...';
+            this.disabled = true;
+            
+            // Reset button after 3 seconds (for demo purposes)
+            setTimeout(() => {
+                this.innerHTML = '<i class="ri-download-cloud-line"></i> Download Laporan Semester';
+                this.disabled = false;
+                
+                // Show success message
+                document.getElementById('result').innerHTML = `
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="ri-check-double-line me-2"></i> Laporan semester berhasil diunduh
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `;
+            }, 3000);
+        }
+    });
+});
+</script>
+{% endblock script %}
+

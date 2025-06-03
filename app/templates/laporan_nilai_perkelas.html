@@ -1,0 +1,35 @@
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title"><font face="times new roman">Laporan Nilai Per Kelas</font></h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Kelas</th>
+                            <th>Nama Siswa</th>
+                            <th>Nilai</th>
+                            <th>Capaian Kompetensi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in laporan %}
+                        <tr>
+                            <td>{{ row['kelas'] }}</td>
+                            <td>{{ row['nama_siswa'] }}</td>
+                            <td>{{ row['nilai'] }}</td>
+                            <td>{{ row['capaian_kompetensi'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

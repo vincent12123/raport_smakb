@@ -1,0 +1,71 @@
+
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="breadcrumb-title pe-3">Admin</div>
+        <div class="ps-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}"><i class="bx bx-home-alt"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('semester_admin.list_semester') }}">Manajemen Semester</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tambah Semester</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Tambah Semester Baru</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('semester_admin.create_semester') }}">
+                <div class="mb-3">
+                    <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran</label>
+                    <select name="id_tahun_ajaran" id="id_tahun_ajaran" class="form-select" required>
+                        <option value="">-- Pilih Tahun Ajaran --</option>
+                        {% for tahun in tahun_ajaran_list %}
+                        <option value="{{ tahun.id }}">{{ tahun.tahun }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="semester" class="form-label">Semester</label>
+                    <select name="semester" id="semester" class="form-select" required>
+                        <option value="">-- Pilih Semester --</option>
+                        <option value="I">I (Ganjil)</option>
+                        <option value="II">II (Genap)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="fase" class="form-label">Fase (Opsional)</label>
+                    <select name="fase" id="fase" class="form-select">
+                        <option value="">-- Pilih Fase --</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                    </select>
+                </div>
+                
+                <div class="alert alert-info">
+                    <i class="bx bx-info-circle me-1"></i>
+                    Semester baru akan dibuat dengan status tidak aktif. Untuk mengaktifkannya,
+                    gunakan fitur "Ubah Semester Aktif".
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{{ url_for('semester_admin.list_semester') }}" class="btn btn-secondary">Kembali</a>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

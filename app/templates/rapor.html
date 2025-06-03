@@ -1,0 +1,59 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Rapor {{ siswa.nama }}</h1>
+    
+    <h2 class="mb-3">Mata Pelajaran</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Mata Pelajaran</th>
+                    <th>Nilai Akhir</th>
+                    <th>Capaian Kompetensi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nilai in nilai_akhir %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ nilai.mapel.nama_mapel }}</td>
+                    <td>{{ nilai.nilai }}</td>
+                    <td>{{ nilai.capaian_kompetensi }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="mt-5 mb-3">Ekstrakurikuler</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kegiatan</th>
+                    <th>Predikat</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ekstra in ekstrakurikuler %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ ekstra.kegiatan }}</td>
+                    <td>{{ ekstra.predikat }}</td>
+                    <td>{{ ekstra.keterangan }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="mt-5 mb-3">Absensi</h2>
+    <p>Sakit: {{ rekap_absensi.total_sakit }} hari</p>
+    <p>Izin: {{ rekap_absensi.total_izin }} hari</p>
+    <p>Tanpa Keterangan: {{ rekap_absensi.total_tanpa_keterangan }} hari</p>
+</div>
+{% endblock content %}

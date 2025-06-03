@@ -1,0 +1,23 @@
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+    <h1>Tambah Nilai Akhir</h1>
+    <form action="{{ url_for('add_nilai_akhir') }}" method="post">
+        <label for="id_siswa">ID Siswa:</label>
+        <input type="text" name="id_siswa" required>
+        <br>
+        <label for="id_mapel">ID Mata Pelajaran:</label>
+        <input type="text" name="id_mapel" required>
+        <br>
+        <label for="id_guru">ID Guru:</label>
+        <input type="text" name="id_guru" required>
+        <br>
+        <label for="nilai">Nilai:</label>
+        <input type="number" name="nilai" required>
+        <br>
+        <label for="capaian_kompetensi">Capaian Kompetensi:</label>
+        <input type="text" name="capaian_kompetensi" required>
+        <br>
+        <input type="submit" value="Tambah Nilai Akhir">
+    </form>
+{% endblock %}

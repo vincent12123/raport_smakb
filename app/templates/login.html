@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <base href="{{ request.url_root }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="SMA Karsa - Sistem Informasi Akademik">
+    <meta name="description" content="Sistem informasi akademik SMA Karsa untuk manajemen nilai, absensi, dan rapor siswa">
+    <meta name="keywords" content="SMA Karsa, rapor, nilai, akademik, sekolah, pendidikan">
+    <meta name="author" content="SMA Karsa Developer Team">
+    <meta name="robots" content="index, follow">
+
+    <!-- Update Open Graph tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SMA Karya Bangsa">
+    <meta property="og:url" content="https://raportsma.karyabangsa.sch.id{{ request.path }}">
+    <meta property="og:title" content="SMA Karya Bangsa - Sistem Informasi Akademik">
+    <meta property="og:description" content="Sistem informasi akademik SMA Karya Bangsa untuk manajemen nilai, absensi, dan rapor siswa. Platform terintegrasi untuk memudahkan pemantauan perkembangan akademik siswa.">
+    <meta property="og:image" content="https://raportsma.karyabangsa.sch.id{{ url_for('static', filename='assets/images/smk.png') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Update Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@smakaryabangsa">
+    <meta name="twitter:title" content="SMA Karya Bangsa - Sistem Informasi Akademik">
+    <meta name="twitter:description" content="Sistem informasi akademik SMA Karya Bangsa untuk manajemen nilai, absensi, dan rapor siswa. Platform terintegrasi untuk memudahkan pemantauan perkembangan akademik siswa.">
+    <meta name="twitter:image" content="https://raportsma.karyabangsa.sch.id{{ url_for('static', filename='assets/images/smk.png') }}">
+
+    <!-- Mobile Meta -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!--favicon-->
+    <link rel="icon" href="{{ url_for('static', filename='assets/images/sma.png') }}" type="image/png" />
+
+    <!--plugins-->
+    <link href="{{ url_for('static', filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+    
+    <!-- loader-->
+    <link href="{{ url_for('static', filename='assets/css/pace.min.css') }}" rel="stylesheet" />
+    <script src="{{ url_for('static', filename='assets/js/pace.min.js') }}"></script>
+    
+    <!-- Bootstrap CSS -->
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/app.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/custom.css') }}" rel="stylesheet">
+    
+    <title>Login Screen</title>
+    <style>
+        .bg-login {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+    
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            transition: transform 0.3s ease;
+        }
+    
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    
+        .card-body {
+            padding: 2.5rem;
+        }
+    
+        .border {
+            border-color: rgba(0,0,0,0.1) !important;
+        }
+    
+        .form-control {
+            border-radius: 12px;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+    
+        .form-control:focus {
+            border-color: #26d0ce;
+            box-shadow: 0 0 0 3px rgba(38, 208, 206, 0.15);
+        }
+    
+        .input-group-text {
+            border-radius: 0 12px 12px 0;
+            background: transparent;
+            border: 2px solid #e0e0e0;
+            border-left: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+    
+        .input-group-text:hover {
+            background: rgba(38, 208, 206, 0.1);
+        }
+    
+        .btn-primary {
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: linear-gradient(45deg, #1a2980, #26d0ce);
+            border: none;
+            transition: all 0.3s ease;
+        }
+    
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(38, 208, 206, 0.3);
+        }
+    
+        .form-label {
+            font-weight: 500;
+            color: #1a2980;
+            margin-bottom: 0.5rem;
+        }
+    
+        .alert {
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+    
+        .alert i {
+            font-size: 1.2rem;
+        }
+    
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    
+        .card {
+            animation: fadeIn 0.6s ease-out;
+        }
+    
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+    
+        .form-body {
+            margin-top: 1.5rem;
+        }
+    
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-login">
+    <!--wrapper-->
+    <div class="wrapper">
+        <div class="section-authentication-signin d-flex align-items-center justify-content-center">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+                    <div class="col mx-auto">
+                        <div class="card">
+                            <div class="card-body">
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                    {% if messages %}
+                                        {% for category, message in messages %}
+                                            <div class="alert border-0 border-start border-5 border-{{ category }} alert-dismissible fade show py-2">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="fs-3 text-{{ category }}">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                    </div>
+                                                    <div class="ms-3">
+                                                        <div class="text-{{ category }}">{{ message }}</div>
+                                                    </div>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
+
+                                <div class="border p-4 rounded">
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <img src="{{ url_for('static', filename='assets/images/sma.png') }}" alt="SMK Karya Bangsa" width="200">
+                                    </div>
+                                    
+                                    <div class="form-body">
+                                        <form method="POST" action="">
+                                            {{ form.hidden_tag() }}
+                                            <div class="mb-3">
+                                                {{ form.username.label(class="form-label") }}
+                                                {{ form.username(class="form-control", size=32) }}
+                                                {% for error in form.username.errors %}
+                                                    <div class="text-danger">[{{ error }}]</div>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="mb-3">
+                                                {{ form.password.label(class="form-label") }}
+                                                <div class="input-group" id="show_hide_password">
+                                                    {{ form.password(class="form-control", size=32) }}
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text"><i class="bx bx-hide"></i></span>
+                                                    </div>
+                                                </div>
+                                                {% for error in form.password.errors %}
+                                                    <div class="text-danger">[{{ error }}]</div>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="d-grid">
+                                                {{ form.submit(class="btn btn-primary btn-block") }}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end row-->
+            </div>
+        </div>
+    </div>
+    <!--end wrapper-->
+
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!--plugins-->
+    <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+    
+    <!--Password show & hide js -->
+    <script>
+        $(document).ready(function () {
+            $("#show_hide_password span").on('click', function (event) {
+                event.preventDefault();
+                if ($('#show_hide_password input').attr("type") == "text") {
+                    $('#show_hide_password input').attr('type', 'password');
+                    $('#show_hide_password i').addClass("bx-hide");
+                    $('#show_hide_password i').removeClass("bx-show");
+                } else if ($('#show_hide_password input').attr("type") == "password") {
+                    $('#show_hide_password input').attr('type', 'text');
+                    $('#show_hide_password i').removeClass("bx-hide");
+                    $('#show_hide_password i').addClass("bx-show");
+                }
+            });
+        });
+    </script>
+    
+    <!--app JS-->
+    <script src="{{ url_for('static', filename='assets/js/app.js') }}"></script>
+</body>
+
+</html>

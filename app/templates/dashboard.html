@@ -1,0 +1,202 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-more.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/variable-pie.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/solid-gauge.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-3d.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/cylinder.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/funnel3d.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/exporting.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/export-data.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/accessibility.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-custom.script.js') }}"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+{% endblock head %}
+
+{% block content %}
+
+
+
+<!-- Ranking Siswa per Kelas -->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="classSelect6">Select Class:</label>
+                <select class="form-control" id="classSelect6"></select>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="semesterSelect6">Select Semester:</label>
+                <select class="form-control" id="semesterSelect6"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Ranking chart for selected class and semester -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ranking Siswa per Kelas</h5>
+                    <div id="rankingChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Top Performers Radar Chart -->
+ 
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="form-group">
+                <label for="classSelect">Pilih Kelas:</label>
+                <select class="form-control" id="classSelect"></select>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="form-group">
+                <label for="semesterSelect">Pilih Semester:</label>
+                <select class="form-control" id="semesterSelect"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="topPerformersRadarChart" style="width:100%; height:400px;"></div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="classSelect32">Select Class:</label>
+                <select class="form-control" id="classSelect32">
+                    <!-- Populate with classes dynamically -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="studentSelect">Select Student:</label>
+                <select class="form-control" id="studentSelect">
+                    <!-- Populate with students dynamically -->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Student subject scores chart -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Nilai Mapel per Siswa</h5>
+                    <div id="studentSubjectScoresChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--
+   performa
+-->
+<div class="container mt-4">
+    <h6 class="mb-0 text-uppercase">Performa Individu Siswa</h6>
+    <hr/>
+    <div class="card">
+        <div class="card-body">
+            <!-- Dropdowns for Class, Semester, and Student -->
+            <div class="row">
+                <!-- Class Select -->
+                <div class="col-md-4 mb-4">
+                    <div class="form-group">
+                        <label for="classSelect1">Pilih Kelas:</label>
+                        <select class="form-control" id="classSelect1"></select>
+                    </div>
+                </div>
+                <!-- Semester Select -->
+                <div class="col-md-4 mb-4">
+                    <div class="form-group">
+                        <label for="semesterSelect1">Pilih Semester:</label>
+                        <select class="form-control" id="semesterSelect1"></select>
+                    </div>
+                </div>
+                <!-- Student Select -->
+                <div class="col-md-4 mb-4">
+                    <div class="form-group">
+                        <label for="studentSelect1">Pilih Siswa:</label>
+                        <select class="form-control" id="studentSelect1"></select>
+                    </div>
+                </div>
+            </div>
+            <!-- Containers for Charts -->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Individual Performance Chart -->
+                    <div id="individualPerformanceChart" style="width:100%; height:400px;"></div>
+                    <!-- Progress Bars -->
+                    <div id="progressBars"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+   absensi
+-->
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="classSelect1">Select Class:</label>
+                <select class="form-control" id="classSelect17">
+                    <!-- Populate with classes dynamically -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="semesterSelect11">Select Semester:</label>
+                <select class="form-control" id="semesterSelect11">
+                    <!-- Populate with semesters dynamically -->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Cumulative attendance chart for selected class -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kumulatif Kehadiran atau Absensi</h5>
+                    <div id="cumulativeAttendanceChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='assets/js/ranking_kelas.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/performa_siswa.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/absensi.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/top_performer.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/nilai_mapel.js') }}"></script>
+{% endblock script %}

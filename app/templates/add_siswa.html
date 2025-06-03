@@ -1,0 +1,69 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title"><font face="times new roman">Tambah Siswa</font></h4>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}    
+            {% endwith %}
+            <div class="card-body">
+                <h6 class="card-title">Form Data Siswa</h6>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="form-group">
+                        {{ form.nisn.label(class="form-label") }}
+                        {{ form.nisn(class="form-control") }}
+                        {% for error in form.nisn.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.nama.label(class="form-label") }}
+                        {{ form.nama(class="form-control") }}
+                        {% for error in form.nama.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.alamat.label(class="form-label") }}
+                        {{ form.alamat(class="form-control") }}
+                        {% for error in form.alamat.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.id_kelas.label(class="form-label") }}
+                        {{ form.id_kelas(class="form-control") }}
+                        {% for error in form.id_kelas.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

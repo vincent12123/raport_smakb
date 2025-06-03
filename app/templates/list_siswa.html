@@ -1,0 +1,73 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Daftar Siswa</li>
+    </ol>
+</nav>
+<!-- End Breadcrumb -->
+
+<h6 class="mb-0 text-uppercase">Daftar Siswa</h6>
+<hr/>
+
+<div class="card">
+    <div class="card-body">
+        <a href="{{ url_for('crud_siswa.add_siswa') }}" class="btn btn-success mb-3">Tambah Siswa</a>
+        <a href="{{ url_for('crud_siswa.download_siswa_excel', kelas=request.args.get('kelas')) }}" class="btn btn-info mb-3">Unduh Excel</a>
+        <form action="{{ url_for('crud_siswa.list_siswa') }}" method="GET">
+            <div class="form-group">
+                <label for="kelas">Filter berdasarkan kelas:</label>
+                <select id="kelas" name="kelas" class="form-control">
+                    <option value="">Semua Kelas</option>
+                    {% for kelas in semua_kelas %}
+                        <option value="{{ kelas.nama_kelas }}">{{ kelas.nama_kelas }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+</div>
+
+<hr/>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>NISN</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>Nama Kelas</th>
+                        <th>Kelas</th>
+                        <th>Aksi</th>
+                    </tr>  
+                </thead>
+                <tbody>
+                    {% for siswa in siswa %}
+                    <tr>
+                        <td>{{ siswa.nisn }}</td>
+                        <td>{{ siswa.nama }}</td>
+                        <td>{{ siswa.alamat }}</td>
+                        <td>{{ siswa.kelas.nama_kelas }}</td>
+                        <td>{{ siswa.kelas.tingkat }}</td>
+                        <td>
+                            <a href="{{ url_for('crud_siswa.edit_siswa', id_siswa=siswa.id_siswa) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ url_for('crud_siswa.delete_siswa', id_siswa=siswa.id_siswa) }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

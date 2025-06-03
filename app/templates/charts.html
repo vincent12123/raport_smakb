@@ -1,0 +1,692 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-more.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/variable-pie.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/solid-gauge.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-3d.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/cylinder.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/funnel3d.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/exporting.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/export-data.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/accessibility.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-custom.script.js') }}"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+{% endblock head %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Jumlah Siswa per Kelas</h5>
+                    <div id="studentCountChart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Rata-rata Nilai per Mata Pelajaran</h5>
+                    <div id="averageScoreChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kehadiran Siswa per Kelas</h5>
+                    <div id="attendanceChart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ranking Siswa Teratas</h5>
+                    <div id="topStudentsChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="classSelect">Select Class:</label>
+                <select class="form-control" id="classSelect">
+                    <!-- Populate with classes dynamically -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="semesterSelect">Select Semester:</label>
+                <select class="form-control" id="semesterSelect">
+                    <!-- Populate with semesters dynamically -->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Ranking chart for selected class and semester -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Ranking Siswa per Kelas</h5>
+                    <div id="rankingChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="classSelect1">Select Class:</label>
+                <select class="form-control" id="classSelect1">
+                    <!-- Populate with classes dynamically -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="semesterSelect11">Select Semester:</label>
+                <select class="form-control" id="semesterSelect11">
+                    <!-- Populate with semesters dynamically -->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Cumulative attendance chart for selected class -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Kumulatif Kehadiran atau Absensi</h5>
+                    <div id="cumulativeAttendanceChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="classSelect32">Select Class:</label>
+                <select class="form-control" id="classSelect32">
+                    <!-- Populate with classes dynamically -->
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="form-group">
+                <label for="studentSelect">Select Student:</label>
+                <select class="form-control" id="studentSelect">
+                    <!-- Populate with students dynamically -->
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Student subject scores chart -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Nilai Mapel per Siswa</h5>
+                    <div id="studentSubjectScoresChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and populate classes
+    fetch('/api/classes_absensi')
+        .then(response => response.json())
+        .then(data => {
+            const classSelect = document.getElementById('classSelect32');
+            data.forEach(kelas => {
+                const option = document.createElement('option');
+                option.value = kelas.id;
+                option.text = kelas.nama;
+                classSelect.appendChild(option);
+            });
+
+            // Fetch initial students for the first class
+            if (data.length > 0) {
+                fetchStudents(data[0].id);
+            }
+        });
+
+    // Fetch and populate students for the selected class
+    document.getElementById('classSelect32').addEventListener('change', function() {
+        const selectedClassId = this.value;
+        fetchStudents(selectedClassId);
+    });
+
+    // Fetch and render subject scores for the selected student
+    document.getElementById('studentSelect').addEventListener('change', function() {
+        const selectedStudentId = this.value;
+        fetchStudentSubjectScores(selectedStudentId);
+    });
+
+    function fetchStudents(classId) {
+        fetch(`/api/students_in_class/${classId}`)
+            .then(response => response.json())
+            .then(data => {
+                const studentSelect = document.getElementById('studentSelect');
+                studentSelect.innerHTML = ''; // Clear previous options
+                data.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.id;
+                    option.text = student.nama;
+                    studentSelect.appendChild(option);
+                });
+
+                // Fetch initial subject scores for the first student
+                if (data.length > 0) {
+                    fetchStudentSubjectScores(data[0].id);
+                }
+            });
+    }
+
+    function fetchStudentSubjectScores(studentId) {
+        fetch(`/api/student_subject_scores/${studentId}`)
+            .then(response => response.json())
+            .then(data => {
+                const subjects = [...new Set(data.map(item => item.mapel))];
+                const semesters = [...new Set(data.map(item => item.semester))].sort();
+
+                const seriesData = semesters.map(semester => {
+                    return {
+                        name: `Semester ${semester}`,
+                        data: subjects.map(subject => {
+                            const record = data.find(item => item.mapel === subject && item.semester === semester);
+                            return record ? record.avg_nilai : 0;
+                        })
+                    };
+                });
+
+                Highcharts.chart('studentSubjectScoresChart', {
+                    chart: {
+                        type: 'bar',
+                        height: 400
+                    },
+                    title: {
+                        text: 'Nilai Mapel per Siswa'
+                    },
+                    xAxis: {
+                        categories: subjects,
+                        title: {
+                            text: null
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Nilai',
+                            align: 'high'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' poin'
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    series: seriesData
+                });
+            })
+            .catch(error => console.error('Error loading student subject scores:', error));
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and populate classes
+    fetch('/api/classes_absensi')
+        .then(response => response.json())
+        .then(data => {
+            const classSelect = document.getElementById('classSelect1');
+            data.forEach(kelas => {
+                const option = document.createElement('option');
+                option.value = kelas.id;
+                option.text = kelas.nama;
+                classSelect.appendChild(option);
+            });
+
+            // Fetch initial cumulative attendance data for the first class and first semester
+            if (data.length > 0) {
+                fetchCumulativeAttendanceData(data[0].id, document.getElementById('semesterSelect11').value);
+            }
+        });
+
+    // Fetch and populate semesters
+    fetch('/api/semesterall')
+        .then(response => response.json())
+        .then(data => {
+            const semesterSelect = document.getElementById('semesterSelect11');
+            data.forEach(semester => {
+                const option = document.createElement('option');
+                option.value = semester.id;
+                option.text = `${semester.tahun_ajaran} - ${semester.semester}`;
+                semesterSelect.appendChild(option);
+            });
+
+            // Fetch initial cumulative attendance data for the first class and first semester
+            const initialClassId = document.getElementById('classSelect1').value;
+            const initialSemesterId = semesterSelect.value;
+            if (initialClassId && initialSemesterId) {
+                fetchCumulativeAttendanceData(initialClassId, initialSemesterId);
+            }
+        });
+
+    // Fetch and render cumulative attendance data for the selected class and semester
+    document.getElementById('classSelect1').addEventListener('change', function() {
+        const selectedClassId = this.value;
+        const selectedSemesterId = document.getElementById('semesterSelect11').value;
+        fetchCumulativeAttendanceData(selectedClassId, selectedSemesterId);
+    });
+
+    document.getElementById('semesterSelect11').addEventListener('change', function() {
+        const selectedClassId = document.getElementById('classSelect1').value;
+        const selectedSemesterId = this.value;
+        fetchCumulativeAttendanceData(selectedClassId, selectedSemesterId);
+    });
+
+    function fetchCumulativeAttendanceData(classId, semesterId) {
+        fetch(`/api/class_absensi/${classId}/${semesterId}`)
+            .then(response => response.json())
+            .then(data => {
+                const studentNames = data.map(item => item.nama);
+                const totalSick = data.map(item => item.total_sakit);
+                const totalPermission = data.map(item => item.total_izin);
+                const totalUnexcused = data.map(item => item.total_tanpa_keterangan);
+
+                Highcharts.chart('cumulativeAttendanceChart', {
+                    chart: {
+                        type: 'area',
+                        height: 400
+                    },
+                    title: {
+                        text: 'Kumulatif Kehadiran atau Absensi'
+                    },
+                    xAxis: {
+                        categories: studentNames,
+                        title: {
+                            text: null
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Hari'
+                        },
+                        labels: {
+                            formatter: function(value) {
+                                return value.toFixed(0); // Remove decimal points
+                            }
+                        }
+                    },
+                    tooltip: {
+                        shared: true,
+                        valueSuffix: ' hari'
+                    },
+                    plotOptions: {
+                        area: {
+                            stacking: 'normal',
+                            lineColor: '#666666',
+                            lineWidth: 1,
+                            marker: {
+                                lineWidth: 1,
+                                lineColor: '#666666'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Sakit',
+                        data: totalSick
+                    }, {
+                        name: 'Izin',
+                        data: totalPermission
+                    }, {
+                        name: 'Tanpa Keterangan',
+                        data: totalUnexcused
+                    }]
+                });
+            })
+            .catch(error => console.error('Error loading cumulative attendance data:', error));
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and populate classes
+    fetch('/api/classes')
+        .then(response => response.json())
+        .then(data => {
+            const classSelect = document.getElementById('classSelect');
+            data.forEach(kelas => {
+                const option = document.createElement('option');
+                option.value = kelas.id;
+                option.text = kelas.nama;
+                classSelect.appendChild(option);
+            });
+    
+            // Fetch initial ranking data for the first class and first semester
+            const initialClassId = classSelect.value;
+            const initialSemesterId = document.getElementById('semesterSelect').value;
+            if (initialClassId && initialSemesterId) {
+                fetchRankingData(initialClassId, initialSemesterId);
+            }
+        });
+    
+    // Fetch and populate semesters
+    fetch('/api/semesterall')
+        .then(response => response.json())
+        .then(data => {
+            const semesterSelect = document.getElementById('semesterSelect');
+            data.forEach(semester => {
+                const option = document.createElement('option');
+                option.value = semester.id;
+                option.text = `${semester.tahun_ajaran} - ${semester.semester}`;
+                semesterSelect.appendChild(option);
+            });
+    
+            // Fetch initial ranking data for the first class and first semester
+            const initialClassId = document.getElementById('classSelect').value;
+            const initialSemesterId = semesterSelect.value;
+            if (initialClassId && initialSemesterId) {
+                fetchRankingData(initialClassId, initialSemesterId);
+            }
+        });
+    
+    // Fetch and render ranking data for the selected class and semester
+    document.getElementById('classSelect').addEventListener('change', function() {
+        const selectedClassId = this.value;
+        const selectedSemesterId = document.getElementById('semesterSelect').value;
+        fetchRankingData(selectedClassId, selectedSemesterId);
+    });
+    
+    document.getElementById('semesterSelect').addEventListener('change', function() {
+        const selectedClassId = document.getElementById('classSelect').value;
+        const selectedSemesterId = this.value;
+        fetchRankingData(selectedClassId, selectedSemesterId);
+    });
+    
+    function fetchRankingData(classId, semesterId) {
+        fetch(`/api/ranking_per_class/${classId}/${semesterId}`)
+            .then(response => response.json())
+            .then(data => {
+                const studentNames = data.map(item => item.nama);
+                const averageScores = data.map(item => item.avg_nilai);
+    
+                Highcharts.chart('rankingChart', {
+                    chart: {
+                        type: 'bar',
+                        height: 400
+                    },
+                    title: {
+                        text: 'Ranking Siswa per Kelas'
+                    },
+                    xAxis: {
+                        categories: studentNames,
+                        title: {
+                            text: null
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Rata-rata Nilai',
+                            align: 'high'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' poin'
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Rata-rata Nilai',
+                        data: averageScores
+                    }]
+                });
+            })
+            .catch(error => console.error('Error loading ranking data:', error));
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and render student count per class
+    fetch('/api/student_count_per_class')
+        .then(response => response.json())
+        .then(data => {
+            const classNames = data.map(item => item.kelas);
+            const studentCounts = data.map(item => item.jumlah);
+    
+            Highcharts.chart('studentCountChart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Jumlah Siswa per Kelas'
+                },
+                xAxis: {
+                    categories: classNames,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Jumlah Siswa',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' siswa'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Jumlah Siswa',
+                    data: studentCounts
+                }]
+            });
+        });
+    
+    // Fetch and render average score per subject
+    fetch('/api/average_score_per_subject')
+        .then(response => response.json())
+        .then(data => {
+            const subjects = data.map(item => item.mapel);
+            const averageScores = data.map(item => item.rata_rata);
+    
+            Highcharts.chart('averageScoreChart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Rata-rata Nilai per Mata Pelajaran'
+                },
+                xAxis: {
+                    categories: subjects,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Rata-rata Nilai',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' poin'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Rata-rata Nilai',
+                    data: averageScores
+                }]
+            });
+        });
+    
+    // Fetch and render attendance per class
+    fetch('/api/attendance_per_class')
+        .then(response => response.json())
+        .then(data => {
+            const classNames = data.map(item => item.kelas);
+            const sickDays = data.map(item => item.sakit);
+            const permissionDays = data.map(item => item.izin);
+            const unexcusedDays = data.map(item => item.alfa);
+    
+            Highcharts.chart('attendanceChart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Kehadiran Siswa per Kelas'
+                },
+                xAxis: {
+                    categories: classNames,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Hari',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' hari'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Sakit',
+                    data: sickDays
+                }, {
+                    name: 'Izin',
+                    data: permissionDays
+                }, {
+                    name: 'Tanpa Keterangan',
+                    data: unexcusedDays
+                }]
+            });
+        });
+    
+    // Fetch and render top students
+    fetch('/api/top_students')
+        .then(response => response.json())
+        .then(data => {
+            const studentNames = data.map(item => item.nama);
+            const averageScores = data.map(item => item.avg_nilai);
+    
+            Highcharts.chart('topStudentsChart', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Ranking Siswa Teratas'
+                },
+                xAxis: {
+                    categories: studentNames,
+                    title: {
+                        text: null
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Rata-rata Nilai',
+                        align: 'high'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' poin'
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Rata-rata Nilai',
+                    data: averageScores
+                }]
+            });
+        })
+        .catch(error => console.error('Error loading top students data:', error));
+});
+</script>
+
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="page-header">
+    <div class="page-title">
+      
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="#">Kelas</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <form class="forms-sample" method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.nama_kelas.label(class="form-label") }}
+                        {{ form.nama_kelas(class="form-control", placeholder="Nama Kelas") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.tingkat.label(class="form-label") }}
+                        {{ form.tingkat(class="form-control", placeholder="Tingkat") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.id_guru.label(class="form-label") }}
+                        {{ form.id_guru(class="form-control", placeholder="ID Guru") }}
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

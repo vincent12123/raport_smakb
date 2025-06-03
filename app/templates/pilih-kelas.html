@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Kelas</title>
+</head>
+<body>
+    <h1>Pilih Kelas</h1>
+    <form action="/generate-rapor" method="POST">
+        <label for="id_kelas">Kelas:</label>
+        <select name="id_kelas">
+            {% for kelas in kelas %}
+                <option value="{{ kelas.id_kelas }}">{{ kelas.nama_kelas }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Unduh Laporan">
+    </form>
+</body>
+</html>

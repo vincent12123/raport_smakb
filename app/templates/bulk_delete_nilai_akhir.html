@@ -1,0 +1,377 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='assets/css/rapotthemes.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2><i class="ri-delete-bin-5-line"></i> Bulk Delete Nilai Akhir</h2>
+        <p>Hapus nilai akhir siswa secara massal berdasarkan filter kelas, guru, dan mata pelajaran</p>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {% if category == 'success' %}<i class="ri-checkbox-circle-line me-2"></i>{% endif %}
+        {% if category == 'danger' %}<i class="ri-error-warning-line me-2"></i>{% endif %}
+        {% if category == 'info' %}<i class="ri-information-line me-2"></i>{% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <!-- Filter Card -->
+        <div class="col-lg-12">
+            <div class="filter-card">
+                <div class="card-header">
+                    <i class="ri-filter-3-line"></i>
+                    <h5>Filter Data Nilai</h5>
+                </div>
+                <div class="card-body">
+                    <form method="GET" id="filterForm" class="row g-3">
+                        <div class="col-md-3">
+                            <label for="kelas" class="form-label">Pilih Kelas</label>
+                            <select name="kelas" id="kelas" class="form-select">
+                                <option value="">--Pilih Kelas--</option>
+                                {% for k in kelas %}
+                                <option value="{{ k.id_kelas }}" {% if request.args.get('kelas')|int == k.id_kelas %}selected{% endif %}>
+                                    {{ k.nama_kelas }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="guru" class="form-label">Pilih Guru</label>
+                            <select name="guru" id="guru" class="form-select">
+                                <option value="">--Pilih Guru--</option>
+                                <!-- Will be populated via AJAX -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="mapel" class="form-label">Pilih Mapel</label>
+                            <select name="mapel" id="mapel" class="form-select">
+                                <option value="">--Pilih Mapel--</option>
+                                <!-- Will be populated via AJAX -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="semester" class="form-label">Pilih Semester</label>
+                            <select name="semester" id="semester" class="form-select">
+                                <option value="">--Pilih Semester--</option>
+                                <!-- Will be populated via AJAX -->
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-icon">
+                                <i class="ri-search-line"></i> Tampilkan Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if results %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="data-preview-card">
+                <div class="data-preview-header">
+                    <div class="preview-title">
+                        <i class="ri-table-line"></i>
+                        <h3>Data Nilai Akhir</h3>
+                    </div>
+                    <span class="badge bg-info">{{ results|length }} Data</span>
+                </div>
+                <div class="data-preview-body">
+                    <div class="table-responsive">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th width="50">No</th>
+                                    <th>Nama Siswa</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th width="80" class="text-center">Nilai</th>
+                                    <th>Capaian Kompetensi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for result in results %}
+                                <tr>
+                                    <td class="text-center">{{ loop.index }}</td>
+                                    <td>{{ result.nama_siswa }}</td>
+                                    <td>{{ result.nama_mapel }}</td>
+                                    <td class="text-center nilai-cell">{{ result.nilai }}</td>
+                                    <td>{{ result.capaian_kompetensi }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="actions-container">
+                        <button type="button" class="btn btn-danger btn-icon" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="ri-delete-bin-5-line"></i> Hapus Semua Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- No Data State (if filter submitted but no results) -->
+    {% if request.args.get('kelas') and not results %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="empty-state">
+                <img src="{{ url_for('static', filename='assets/images/empty-data.svg') }}" alt="No Data" 
+                     onerror="this.src='https://cdn-icons-png.flaticon.com/512/6598/6598519.png';">
+                <h4>Tidak ada data ditemukan</h4>
+                <p>Silakan ubah filter atau periksa kembali kriteria pencarian Anda</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Modal for Token Input -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="ri-error-warning-line me-2"></i> Konfirmasi Penghapusan
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ url_for('bulk_delete.bulk_delete_nilai_akhir_v2') }}" id="deleteForm">
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="warning-icon">
+                            <i class="ri-alert-line"></i>
+                        </div>
+                        <h4 class="mt-3">Apakah Anda yakin?</h4>
+                        <p>Tindakan ini akan menghapus <strong>{{ results|length if results else 0 }} data</strong> nilai akhir dan tidak dapat dibatalkan.</p>
+                    </div>
+
+                    <input type="hidden" name="kelas" value="{{ request.args.get('kelas') }}">
+                    <input type="hidden" name="guru" value="{{ request.args.get('guru') }}">
+                    <input type="hidden" name="mapel" value="{{ request.args.get('mapel') }}">
+                    <input type="hidden" name="semester" value="{{ request.args.get('semester') }}">
+                    
+                    <div class="form-group">
+                        <label for="token" class="form-label">Masukkan Token Keamanan</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="ri-lock-password-line"></i>
+                            </span>
+                            <input type="password" class="form-control" id="token" name="token" required
+                                   placeholder="Masukkan token untuk konfirmasi">
+                        </div>
+                        <div class="form-text text-muted mt-2">
+                            <i class="ri-information-line me-1"></i> Token diperlukan sebagai keamanan tambahan untuk penghapusan data.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-icon" data-bs-dismiss="modal">
+                        <i class="ri-close-line"></i> Batal
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-icon">
+                        <i class="ri-delete-bin-5-line"></i> Hapus Data
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.warning-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(239, 68, 68, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.warning-icon i {
+    font-size: 3rem;
+    color: var(--danger);
+}
+
+.modal-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modal-header {
+    border-bottom: none;
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border);
+    padding: 1rem 1.5rem;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Pre-select values from URL if they exist
+    var urlParams = new URLSearchParams(window.location.search);
+    var kelasVal = urlParams.get('kelas');
+    var guruVal = urlParams.get('guru');
+    var mapelVal = urlParams.get('mapel');
+    var semesterVal = urlParams.get('semester');
+    
+    // Populate dropdowns when page loads if values exist
+    if (kelasVal) {
+        $('#kelas').val(kelasVal);
+        loadGuruByKelas(kelasVal, guruVal);
+        loadSemesterByKelas(kelasVal, semesterVal);
+    }
+    
+    if (kelasVal && guruVal) {
+        loadMapelByGuruAndKelas(guruVal, kelasVal, mapelVal);
+    }
+    
+    // Load Guru dropdown when Kelas changes
+    $('#kelas').change(function() {
+        var kelas_id = $(this).val();
+        if (kelas_id) {
+            loadGuruByKelas(kelas_id);
+            loadSemesterByKelas(kelas_id);
+        } else {
+            resetDropdown('guru');
+            resetDropdown('mapel');
+            resetDropdown('semester');
+        }
+    });
+
+    // Load Mapel dropdown when Guru changes
+    $('#guru').change(function() {
+        var guru_id = $(this).val();
+        var kelas_id = $('#kelas').val();
+        if (guru_id && kelas_id) {
+            loadMapelByGuruAndKelas(guru_id, kelas_id);
+        } else {
+            resetDropdown('mapel');
+        }
+    });
+    
+    // Helper function to load Guru by Kelas
+    function loadGuruByKelas(kelas_id, selectedValue = null) {
+        $.ajax({
+            url: '/bulk_delete/get-guru-by-kelas/' + kelas_id,
+            method: 'GET',
+            beforeSend: function() {
+                $('#guru').html('<option value="">Loading...</option>');
+            },
+            success: function(data) {
+                resetDropdown('guru');
+                $.each(data, function(key, value) {
+                    var selected = (selectedValue && selectedValue == value.id) ? 'selected' : '';
+                    $('#guru').append('<option value="' + value.id + '" ' + selected + '>' + value.name + '</option>');
+                });
+            },
+            error: function() {
+                resetDropdown('guru');
+                $('#guru').append('<option value="">Error loading data</option>');
+            }
+        });
+    }
+    
+    // Helper function to load Mapel by Guru and Kelas
+    function loadMapelByGuruAndKelas(guru_id, kelas_id, selectedValue = null) {
+        $.ajax({
+            url: '/bulk_delete/get-mapel-by-guru/' + guru_id + '/' + kelas_id,
+            method: 'GET',
+            beforeSend: function() {
+                $('#mapel').html('<option value="">Loading...</option>');
+            },
+            success: function(data) {
+                resetDropdown('mapel');
+                $.each(data, function(key, value) {
+                    var selected = (selectedValue && selectedValue == value.id) ? 'selected' : '';
+                    $('#mapel').append('<option value="' + value.id + '" ' + selected + '>' + value.name + '</option>');
+                });
+            },
+            error: function() {
+                resetDropdown('mapel');
+                $('#mapel').append('<option value="">Error loading data</option>');
+            }
+        });
+    }
+    
+    // Helper function to load Semester by Kelas
+    function loadSemesterByKelas(kelas_id, selectedValue = null) {
+        $.ajax({
+            url: '/bulk_delete/get-semester-by-kelas/' + kelas_id,
+            method: 'GET',
+            beforeSend: function() {
+                $('#semester').html('<option value="">Loading...</option>');
+            },
+            success: function(data) {
+                resetDropdown('semester');
+                $.each(data, function(key, value) {
+                    var selected = (selectedValue && selectedValue == value.id) ? 'selected' : '';
+                    $('#semester').append('<option value="' + value.id + '" ' + selected + '>' + value.name + '</option>');
+                });
+            },
+            error: function() {
+                resetDropdown('semester');
+                $('#semester').append('<option value="">Error loading data</option>');
+            }
+        });
+    }
+    
+    // Helper function to reset dropdown
+    function resetDropdown(id) {
+        $('#' + id).empty();
+        $('#' + id).append('<option value="">--Pilih ' + id.charAt(0).toUpperCase() + id.slice(1) + '--</option>');
+    }
+    
+    // Initialize Bootstrap tooltip
+    $('[data-bs-toggle="tooltip"]').tooltip();
+    
+    // Form validation before submit
+    $('#filterForm').on('submit', function(e) {
+        var kelas = $('#kelas').val();
+        var guru = $('#guru').val();
+        var mapel = $('#mapel').val();
+        var semester = $('#semester').val();
+        
+        if (!kelas) {
+            e.preventDefault();
+            alert('Silakan pilih kelas terlebih dahulu');
+            return false;
+        }
+        
+        // At least one filtering option is required
+        if (!guru && !mapel && !semester) {
+            e.preventDefault();
+            alert('Silakan pilih minimal satu filter tambahan (Guru, Mapel, atau Semester)');
+            return false;
+        }
+    });
+});
+</script>
+{% endblock content %}

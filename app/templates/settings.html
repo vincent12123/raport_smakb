@@ -1,0 +1,20 @@
+{% extends 'basedashboardone.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Settings</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="start_date">Start Date:</label>
+            <input type="date" class="form-control" id="start_date" name="start_date" required>
+        </div>
+        <div class="form-group">
+            <label for="end_date">End Date:</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

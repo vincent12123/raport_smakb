@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!--
+Template Name: NobleUI - HTML Bootstrap 5 Admin Dashboard Template
+Author: NobleUI
+Website: https://www.nobleui.com
+Portfolio: https://themeforest.net/user/nobleui/portfolio
+Contact: nobleui123@gmail.com
+Purchase: https://1.envato.market/nobleui_admin
+License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
+-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="NobleUI">
+	<meta name="keywords" content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+
+	<title>{% block title %}Dashboard{% endblock %}</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- End fonts -->
+
+	<!-- core:css -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/vendors/core/core.css') }}">
+	<!-- endinject -->
+
+	<!-- Plugin css for this page -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/vendors/datatables.net-bs5/dataTables.bootstrap5.css') }}">
+	<!-- End plugin css for this page -->
+
+	<!-- inject:css -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/fonts/feather-font/css/iconfont.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/vendors/flag-icon-css/css/flag-icon.min.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/vendors/prismjs/themes/prism.css') }}">
+	<!-- endinject -->
+
+  <!-- Layout styles -->  
+  
+	<link rel="stylesheet" href="{{ url_for('static', filename='assets/css/demo2/style.css') }}">
+  <!-- End layout styles -->
+
+  <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/favicon.png') }}" />
+ 
+    <!-- Konten head lainnya -->
+    {% block head %}{% endblock %}
+
+
+</head>
+<body>
+	<div class="main-wrapper">
+
+		<!-- partial:partials/_sidebar.html -->
+		{% include "_sidebar.html" %}
+		<!-- partial -->
+	
+		<div class="page-wrapper">
+					
+			<!-- partial:partials/_navbar.html -->
+			{% include "_navbar.html" %}
+			<!-- partial -->
+
+			<div class="page-content">
+
+        
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				  {% for category, message in messages %}
+					<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+					  {{ message }}
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+				  {% endfor %}
+				{% endif %}
+			  {% endwith %}
+			  
+        {% block content %}
+        <div class="row">
+         
+        </div> <!-- row -->
+
+        {% endblock content %}
+			</div>
+
+			<!-- partial:partials/_footer.html -->
+			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between px-4 py-3 border-top">
+				<div class="text-muted">
+					Hak Cipta © 2023 <a href="https://sukardinotes.karyabangsa.sch.id" target="_blank">Sukardi</a>
+				</div>
+				<div class="text-muted">
+					Dibuat dengan <i class="mb-1 text-primary ms-1 icon-sm" data-feather="heart"></i>, keringat, waktu, dan dedikasi yang tak mengenal musim libur.
+				</div>
+			</footer>
+			
+			<!-- partial -->
+		
+		</div>
+	</div>
+
+	<!-- core:js -->
+	<script src="{{ url_for('static', filename='assets/vendors/core/core.js') }}"></script>
+	<!-- endinject -->
+
+	<!-- Plugin js for this page -->
+<!-- Plugin js for this page -->
+<script src="{{ url_for('static', filename='assets/vendors/datatables.net/jquery.dataTables.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js') }}"></script>
+  <!-- End plugin js for this page -->		
+  <script src="{{ url_for('static', filename='assets/vendors/chartjs/Chart.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendors/jquery.flot/jquery.flot.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendors/jquery.flot/jquery.flot.resize.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
+	<!-- End plugin js for this page -->
+
+	<!-- inject:js -->
+	<script src="{{ url_for('static', filename='assets/vendors/feather-icons/feather.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='assets/js/template.js') }}"></script>
+	<!-- endinject -->
+
+	<!-- Custom js for this page -->
+  <script src="{{ url_for('static', filename='assets/js/dashboard-dark.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/datepicker.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/data-table.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/js/demo.js') }}"></script>
+  
+	<!-- End custom js for this page -->
+	
+	<script src="{{ url_for('static', filename='assets/vendors/prismjs/prism.js')}}"></script>
+	<script src="{{ url_for('static', filename='assets/vendors/clipboard/clipboard.min.js')}}"></script>
+	{% block script %}{% endblock script %}
+</body>
+</html>    

@@ -1,0 +1,41 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+            <li class="flash {{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+
+<div class='card'>
+<div class='card-body'>
+<form id="bulkDeleteForm" action="{{ url_for('bulk_delete_nilai_akhir') }}" method="post">
+    <select name="kelas" id="kelasSelectDelete">
+        <option value="" selected disabled>Pilih Kelas</option>
+        {% for kls in kelas %}
+            <option value="{{ kls.id_kelas }}">{{ kls.nama_kelas }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Bulk Delete Nilai Akhir</button>
+</form>
+
+</div>
+</div>    
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var bulkDeleteForm = document.getElementById('bulkDeleteForm');
+    
+        bulkDeleteForm.addEventListener('submit', function(event) {
+            if (!confirm('Apakah Anda yakin ingin menghapus semua nilai akhir untuk kelas ini?')) {
+                event.preventDefault();
+            }
+        });
+    });
+    </script>
+    
+{% endblock content %}
+
+

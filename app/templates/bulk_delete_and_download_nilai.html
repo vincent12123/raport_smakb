@@ -1,0 +1,153 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Bulk Delete dan Download Nilai Akhir</h4>
+                <form method="POST" class="form-inline">
+                    <div class="form-group mb-2">
+                        <label for="kelas" class="sr-only">Pilih Kelas:</label>
+                        <select name="kelas" id="kelas" class="form-control">
+                            <option value="">--Pilih Kelas--</option>
+                            {% for k in kelas %}
+                            <option value="{{ k.id_kelas }}">{{ k.nama_kelas }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="guru" class="sr-only">Pilih Guru:</label>
+                        <select name="guru" id="guru" class="form-control">
+                            <option value="">--Pilih Guru--</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="mapel" class="sr-only">Pilih Mapel:</label>
+                        <select name="mapel" id="mapel" class="form-control">
+                            <option value="">--Pilih Mapel--</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="semester" class="sr-only">Pilih Semester:</label>
+                        <select name="semester" id="semester" class="form-control">
+                            <option value="">--Pilih Semester--</option>
+                            {% for s in semesters %}
+                            <option value="{{ s.id }}">{{ s.tahun_ajaran }} - {{ s.semester }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-danger mb-2">Hapus</button>
+                    <button type="button" class="btn btn-primary mb-2" onclick="downloadExcel()">Download Excel</button>
+                </form>
+                {% if siswa_list %}
+                <div class="table-responsive mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Siswa</th>
+                                <th>Nilai</th>
+                                <th>Capaian Kompetensi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for siswa, nilai, capaian in siswa_list %}
+                            <tr>
+                                <td>{{ siswa.nama }}</td>
+                                <td>{{ nilai }}</td>
+                                <td>{{ capaian }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#kelas').change(function() {
+        var kelas_id = $(this).val();
+        if (kelas_id) {
+            $.ajax({
+                url: '/get-guru-by-kelas/' + kelas_id,
+                method: 'GET',
+                success: function(data) {
+                    $('#guru').empty();
+                    $('#guru').append('<option value="">--Pilih Guru--</option>');
+                    $.each(data, function(key, value) {
+                        $('#guru').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#guru').empty();
+            $('#guru').append('<option value="">--Pilih Guru--</option>');
+        }
+    });
+
+    $('#guru').change(function() {
+        var guru_id = $(this).val();
+        var kelas_id = $('#kelas').val();
+        if (guru_id) {
+            $.ajax({
+                url: '/get-mapel-by-guru/' + guru_id + '/' + kelas_id,
+                method: 'GET',
+                success: function(data) {
+                    $('#mapel').empty();
+                    $('#mapel').append('<option value="">--Pilih Mapel--</option>');
+                    $.each(data, function(key, value) {
+                        $('#mapel').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#mapel').empty();
+            $('#mapel').append('<option value="">--Pilih Mapel--</option>');
+        }
+    });
+
+    $('#kelas').change(function() {
+        var kelas_id = $(this).val();
+        if (kelas_id) {
+            $.ajax({
+                url: '/get-semester-by-kelas/' + kelas_id,
+                method: 'GET',
+                success: function(data) {
+                    $('#semester').empty();
+                    $('#semester').append('<option value="">--Pilih Semester--</option>');
+                    $.each(data, function(key, value) {
+                        $('#semester').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#semester').empty();
+            $('#semester').append('<option value="">--Pilih Semester--</option>');
+        }
+    });
+});
+
+function downloadExcel() {
+    var form = $('<form method="POST" action="/download_nilai_excel_v2">');
+    form.append($('<input type="hidden" name="kelas">').val($('#kelas').val()));
+    form.append($('<input type="hidden" name="guru">').val($('#guru').val()));
+    form.append($('<input type="hidden" name="mapel">').val($('#mapel').val()));
+    form.append($('<input type="hidden" name="semester">').val($('#semester').val()));
+    $('body').append(form);
+    form.submit();
+}
+</script>
+{% endblock content %}

@@ -1,0 +1,79 @@
+# ZIP files
+*.zip
+
+# Generated report files
+**/rapor_*.docx
+**/rapor_*.pdf
+**/laporan_*.docx
+**/laporan_*.pdf
+
+# Temporary files
+temp/
+tmp/
+.temp/
+.tmp/
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+virtualenv/
+ENV/
+
+# Flask
+instance/
+.webassets-cache
+
+# SQLite databases
+*.sqlite
+*.db
+*.db-journal
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

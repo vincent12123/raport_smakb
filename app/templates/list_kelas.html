@@ -1,0 +1,40 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Daftar Kelas</h4>
+                <a href="{{ url_for('add_kelas') }}" class="btn btn-success mb-3">Tambah Kelas</a> 
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                            <tr>
+                                <th>Nama Kelas</th>
+                                <th>Tingkat</th>
+                                <th>Guru Wali Kelas</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for k in kelas %}
+                            <tr>
+                                <td>{{ k.nama_kelas }}</td>
+                                <td>{{ k.tingkat }}</td>
+                                <td>{{ k.guru.nama_guru if k.guru else 'Tidak Ditetapkan' }}</td>
+                                <td>
+                                    <a href="{{ url_for('edit_kelas', id_kelas=k.id_kelas) }}" class="btn btn-primary">Edit</a>
+                                    <form action="{{ url_for('delete_kelas', id_kelas=k.id_kelas) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

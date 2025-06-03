@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Dashboard Wali Kelas</h1>
+<h2>Guru yang telah mengisi nilai akhir:</h2>
+<ul>
+{% for g in guru_yang_telah_mengisi %}
+    <li>{{ g.nama_guru }}</li>
+{% endfor %}
+</ul>
+<h2>Guru yang belum mengisi nilai akhir:</h2>
+<ul>
+{% for g in guru_yang_belum_mengisi %}
+    <li>{{ g.nama_guru }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

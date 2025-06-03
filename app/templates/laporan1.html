@@ -1,0 +1,53 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.siswa.label }}<br>
+                        {{ form.siswa }}
+                        <input type="submit" class="btn btn-primary btn-sm" value="Lihat Laporan">
+                    </p>
+                </form>
+                <div class="card-body">
+                    {% if selected_siswa %}
+                    <h6 class="card-title"> Laporan Siswa</h6>
+                    <div class="table-responsive pt-3">
+                        <table id="example2" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>mata Pelajaran</th>
+                                    <th>nilai tugas harian</th>
+                                    <th>nilai tugas proyek</th>
+                                    <th>nilai uts</th>
+                                    <th>nilai uas</th>
+                                    <th>nilai akhir</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in mata_pelajaran_dan_nilai %}
+                                <tr>
+                                    <td>{{ item.nama_mapel }}</td>
+                                    <td>{{ item.nilai_tugas_harian }}</td>
+                                    <td>{{ item.nilai_tugas_proyek }}</td>
+                                    <td>{{ item.nilai_uts }}</td>                   
+                                    <td>{{ item.nilai_uas }}</td>                    
+                                    <td>{{ item.nilai_akhir }}</td>               
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a href="{{ url_for('export_excelll') }}" class="btn btn-info mt-3">Unduh dalam Format Excel</a>
+                        <a href="{{ url_for('export_pdfff') }}" class="btn btn-info mt-3">Unduh dalam Format PDF</a>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3">Kembali ke Halaman Utama</a>
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock%}
+

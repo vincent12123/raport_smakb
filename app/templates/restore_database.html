@@ -1,0 +1,31 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center">Database Backup and Restore</h4>
+                <form method="GET" action="{{ url_for('backup_database') }}">
+                    <button type="submit" class="btn btn-primary mb-2">Backup Database</button>
+                </form>
+                <form method="POST" enctype="multipart/form-data" action="{{ url_for('restore_database') }}">
+                    <div class="form-group">
+                        <label for="backup_file">Upload Backup File (.db):</label>
+                        <input type="file" class="form-control" id="backup_file" name="backup_file" accept=".db" required>
+                    </div>
+                    <button type="submit" class="btn btn-success mb-2">Restore Database</button>
+                </form>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

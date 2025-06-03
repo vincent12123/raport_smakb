@@ -1,0 +1,67 @@
+Here are the routes from the provided code:
+
+### User Management Routes
+- **`/`**: Redirect to the login page.
+- **`/login`**: Display and handle the login form.
+- **`/logout`**: Log out the current user.
+- **`/register`**: Display and handle the registration form for new users.
+- **`/create`**: Handle the creation of new messages.
+- **`/delete/<int:id>`**: Delete a user by ID.
+- **`/admin/dashboard`**: Display the admin dashboard (login required, admin only).
+- **`/guru/dashboard`**: Display the teacher's dashboard (login required, teacher only).
+- **`/add-guru`**: Display and handle the form for adding new teachers (login required, admin only).
+- **`/edit-guru/<int:id>`**: Display and handle the form for editing a teacher by ID (login required, admin only).
+- **`/delete-guru/<int:id>`**: Delete a teacher by ID (login required, admin only).
+- **`/list-guru`**: List all teachers (login required).
+- **`/add-sekolah`**: Display and handle the form for adding new schools (login required, admin only).
+- **`/edit-sekolah/<int:id>`**: Display and handle the form for editing a school by ID (login required, admin only).
+- **`/delete-sekolah/<int:id>`**: Delete a school by ID (login required, admin only).
+- **`/list-sekolah`**: List all schools (login required, admin only).
+- **`/add-siswa`**: Display and handle the form for adding new students (login required, admin only).
+- **`/edit-siswa/<int:id_siswa>`**: Display and handle the form for editing a student by ID (login required, admin only).
+- **`/delete-siswa/<int:id_siswa>`**: Delete a student by ID (login required, admin only).
+- **`/list-siswa`**: List all students (login required).
+- **`/download-siswa-excel`**: Download the list of students as an Excel file (login required).
+- **`/add-kelas`**: Display and handle the form for adding new classes (login required, admin only).
+- **`/edit-kelas/<int:id_kelas>`**: Display and handle the form for editing a class by ID (login required, admin only).
+- **`/delete-kelas/<int:id_kelas>`**: Delete a class by ID (login required, admin only).
+- **`/list-kelas`**: List all classes (login required).
+- **`/add-mapel`**: Display and handle the form for adding new subjects (login required, admin only).
+- **`/edit-mapel/<int:id_mapel>`**: Display and handle the form for editing a subject by ID (login required, admin only).
+- **`/delete-mapel/<int:id_mapel>`**: Delete a subject by ID (login required, admin only).
+- **`/list-mapel`**: List all subjects (login required).
+- **`/settings`**: Display and handle the settings form (login required).
+- **`/upload`**: Handle file upload (login required).
+- **`/form_page`**: Display the form page for file uploads (login required).
+- **`/submit`**: Handle the submission of uploaded data (login required).
+
+### Report and Excel Routes
+- **`/dashboard`**: Display the dashboard with a list of classes.
+- **`/bulk_delete_kelas`**: Display the bulk delete class page.
+- **`/bulk_delete_nilai_akhir`**: Handle bulk deletion of final scores for a selected class.
+- **`/download_excel_siswa`**: Download student data as an Excel file.
+- **`/download_excel_absensi`**: Download attendance data as an Excel file.
+- **`/download_excel_kegiatan_industri`**: Download industrial activity data as an Excel file.
+- **`/download_siswa`**: Download student data as an Excel file.
+- **`/upload-rekap-absensi`**: Handle the upload of attendance summary data (login required).
+- **`/upload-ekstrakurikuler`**: Handle the upload of extracurricular activity data (login required).
+- **`/upload-kegiatan-industri`**: Handle the upload of industrial activity data (login required).
+
+### Report Generation Routes
+- **`/generate-rapor-rplxi/<int:id_kelas>/<int:id_semester>`**: Generate report cards for the specified class and semester for the RPL XI template.
+- **`/generate-rapor-tsmxi/<int:id_kelas>/<int:id_semester>`**: Generate report cards for the specified class and semester for the TSM XI template.
+- **`/generate-rapor-htlxi/<int:id_kelas>/<int:id_semester>`**: Generate report cards for the specified class and semester for the HTL XI template.
+- **`/generate-rapor-rplx/<int:id_kelas>/<int:id_semester>`**: Generate report cards for the specified class and semester for the RPL X template.
+
+### API Routes
+- **`/api/classes_absensi`**: Get the list of classes for attendance data.
+- **`/api/semesterall`**: Get the list of all semesters.
+- **`/api/class_absensi/<int:class_id>/<int:semester_id>`**: Get cumulative attendance data for the specified class and semester.
+
+### Miscellaneous Routes
+- **`/get-guru-by-kelas/<int:kelas_id>`**: Get the list of teachers for the specified class (login required).
+- **`/laporan-kelas`**: Generate a class report (login required).
+- **`/laporan-kelas1`**: Display the form for generating class reports (login required).
+- **`/laporan-guru`**: Generate a report for teachers (login required).
+
+These routes cover a wide range of functionalities, from user management to report generation and data handling. If you have any specific requirements or modifications needed, feel free to ask!

@@ -1,0 +1,41 @@
+{% extends "basedashboardone.html" %}
+{%  block content  %}
+<!-- column input nilai-->
+    <form method="post" class="forms-sample">
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <label for="siswa" class="form-label">Pilih Siswa</label>
+            {{ form.siswa(id='siswa', class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="mata_pelajaran" class="form-label">Pilih Mata Pelajaran</label>
+            {{ form.mata_pelajaran(id='mata_pelajaran', class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="tugas_harian" class="form-label">Tugas Harian</label>
+            {{ form.tugas_harian(id='tugas_harian', class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="tugas_proyek" class="form-label">Tugas Proyek</label>
+            {{ form.tugas_proyek(id='tugas_proyek', class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="uts" class="form-label">UTS</label>
+            {{ form.uts(id='uts', class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="uas" class="form-label">UAS</label>
+            {{ form.uas(id='uas', class="form-control") }}
+        </div>
+        
+<!-- tombol submit-->
+        <input type="submit"value="Submit" class="btn btn-primary">
+    </form>
+
+{% endblock %}

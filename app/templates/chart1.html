@@ -1,0 +1,350 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+{% endblock head %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="form-group">
+                <label for="classSelect">Pilih Kelas:</label>
+                <select class="form-control" id="classSelect"></select>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="form-group">
+                <label for="semesterSelect">Pilih Semester:</label>
+                <select class="form-control" id="semesterSelect"></select>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="form-group">
+                <label for="studentSelect">Pilih Siswa:</label>
+                <select class="form-control" id="studentSelect"></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Charts -->
+        <div class="col-md-12 mt-4">
+           
+            <div id="individualPerformanceChart" style="width:100%; height:400px;"></div>
+        </div>
+    </div>
+        
+        <div class="col-md-12 mt-4">
+            <div id="performanceOverTimeChart" style="width:100%; height:400px;"></div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <div id="attendanceChart" style="width:100%; height:400px;"></div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <div id="rankingChart" style="width:100%; height:400px;"></div>
+        </div>
+        <div class="col-md-12 mt-4">
+            <button id="downloadPdf" class="btn btn-primary">Download PDF</button>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch and populate classes
+    fetch('/api/classes')
+        .then(response => response.json())
+        .then(data => {
+            const classSelect = document.getElementById('classSelect');
+            data.forEach(kelas => {
+                const option = document.createElement('option');
+                option.value = kelas.id;
+                option.text = kelas.nama;
+                classSelect.appendChild(option);
+            });
+
+            // Fetch semesters and students for the first class
+            if (data.length > 0) {
+                fetchSemesters(data[0].id);
+                fetchStudents(data[0].id);
+            }
+        });
+
+    // Fetch and populate semesters for the selected class
+    document.getElementById('classSelect').addEventListener('change', function() {
+        const selectedClassId = this.value;
+        fetchSemesters(selectedClassId);
+        fetchStudents(selectedClassId);
+    });
+
+    function fetchSemesters(classId) {
+        fetch('/api/semesterall')
+            .then(response => response.json())
+            .then(data => {
+                const semesterSelect = document.getElementById('semesterSelect');
+                semesterSelect.innerHTML = '';
+                data.forEach(semester => {
+                    const option = document.createElement('option');
+                    option.value = semester.id;
+                    option.text = `${semester.tahun_ajaran} - ${semester.semester}`;
+                    semesterSelect.appendChild(option);
+                });
+
+                // Fetch charts data for the first semester and student
+                if (data.length > 0) {
+                    const selectedStudentId = document.getElementById('studentSelect').value;
+                    fetchAllChartsData(selectedClassId, data[0].id, selectedStudentId);
+                }
+            });
+    }
+
+    function fetchStudents(classId) {
+        fetch(`/api/students_in_class/${classId}`)
+            .then(response => response.json())
+            .then(data => {
+                const studentSelect = document.getElementById('studentSelect');
+                studentSelect.innerHTML = '';
+                data.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.id;
+                    option.text = student.nama;
+                    studentSelect.appendChild(option);
+                });
+
+                // Fetch charts data for the first student
+                if (data.length > 0) {
+                    const selectedSemesterId = document.getElementById('semesterSelect').value;
+                    fetchAllChartsData(classId, selectedSemesterId, data[0].id);
+                }
+            });
+    }
+
+    // Fetch and render all charts when filters are changed
+    document.getElementById('classSelect').addEventListener('change', updateCharts);
+    document.getElementById('semesterSelect').addEventListener('change', updateCharts);
+    document.getElementById('studentSelect').addEventListener('change', updateCharts);
+
+    function updateCharts() {
+        const selectedClassId = document.getElementById('classSelect').value;
+        const selectedSemesterId = document.getElementById('semesterSelect').value;
+        const selectedStudentId = document.getElementById('studentSelect').value;
+        if (selectedClassId && selectedSemesterId && selectedStudentId) {
+            fetchAllChartsData(selectedClassId, selectedSemesterId, selectedStudentId);
+        }
+    }
+
+    function fetchAllChartsData(classId, semesterId, studentId) {
+        fetchSubjectScores(classId, semesterId, studentId);
+        fetchPerformanceOverTime(studentId);
+        fetchAttendance(studentId);
+        fetchRanking(classId, semesterId);
+        fetchIndividualPerformance(classId, semesterId, studentId);
+    }
+
+    function fetchIndividualPerformance(classId, semesterId, studentId) {
+        $.getJSON(`/api/student_performance/${classId}/${semesterId}/${studentId}`, function(data) {
+            const categories = data.subjects;
+            const studentScores = data.scores;
+            const classAverage = data.class_average;
+
+            Highcharts.chart('individualPerformanceChart', {
+                chart: {
+                    zoomType: 'xy'
+                },
+                title: {
+                    text: 'Performa Individu Siswa'
+                },
+                xAxis: [{
+                    categories: categories,
+                    crosshair: true
+                }],
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        format: '{value}',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    },
+                    title: {
+                        text: 'Nilai',
+                        style: {
+                            color: Highcharts.getOptions().colors[1]
+                        }
+                    }
+                }],
+                tooltip: {
+                    shared: true
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 80,
+                    verticalAlign: 'top',
+                    y: 55,
+                    floating: true,
+                    backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'rgba(255,255,255,0.25)'
+                },
+                series: [{
+                    name: 'Nilai Siswa',
+                    type: 'column',
+                    data: studentScores,
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }, {
+                    name: 'Rata-rata Kelas',
+                    type: 'spline',
+                    data: classAverage,
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }]
+            });
+        });
+    }
+
+    function fetchSubjectScores(classId, semesterId, studentId) {
+        fetch(`/api/subject_scores/${classId}/${semesterId}/${studentId}`)
+            .then(response => response.json())
+            .then(data => {
+                const subjects = data.map(item => item.mapel);
+                const scores = data.map(item => item.nilai);
+
+                Highcharts.chart('subjectScoresChart', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Grafik Nilai Mapel'
+                    },
+                    xAxis: {
+                        categories: subjects,
+                        title: {
+                            text: 'Mata Pelajaran'
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Nilai'
+                        }
+                    },
+                    series: [{
+                        name: 'Nilai',
+                        data: scores
+                    }]
+                });
+            })
+            .catch(error => console.error('Error loading subject scores:', error));
+    }
+
+    function fetchPerformanceOverTime(studentId) {
+        fetch(`/api/performance_over_time/${studentId}`)
+            .then(response => response.json())
+            .then(data => {
+                const semesters = data.map(item => item.semester);
+                const avgScores = data.map(item => item.avg_nilai);
+
+                Highcharts.chart('performanceOverTimeChart', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Performa Siswa'
+                    },
+                    xAxis: {
+                        categories: semesters,
+                        title: {
+                            text: 'Semester'
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Nilai Rata-rata'
+                        }
+                    },
+                    series: [{
+                        name: 'Nilai Rata-rata',
+                        data: avgScores
+                    }]
+                });
+            })
+            .catch(error => console.error('Error loading performance over time:', error));
+    }
+
+    function fetchAttendance(studentId) {
+        fetch(`/api/attendance/${studentId}`)
+            .then(response => response.json())
+            .then(data => {
+                const categories = ['Sakit', 'Izin', 'Tanpa Keterangan'];
+                const attendance = [data.total_sakit, data.total_izin, data.total_tanpa_keterangan];
+
+                Highcharts.chart('attendanceChart', {
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Kehadiran'
+                    },
+                    series: [{
+                        name: 'Hari',
+                        colorByPoint: true,
+                        data: categories.map((category, index) => ({
+                            name: category,
+                            y: attendance[index]
+                        }))
+                    }]
+                });
+            })
+            .catch(error => console.error('Error loading attendance:', error));
+    }
+
+    function fetchRanking(classId, semesterId) {
+        fetch(`/api/ranking/${classId}/${semesterId}`)
+            .then(response => response.json())
+            .then(data => {
+                const studentNames = data.map(item => item.nama);
+                const ranks = data.map(item => item.rank);
+
+                Highcharts.chart('rankingChart', {
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Ranking'
+                    },
+                    xAxis: {
+                        categories: studentNames,
+                        title: {
+                            text: 'Nama Siswa'
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Ranking'
+                        }
+                    },
+                    series: [{
+                        name: 'Ranking',
+                        data: ranks
+                    }]
+                });
+            })
+            .catch(error => console.error('Error loading ranking:', error));
+    }
+});
+</script>
+<script>
+    // Existing JavaScript for handling chart rendering...
+    
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+        window.open(`/download_charts_pdf?classId=${document.getElementById('classSelect').value}&semesterId=${document.getElementById('semesterSelect').value}&studentId=${document.getElementById('studentSelect').value}`);
+    });
+    </script>
+{% endblock content %}

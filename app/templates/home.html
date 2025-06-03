@@ -1,0 +1,11 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                     <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %} 
+                </div>    
+            {% endif %}
+            {% endwith %}
+<h1>Welcome to the Home Page!</h1>
+<a href="{{ url_for('logout') }}">Logout</a>

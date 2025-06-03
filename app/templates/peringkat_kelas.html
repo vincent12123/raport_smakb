@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peringkat Kelas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<!-- Anda bisa menambahkan CSS tambahan di sini jika diperlukan -->
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Peringkat Kelas</li>
+        </ol>
+    </nav>
+    <!-- End Breadcrumb -->
+
+    <!-- Form Pilih Kelas -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form action="/peringkat" method="post">
+                <div class="form-group mb-3">
+                    <label for="kelasDropdown" class="form-label">Pilih Kelas:</label>
+                    <select class="form-select" id="kelasDropdown" name="kelas_id">
+                        {% for kelas in daftar_kelas %}
+                        <option value="{{ kelas.id_kelas }}">{{ kelas.nama_kelas }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- End Form Pilih Kelas -->
+
+    {% if siswa %}
+    <!-- Tabel Peringkat Siswa -->
+    <h2 class="mb-4">Kelas - {{ nama_kelas }}</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>NIS</th>
+                            <th>Nama</th>
+                            <th>Nilai Akhir</th>
+                            <th>Ranking</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for siswa in siswa %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ siswa.nis }}</td>
+                            <td>{{ siswa.nama }}</td>
+                            <td>{{ siswa.rata_rata | round(0, 'ceil') }}</td>
+                            <td>
+                                {% if loop.index == 1 %}
+                                    <span class="badge bg-success">Ranking 1</span>
+                                {% elif loop.index == 2 %}
+                                    <span class="badge bg-info">Ranking 2</span>
+                                {% elif loop.index == 3 %}
+                                    <span class="badge bg-warning text-dark">Ranking 3</span>
+                                {% else %}
+                                    {{ loop.index }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End Tabel Peringkat Siswa -->
+    {% endif %}
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+{% endblock content %}
+
+</body>
+</html>

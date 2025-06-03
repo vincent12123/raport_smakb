@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Line Chart with Highcharts</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+</head>
+<body>
+
+<div id="container" style="width:100%; height:400px;"></div>
+
+<script>
+Highcharts.chart('container', {
+    title: {
+        text: 'Perkembangan Nilai Rata-Rata per Mata Pelajaran'
+    },
+    subtitle: {
+        text: 'Semester III dan IV'
+    },
+    yAxis: {
+        title: {
+            text: 'Nilai Rata-Rata'
+        }
+    },
+    xAxis: {
+        categories: ['Semester III', 'Semester IV']
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0
+        }
+    },
+    series: [
+        {
+            name: 'Bahasa Indonesia',
+            data: [80.0, 81.0]
+        },
+        {
+            name: 'Bahasa Inggris',
+            data: [83.0, 85.0]
+        },
+        {
+            name: 'Digital Marketing',
+            data: [86.0, 88.0]
+        },
+        {
+            name: 'Mandarin',
+            data: [86.0, 87.0]
+        },
+        {
+            name: 'Matematika',
+            data: [82.0, 84.0]
+        },
+        {
+            name: 'Pendidikan Agama Islam dan Budi Pekerti',
+            data: [85.0, 86.0]
+        },
+        {
+            name: 'Pendidikan Jasmani, Olahraga, dan Kesehatan',
+            data: [80.0, 82.0]
+        },
+        {
+            name: 'Pendidikan Pancasila',
+            data: [90.0, 91.0]
+        },
+        {
+            name: 'Projek Kreatif dan Kewirausahaan',
+            data: [93.0, 94.0]
+        },
+        {
+            name: 'Rekayasa Perangkat Lunak',
+            data: [78.0, 87.0]
+        },
+        {
+            name: 'Sejarah',
+            data: [83.0, 85.0]
+        }
+    ],
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+});
+</script>
+
+</body>
+</html>

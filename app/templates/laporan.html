@@ -1,0 +1,199 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb r-15">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Laporan Kelas</li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+
+                <h4 class="card-title text-center">Laporan Kelas</h4>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert border-0 border-start border-5 border-{{ category }} alert-dismissible fade show py-2">
+                    <div class="d-flex align-items-center">
+                        <div class="fs-3 text-{{ category }}">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="ms-3">
+                            <div class="text-{{ category }}">{{ message }}</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="kelas" class="form-label">Pilih Kelas</label>
+                        <select name="kelas" id="kelas" class="form-select r-15">
+                            <option value="">--Pilih Kelas--</option>
+                            {% for k in kelas %}
+                            <option value="{{ k.id_kelas }}">{{ k.nama_kelas }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="guru" class="form-label">Pilih Guru</label>
+                        <select name="guru" id="guru" class="form-select r-15">
+                            <option value="">--Pilih Guru--</option>
+                            <!-- Guru options will be populated by AJAX -->
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="semester" class="form-label">Pilih Semester</label>
+                        <select name="semester" id="semester" class="form-select r-15">
+                            <option value="">--Pilih Semester--</option>
+                            {% for s in semesters %}
+                            <option value="{{ s.id }}">{{ s.tahun_ajaran.tahun }} - {{ s.semester }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100 r-15">Cari</button>
+                    </div>
+                </form>
+
+                {% if hasil %}
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Siswa</th>
+                                <th>Nilai</th>
+                                <th>Nama Mapel</th>
+                                <th>Nama Guru</th>
+                                <th>Capaian Kompetensi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for n, s, m, g in hasil %}
+                            <tr class="{% if n.nilai < 65 %}bg-danger text-white{% elif n.nilai == 65 %}bg-warning text-dark{% endif %}">
+                                <td>{{ s.nama }}</td>
+                                <td>{{ n.nilai }}</td>
+                                <td>{{ m.nama_mapel }}</td>
+                                <td>{{ g.nama_guru }}</td>
+                                <td>
+                                    <span data-bs-toggle="tooltip" title="{{ n.capaian_kompetensi }}">
+                                        {{ n.capaian_kompetensi }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+
+                {% if nilai_bawah_76 %}
+                <h4 class="card-title text-center mt-5">Siswa dengan Nilai di Bawah 76</h4>
+                <form method="POST" id="nilai-form" action="{{ url_for('update_nilai') }}">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama Siswa</th>
+                                    <th>Nilai</th>
+                                    <th>Nama Mapel</th>
+                                    <th>Nama Guru</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for n, s, m, g in nilai_bawah_76 %}
+                                <tr class="{% if n.nilai < 65 %}bg-danger text-white{% elif n.nilai == 65 %}bg-warning text-dark{% endif %}">
+                                    <td>{{ s.nama }}</td>
+                                    <td>
+                                        <input type="hidden" name="nilai_id" value="{{ n.id_nilai }}">
+                                        <input type="number" name="nilai" value="{{ n.nilai }}" class="form-control">
+                                    </td>
+                                    <td>{{ m.nama_mapel }}</td>
+                                    <td>{{ g.nama_guru }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#tokenModal">Simpan Perubahan</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="tokenModal" tabindex="-1" aria-labelledby="tokenModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tokenModalLabel">Masukkan Token</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="modal-token" class="form-label">Token:</label>
+                    <input type="text" class="form-control" id="modal-token" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="submit-nilai-form">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#kelas').change(function() {
+            var kelas_id = $(this).val();
+            if (kelas_id) {
+                $.ajax({
+                    url: '/bulk_delete/get-guru-by-kelas/' + kelas_id,
+                    method: 'GET',
+                    success: function(data) {
+                        $('#guru').empty();
+                        $('#guru').append('<option value="">--Pilih Guru--</option>');
+                        $.each(data, function(key, value) {
+                            $('#guru').append('<option value="' + value.id + '">' + value.name + '</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#guru').empty();
+                $('#guru').append('<option value="">--Pilih Guru--</option>');
+            }
+        });
+
+        // Initialize Bootstrap tooltip
+        $('[data-bs-toggle="tooltip"]').tooltip();
+
+        // Handle modal form submission
+        $('#submit-nilai-form').click(function() {
+            var token = $('#modal-token').val();
+            if (token) {
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'token',
+                    value: token
+                }).appendTo('#nilai-form');
+                $('#nilai-form').submit();
+            } else {
+                alert('Token harus diisi!');
+            }
+        });
+    });
+</script>
+{% endblock %}

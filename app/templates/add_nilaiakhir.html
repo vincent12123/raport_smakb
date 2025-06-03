@@ -1,0 +1,47 @@
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title"><font face="times new roman">Tambah Nilai Akhir</font></h4>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card-body">
+                <h6 class="card-title">Form Nilai Akhir</h6>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fileUploadNilaiAkhir" class="form-label">Pilih File Excel</label>
+                        <input type="file" name="file" id="fileUploadNilaiAkhir" class="form-control">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <input type="submit" value="Upload" class="btn btn-primary">
+                    </div>
+                </form>
+                {% if session.df %}
+                <h3>Data Terunggah</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        {{ session.df|safe }}  <!-- Render DataFrame as HTML table -->
+                    </table>
+                </div>
+                <form action="/submit" method="post">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-success">
+                    </div>
+                </form>
+            {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

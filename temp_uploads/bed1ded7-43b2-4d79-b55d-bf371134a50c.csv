@@ -1,0 +1,552 @@
+nama_siswa,id_siswa_kelas,id_pengajaran,nilai,capaian_kompetensi
+Alfonsius Jordi,1,1,97,test1
+Alfonsius Jordi,1,2,89,test2
+Alfonsius Jordi,1,3,85,test3
+Alfonsius Jordi,1,4,96,test4
+Alfonsius Jordi,1,5,87,test5
+Alfonsius Jordi,1,6,92,test6
+Alfonsius Jordi,1,7,87,test7
+Alfonsius Jordi,1,8,88,test8
+Alfonsius Jordi,1,9,91,test9
+Alfonsius Jordi,1,10,88,test10
+Alfonsius Jordi,1,11,97,test11
+Alfonsius Jordi,1,12,92,test12
+Alfonsius Jordi,1,13,94,test13
+Alfonsius Jordi,1,14,90,test14
+Alfonsius Jordi,1,15,82,test15
+Alfonsius Jordi,1,16,98,test16
+Alfonsius Jordi,1,17,87,test17
+Alfonsius Jordi,1,18,80,test18
+Alfonsius Jordi,1,19,85,test19
+Amazia Aurelia Mikayla,2,1,93,test20
+Amazia Aurelia Mikayla,2,2,87,test21
+Amazia Aurelia Mikayla,2,3,86,test22
+Amazia Aurelia Mikayla,2,4,86,test23
+Amazia Aurelia Mikayla,2,5,95,test24
+Amazia Aurelia Mikayla,2,6,96,test25
+Amazia Aurelia Mikayla,2,7,94,test26
+Amazia Aurelia Mikayla,2,8,89,test27
+Amazia Aurelia Mikayla,2,9,80,test28
+Amazia Aurelia Mikayla,2,10,85,test29
+Amazia Aurelia Mikayla,2,11,92,test30
+Amazia Aurelia Mikayla,2,12,82,test31
+Amazia Aurelia Mikayla,2,13,81,test32
+Amazia Aurelia Mikayla,2,14,83,test33
+Amazia Aurelia Mikayla,2,15,89,test34
+Amazia Aurelia Mikayla,2,16,89,test35
+Amazia Aurelia Mikayla,2,17,98,test36
+Amazia Aurelia Mikayla,2,18,81,test37
+Amazia Aurelia Mikayla,2,19,80,test38
+Amira Janeta,3,1,90,test39
+Amira Janeta,3,2,81,test40
+Amira Janeta,3,3,98,test41
+Amira Janeta,3,4,80,test42
+Amira Janeta,3,5,90,test43
+Amira Janeta,3,6,82,test44
+Amira Janeta,3,7,91,test45
+Amira Janeta,3,8,81,test46
+Amira Janeta,3,9,87,test47
+Amira Janeta,3,10,80,test48
+Amira Janeta,3,11,96,test49
+Amira Janeta,3,12,86,test50
+Amira Janeta,3,13,89,test51
+Amira Janeta,3,14,82,test52
+Amira Janeta,3,15,81,test53
+Amira Janeta,3,16,96,test54
+Amira Janeta,3,17,96,test55
+Amira Janeta,3,18,85,test56
+Amira Janeta,3,19,94,test57
+Aurelia Perfiona,4,1,87,test58
+Aurelia Perfiona,4,2,85,test59
+Aurelia Perfiona,4,3,87,test60
+Aurelia Perfiona,4,4,90,test61
+Aurelia Perfiona,4,5,93,test62
+Aurelia Perfiona,4,6,96,test63
+Aurelia Perfiona,4,7,90,test64
+Aurelia Perfiona,4,8,93,test65
+Aurelia Perfiona,4,9,91,test66
+Aurelia Perfiona,4,10,90,test67
+Aurelia Perfiona,4,11,88,test68
+Aurelia Perfiona,4,12,93,test69
+Aurelia Perfiona,4,13,96,test70
+Aurelia Perfiona,4,14,91,test71
+Aurelia Perfiona,4,15,84,test72
+Aurelia Perfiona,4,16,98,test73
+Aurelia Perfiona,4,17,94,test74
+Aurelia Perfiona,4,18,90,test75
+Aurelia Perfiona,4,19,97,test76
+Dewi Putri,5,1,80,test77
+Dewi Putri,5,2,84,test78
+Dewi Putri,5,3,97,test79
+Dewi Putri,5,4,98,test80
+Dewi Putri,5,5,96,test81
+Dewi Putri,5,6,98,test82
+Dewi Putri,5,7,94,test83
+Dewi Putri,5,8,81,test84
+Dewi Putri,5,9,94,test85
+Dewi Putri,5,10,86,test86
+Dewi Putri,5,11,88,test87
+Dewi Putri,5,12,92,test88
+Dewi Putri,5,13,85,test89
+Dewi Putri,5,14,86,test90
+Dewi Putri,5,15,84,test91
+Dewi Putri,5,16,92,test92
+Dewi Putri,5,17,98,test93
+Dewi Putri,5,18,82,test94
+Dewi Putri,5,19,86,test95
+Dispa,6,1,93,test96
+Dispa,6,2,93,test97
+Dispa,6,3,86,test98
+Dispa,6,4,95,test99
+Dispa,6,5,87,test100
+Dispa,6,6,83,test101
+Dispa,6,7,82,test102
+Dispa,6,8,98,test103
+Dispa,6,9,80,test104
+Dispa,6,10,80,test105
+Dispa,6,11,89,test106
+Dispa,6,12,84,test107
+Dispa,6,13,86,test108
+Dispa,6,14,88,test109
+Dispa,6,15,82,test110
+Dispa,6,16,85,test111
+Dispa,6,17,92,test112
+Dispa,6,18,81,test113
+Dispa,6,19,92,test114
+Fanny Maylissa Anggelita,7,1,89,test115
+Fanny Maylissa Anggelita,7,2,93,test116
+Fanny Maylissa Anggelita,7,3,93,test117
+Fanny Maylissa Anggelita,7,4,86,test118
+Fanny Maylissa Anggelita,7,5,92,test119
+Fanny Maylissa Anggelita,7,6,91,test120
+Fanny Maylissa Anggelita,7,7,83,test121
+Fanny Maylissa Anggelita,7,8,87,test122
+Fanny Maylissa Anggelita,7,9,97,test123
+Fanny Maylissa Anggelita,7,10,81,test124
+Fanny Maylissa Anggelita,7,11,90,test125
+Fanny Maylissa Anggelita,7,12,83,test126
+Fanny Maylissa Anggelita,7,13,80,test127
+Fanny Maylissa Anggelita,7,14,92,test128
+Fanny Maylissa Anggelita,7,15,83,test129
+Fanny Maylissa Anggelita,7,16,93,test130
+Fanny Maylissa Anggelita,7,17,94,test131
+Fanny Maylissa Anggelita,7,18,86,test132
+Fanny Maylissa Anggelita,7,19,89,test133
+Feodora Callista,8,1,89,test134
+Feodora Callista,8,2,96,test135
+Feodora Callista,8,3,98,test136
+Feodora Callista,8,4,98,test137
+Feodora Callista,8,5,90,test138
+Feodora Callista,8,6,81,test139
+Feodora Callista,8,7,82,test140
+Feodora Callista,8,8,92,test141
+Feodora Callista,8,9,95,test142
+Feodora Callista,8,10,96,test143
+Feodora Callista,8,11,93,test144
+Feodora Callista,8,12,87,test145
+Feodora Callista,8,13,98,test146
+Feodora Callista,8,14,96,test147
+Feodora Callista,8,15,88,test148
+Feodora Callista,8,16,86,test149
+Feodora Callista,8,17,87,test150
+Feodora Callista,8,18,96,test151
+Feodora Callista,8,19,81,test152
+Jerry Nugraha Revandani,9,1,81,test153
+Jerry Nugraha Revandani,9,2,84,test154
+Jerry Nugraha Revandani,9,3,84,test155
+Jerry Nugraha Revandani,9,4,92,test156
+Jerry Nugraha Revandani,9,5,91,test157
+Jerry Nugraha Revandani,9,6,93,test158
+Jerry Nugraha Revandani,9,7,85,test159
+Jerry Nugraha Revandani,9,8,83,test160
+Jerry Nugraha Revandani,9,9,85,test161
+Jerry Nugraha Revandani,9,10,87,test162
+Jerry Nugraha Revandani,9,11,94,test163
+Jerry Nugraha Revandani,9,12,85,test164
+Jerry Nugraha Revandani,9,13,83,test165
+Jerry Nugraha Revandani,9,14,88,test166
+Jerry Nugraha Revandani,9,15,95,test167
+Jerry Nugraha Revandani,9,16,83,test168
+Jerry Nugraha Revandani,9,17,81,test169
+Jerry Nugraha Revandani,9,18,95,test170
+Jerry Nugraha Revandani,9,19,89,test171
+Julia,10,1,84,test172
+Julia,10,2,94,test173
+Julia,10,3,86,test174
+Julia,10,4,89,test175
+Julia,10,5,82,test176
+Julia,10,6,94,test177
+Julia,10,7,92,test178
+Julia,10,8,83,test179
+Julia,10,9,92,test180
+Julia,10,10,83,test181
+Julia,10,11,92,test182
+Julia,10,12,91,test183
+Julia,10,13,80,test184
+Julia,10,14,85,test185
+Julia,10,15,93,test186
+Julia,10,16,81,test187
+Julia,10,17,81,test188
+Julia,10,18,92,test189
+Julia,10,19,94,test190
+Kayla Refa Rivanda,11,1,93,test191
+Kayla Refa Rivanda,11,2,85,test192
+Kayla Refa Rivanda,11,3,98,test193
+Kayla Refa Rivanda,11,4,95,test194
+Kayla Refa Rivanda,11,5,89,test195
+Kayla Refa Rivanda,11,6,96,test196
+Kayla Refa Rivanda,11,7,98,test197
+Kayla Refa Rivanda,11,8,94,test198
+Kayla Refa Rivanda,11,9,90,test199
+Kayla Refa Rivanda,11,10,84,test200
+Kayla Refa Rivanda,11,11,98,test201
+Kayla Refa Rivanda,11,12,89,test202
+Kayla Refa Rivanda,11,13,88,test203
+Kayla Refa Rivanda,11,14,94,test204
+Kayla Refa Rivanda,11,15,89,test205
+Kayla Refa Rivanda,11,16,90,test206
+Kayla Refa Rivanda,11,17,81,test207
+Kayla Refa Rivanda,11,18,94,test208
+Kayla Refa Rivanda,11,19,93,test209
+Kornia Franata,12,1,85,test210
+Kornia Franata,12,2,92,test211
+Kornia Franata,12,3,90,test212
+Kornia Franata,12,4,87,test213
+Kornia Franata,12,5,94,test214
+Kornia Franata,12,6,91,test215
+Kornia Franata,12,7,87,test216
+Kornia Franata,12,8,96,test217
+Kornia Franata,12,9,98,test218
+Kornia Franata,12,10,88,test219
+Kornia Franata,12,11,96,test220
+Kornia Franata,12,12,80,test221
+Kornia Franata,12,13,98,test222
+Kornia Franata,12,14,95,test223
+Kornia Franata,12,15,96,test224
+Kornia Franata,12,16,91,test225
+Kornia Franata,12,17,94,test226
+Kornia Franata,12,18,81,test227
+Kornia Franata,12,19,87,test228
+Lorensius Deni,13,1,81,test229
+Lorensius Deni,13,2,82,test230
+Lorensius Deni,13,3,81,test231
+Lorensius Deni,13,4,85,test232
+Lorensius Deni,13,5,98,test233
+Lorensius Deni,13,6,91,test234
+Lorensius Deni,13,7,81,test235
+Lorensius Deni,13,8,82,test236
+Lorensius Deni,13,9,87,test237
+Lorensius Deni,13,10,87,test238
+Lorensius Deni,13,11,85,test239
+Lorensius Deni,13,12,83,test240
+Lorensius Deni,13,13,95,test241
+Lorensius Deni,13,14,89,test242
+Lorensius Deni,13,15,90,test243
+Lorensius Deni,13,16,84,test244
+Lorensius Deni,13,17,87,test245
+Lorensius Deni,13,18,80,test246
+Lorensius Deni,13,19,97,test247
+Mecila Atmana Putri,14,1,85,test248
+Mecila Atmana Putri,14,2,90,test249
+Mecila Atmana Putri,14,3,96,test250
+Mecila Atmana Putri,14,4,92,test251
+Mecila Atmana Putri,14,5,89,test252
+Mecila Atmana Putri,14,6,97,test253
+Mecila Atmana Putri,14,7,92,test254
+Mecila Atmana Putri,14,8,91,test255
+Mecila Atmana Putri,14,9,91,test256
+Mecila Atmana Putri,14,10,91,test257
+Mecila Atmana Putri,14,11,97,test258
+Mecila Atmana Putri,14,12,91,test259
+Mecila Atmana Putri,14,13,91,test260
+Mecila Atmana Putri,14,14,96,test261
+Mecila Atmana Putri,14,15,93,test262
+Mecila Atmana Putri,14,16,97,test263
+Mecila Atmana Putri,14,17,93,test264
+Mecila Atmana Putri,14,18,86,test265
+Mecila Atmana Putri,14,19,91,test266
+Melinda,15,1,88,test267
+Melinda,15,2,84,test268
+Melinda,15,3,96,test269
+Melinda,15,4,90,test270
+Melinda,15,5,89,test271
+Melinda,15,6,94,test272
+Melinda,15,7,94,test273
+Melinda,15,8,90,test274
+Melinda,15,9,91,test275
+Melinda,15,10,80,test276
+Melinda,15,11,83,test277
+Melinda,15,12,97,test278
+Melinda,15,13,80,test279
+Melinda,15,14,91,test280
+Melinda,15,15,98,test281
+Melinda,15,16,81,test282
+Melinda,15,17,93,test283
+Melinda,15,18,87,test284
+Melinda,15,19,92,test285
+Mery Stefany,16,1,80,test286
+Mery Stefany,16,2,85,test287
+Mery Stefany,16,3,91,test288
+Mery Stefany,16,4,93,test289
+Mery Stefany,16,5,80,test290
+Mery Stefany,16,6,94,test291
+Mery Stefany,16,7,83,test292
+Mery Stefany,16,8,82,test293
+Mery Stefany,16,9,91,test294
+Mery Stefany,16,10,89,test295
+Mery Stefany,16,11,82,test296
+Mery Stefany,16,12,90,test297
+Mery Stefany,16,13,89,test298
+Mery Stefany,16,14,90,test299
+Mery Stefany,16,15,92,test300
+Mery Stefany,16,16,95,test301
+Mery Stefany,16,17,97,test302
+Mery Stefany,16,18,83,test303
+Mery Stefany,16,19,86,test304
+Miftahul Khairi Javada,17,1,80,test305
+Miftahul Khairi Javada,17,2,97,test306
+Miftahul Khairi Javada,17,3,92,test307
+Miftahul Khairi Javada,17,4,84,test308
+Miftahul Khairi Javada,17,5,97,test309
+Miftahul Khairi Javada,17,6,88,test310
+Miftahul Khairi Javada,17,7,86,test311
+Miftahul Khairi Javada,17,8,80,test312
+Miftahul Khairi Javada,17,9,91,test313
+Miftahul Khairi Javada,17,10,97,test314
+Miftahul Khairi Javada,17,11,90,test315
+Miftahul Khairi Javada,17,12,83,test316
+Miftahul Khairi Javada,17,13,91,test317
+Miftahul Khairi Javada,17,14,96,test318
+Miftahul Khairi Javada,17,15,95,test319
+Miftahul Khairi Javada,17,16,93,test320
+Miftahul Khairi Javada,17,17,82,test321
+Miftahul Khairi Javada,17,18,92,test322
+Miftahul Khairi Javada,17,19,94,test323
+Natasya Oktaviani,18,1,87,test324
+Natasya Oktaviani,18,2,88,test325
+Natasya Oktaviani,18,3,95,test326
+Natasya Oktaviani,18,4,80,test327
+Natasya Oktaviani,18,5,95,test328
+Natasya Oktaviani,18,6,84,test329
+Natasya Oktaviani,18,7,85,test330
+Natasya Oktaviani,18,8,82,test331
+Natasya Oktaviani,18,9,82,test332
+Natasya Oktaviani,18,10,97,test333
+Natasya Oktaviani,18,11,80,test334
+Natasya Oktaviani,18,12,97,test335
+Natasya Oktaviani,18,13,84,test336
+Natasya Oktaviani,18,14,89,test337
+Natasya Oktaviani,18,15,88,test338
+Natasya Oktaviani,18,16,87,test339
+Natasya Oktaviani,18,17,98,test340
+Natasya Oktaviani,18,18,98,test341
+Natasya Oktaviani,18,19,92,test342
+Nosan Kristiwidia Sari,19,1,91,test343
+Nosan Kristiwidia Sari,19,2,96,test344
+Nosan Kristiwidia Sari,19,3,95,test345
+Nosan Kristiwidia Sari,19,4,94,test346
+Nosan Kristiwidia Sari,19,5,80,test347
+Nosan Kristiwidia Sari,19,6,88,test348
+Nosan Kristiwidia Sari,19,7,93,test349
+Nosan Kristiwidia Sari,19,8,97,test350
+Nosan Kristiwidia Sari,19,9,97,test351
+Nosan Kristiwidia Sari,19,10,88,test352
+Nosan Kristiwidia Sari,19,11,82,test353
+Nosan Kristiwidia Sari,19,12,87,test354
+Nosan Kristiwidia Sari,19,13,94,test355
+Nosan Kristiwidia Sari,19,14,88,test356
+Nosan Kristiwidia Sari,19,15,98,test357
+Nosan Kristiwidia Sari,19,16,96,test358
+Nosan Kristiwidia Sari,19,17,97,test359
+Nosan Kristiwidia Sari,19,18,88,test360
+Nosan Kristiwidia Sari,19,19,97,test361
+Ocha Angelina Mutiara Esthy,20,1,97,test362
+Ocha Angelina Mutiara Esthy,20,2,84,test363
+Ocha Angelina Mutiara Esthy,20,3,89,test364
+Ocha Angelina Mutiara Esthy,20,4,90,test365
+Ocha Angelina Mutiara Esthy,20,5,98,test366
+Ocha Angelina Mutiara Esthy,20,6,87,test367
+Ocha Angelina Mutiara Esthy,20,7,97,test368
+Ocha Angelina Mutiara Esthy,20,8,98,test369
+Ocha Angelina Mutiara Esthy,20,9,80,test370
+Ocha Angelina Mutiara Esthy,20,10,80,test371
+Ocha Angelina Mutiara Esthy,20,11,95,test372
+Ocha Angelina Mutiara Esthy,20,12,88,test373
+Ocha Angelina Mutiara Esthy,20,13,89,test374
+Ocha Angelina Mutiara Esthy,20,14,92,test375
+Ocha Angelina Mutiara Esthy,20,15,95,test376
+Ocha Angelina Mutiara Esthy,20,16,87,test377
+Ocha Angelina Mutiara Esthy,20,17,80,test378
+Ocha Angelina Mutiara Esthy,20,18,84,test379
+Ocha Angelina Mutiara Esthy,20,19,81,test380
+Sabindra Crystal Revan Junior,21,1,97,test381
+Sabindra Crystal Revan Junior,21,2,84,test382
+Sabindra Crystal Revan Junior,21,3,82,test383
+Sabindra Crystal Revan Junior,21,4,90,test384
+Sabindra Crystal Revan Junior,21,5,91,test385
+Sabindra Crystal Revan Junior,21,6,94,test386
+Sabindra Crystal Revan Junior,21,7,82,test387
+Sabindra Crystal Revan Junior,21,8,81,test388
+Sabindra Crystal Revan Junior,21,9,84,test389
+Sabindra Crystal Revan Junior,21,10,82,test390
+Sabindra Crystal Revan Junior,21,11,93,test391
+Sabindra Crystal Revan Junior,21,12,89,test392
+Sabindra Crystal Revan Junior,21,13,87,test393
+Sabindra Crystal Revan Junior,21,14,98,test394
+Sabindra Crystal Revan Junior,21,15,80,test395
+Sabindra Crystal Revan Junior,21,16,82,test396
+Sabindra Crystal Revan Junior,21,17,85,test397
+Sabindra Crystal Revan Junior,21,18,87,test398
+Sabindra Crystal Revan Junior,21,19,83,test399
+Sesilia Angelita,22,1,94,test400
+Sesilia Angelita,22,2,88,test401
+Sesilia Angelita,22,3,80,test402
+Sesilia Angelita,22,4,94,test403
+Sesilia Angelita,22,5,90,test404
+Sesilia Angelita,22,6,86,test405
+Sesilia Angelita,22,7,80,test406
+Sesilia Angelita,22,8,95,test407
+Sesilia Angelita,22,9,86,test408
+Sesilia Angelita,22,10,89,test409
+Sesilia Angelita,22,11,82,test410
+Sesilia Angelita,22,12,85,test411
+Sesilia Angelita,22,13,94,test412
+Sesilia Angelita,22,14,95,test413
+Sesilia Angelita,22,15,94,test414
+Sesilia Angelita,22,16,82,test415
+Sesilia Angelita,22,17,80,test416
+Sesilia Angelita,22,18,81,test417
+Sesilia Angelita,22,19,91,test418
+Silvinus Erwin,23,1,83,test419
+Silvinus Erwin,23,2,89,test420
+Silvinus Erwin,23,3,86,test421
+Silvinus Erwin,23,4,85,test422
+Silvinus Erwin,23,5,84,test423
+Silvinus Erwin,23,6,80,test424
+Silvinus Erwin,23,7,93,test425
+Silvinus Erwin,23,8,84,test426
+Silvinus Erwin,23,9,98,test427
+Silvinus Erwin,23,10,97,test428
+Silvinus Erwin,23,11,90,test429
+Silvinus Erwin,23,12,84,test430
+Silvinus Erwin,23,13,89,test431
+Silvinus Erwin,23,14,98,test432
+Silvinus Erwin,23,15,86,test433
+Silvinus Erwin,23,16,90,test434
+Silvinus Erwin,23,17,91,test435
+Silvinus Erwin,23,18,90,test436
+Silvinus Erwin,23,19,82,test437
+Tiodora Has Tela,24,1,82,test438
+Tiodora Has Tela,24,2,83,test439
+Tiodora Has Tela,24,3,91,test440
+Tiodora Has Tela,24,4,92,test441
+Tiodora Has Tela,24,5,81,test442
+Tiodora Has Tela,24,6,85,test443
+Tiodora Has Tela,24,7,91,test444
+Tiodora Has Tela,24,8,96,test445
+Tiodora Has Tela,24,9,80,test446
+Tiodora Has Tela,24,10,88,test447
+Tiodora Has Tela,24,11,98,test448
+Tiodora Has Tela,24,12,83,test449
+Tiodora Has Tela,24,13,92,test450
+Tiodora Has Tela,24,14,97,test451
+Tiodora Has Tela,24,15,86,test452
+Tiodora Has Tela,24,16,84,test453
+Tiodora Has Tela,24,17,83,test454
+Tiodora Has Tela,24,18,86,test455
+Tiodora Has Tela,24,19,87,test456
+Tirza Felicia,25,1,97,test457
+Tirza Felicia,25,2,95,test458
+Tirza Felicia,25,3,88,test459
+Tirza Felicia,25,4,81,test460
+Tirza Felicia,25,5,97,test461
+Tirza Felicia,25,6,90,test462
+Tirza Felicia,25,7,93,test463
+Tirza Felicia,25,8,89,test464
+Tirza Felicia,25,9,83,test465
+Tirza Felicia,25,10,93,test466
+Tirza Felicia,25,11,82,test467
+Tirza Felicia,25,12,82,test468
+Tirza Felicia,25,13,82,test469
+Tirza Felicia,25,14,93,test470
+Tirza Felicia,25,15,95,test471
+Tirza Felicia,25,16,98,test472
+Tirza Felicia,25,17,96,test473
+Tirza Felicia,25,18,97,test474
+Tirza Felicia,25,19,96,test475
+Tri Promikha Cici,26,1,88,test476
+Tri Promikha Cici,26,2,87,test477
+Tri Promikha Cici,26,3,85,test478
+Tri Promikha Cici,26,4,93,test479
+Tri Promikha Cici,26,5,87,test480
+Tri Promikha Cici,26,6,94,test481
+Tri Promikha Cici,26,7,82,test482
+Tri Promikha Cici,26,8,95,test483
+Tri Promikha Cici,26,9,80,test484
+Tri Promikha Cici,26,10,87,test485
+Tri Promikha Cici,26,11,82,test486
+Tri Promikha Cici,26,12,87,test487
+Tri Promikha Cici,26,13,89,test488
+Tri Promikha Cici,26,14,85,test489
+Tri Promikha Cici,26,15,94,test490
+Tri Promikha Cici,26,16,91,test491
+Tri Promikha Cici,26,17,82,test492
+Tri Promikha Cici,26,18,94,test493
+Tri Promikha Cici,26,19,86,test494
+Valentino,27,1,84,test495
+Valentino,27,2,96,test496
+Valentino,27,3,92,test497
+Valentino,27,4,90,test498
+Valentino,27,5,91,test499
+Valentino,27,6,87,test500
+Valentino,27,7,93,test501
+Valentino,27,8,89,test502
+Valentino,27,9,93,test503
+Valentino,27,10,88,test504
+Valentino,27,11,81,test505
+Valentino,27,12,96,test506
+Valentino,27,13,84,test507
+Valentino,27,14,96,test508
+Valentino,27,15,81,test509
+Valentino,27,16,97,test510
+Valentino,27,17,98,test511
+Valentino,27,18,91,test512
+Valentino,27,19,98,test513
+Vanessa Lovy,28,1,80,test514
+Vanessa Lovy,28,2,97,test515
+Vanessa Lovy,28,3,81,test516
+Vanessa Lovy,28,4,80,test517
+Vanessa Lovy,28,5,87,test518
+Vanessa Lovy,28,6,93,test519
+Vanessa Lovy,28,7,96,test520
+Vanessa Lovy,28,8,96,test521
+Vanessa Lovy,28,9,94,test522
+Vanessa Lovy,28,10,86,test523
+Vanessa Lovy,28,11,90,test524
+Vanessa Lovy,28,12,92,test525
+Vanessa Lovy,28,13,85,test526
+Vanessa Lovy,28,14,96,test527
+Vanessa Lovy,28,15,87,test528
+Vanessa Lovy,28,16,82,test529
+Vanessa Lovy,28,17,91,test530
+Vanessa Lovy,28,18,87,test531
+Vanessa Lovy,28,19,89,test532
+Vira Farhana,29,1,82,test533
+Vira Farhana,29,2,96,test534
+Vira Farhana,29,3,96,test535
+Vira Farhana,29,4,81,test536
+Vira Farhana,29,5,80,test537
+Vira Farhana,29,6,89,test538
+Vira Farhana,29,7,81,test539
+Vira Farhana,29,8,91,test540
+Vira Farhana,29,9,89,test541
+Vira Farhana,29,10,95,test542
+Vira Farhana,29,11,97,test543
+Vira Farhana,29,12,93,test544
+Vira Farhana,29,13,86,test545
+Vira Farhana,29,14,85,test546
+Vira Farhana,29,15,90,test547
+Vira Farhana,29,16,86,test548
+Vira Farhana,29,17,97,test549
+Vira Farhana,29,18,96,test550
+Vira Farhana,29,19,83,test551

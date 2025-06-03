@@ -1,0 +1,34 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="container">
+    <h2>Daftar Sekolah</h2>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID Sekolah</th>
+                <th>Nama Sekolah</th>
+                <th>Alamat Sekolah</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sekolah %}
+            <tr>
+                <td>{{ s.id_sekolah }}</td>
+                <td>{{ s.nama_sekolah }}</td>
+                <td>{{ s.alamat_sekolah }}</td>
+                <td>
+                    <a href="{{ url_for('crud_sekolah.edit_sekolah', id=s.id_sekolah) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ url_for('crud_sekolah.delete_sekolah', id=s.id_sekolah) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="{{ url_for('crud_sekolah.add_sekolah') }}" class="btn btn-success mb-3">Tambah Sekolah</a> <!-- Tombol tambah sekolah -->
+</div>
+{% endblock %}

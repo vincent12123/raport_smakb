@@ -1,0 +1,109 @@
+<div class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="{{ url_for('static', filename='assets/images/smk.png') }}" class="logo-icon" alt="logo icon">
+        </div>
+        <div>
+            <h4 class="logo-text">Raport SMK</h4>
+        </div>
+        <div class="toggle-icon ms-auto">
+            <i class='bx bx-arrow-to-left'></i>
+        </div>
+    </div>
+    <!-- navigation -->
+    <ul class="metismenu" id="menu">
+        <li>
+            <a href="{{ url_for('admin.dashboard') }}">
+                <div class="parent-icon"><i class='bx bx-home'></i></div>
+                <div class="menu-title">Dashboard</div>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('progress_guru') }}">
+                <div class="parent-icon"><i class='bx bx-chart'></i></div>
+                <div class="menu-title">Progress Guru</div>
+            </a>
+            
+        </li>
+        <li>
+            <li>
+                <a href="{{ url_for('download_files') }}">
+                    <div class="parent-icon"><i class='bx bx-download'></i></div>
+                    <div class="menu-title">
+                        Download 
+                        <i class='bx bx-error-circle text-danger ms-2'></i>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" class="has-arrow">
+                    <div class="parent-icon"><i class="bx bx-upload"></i></div>
+                    <div class="menu-title">Upload</div>
+                </a>
+                <ul>
+                    <li><a href="{{ url_for('upload') }}"><i class="bx bx-chevron-right"></i>Upload Nilai</a></li>
+                    <li><a href="{{ url_for('upload_rekap_absensi') }}"><i class="bx bx-chevron-right"></i>Upload Absensi</a></li>
+                    <li><a href="{{ url_for('upload_ekstrakurikuler') }}"><i class="bx bx-chevron-right"></i>Upload Ekstrakurikuler</a></li>
+                    <li><a href="{{ url_for('upload_kegiatan_industri') }}"><i class="bx bx-chevron-right"></i>Upload Kelas Industri</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="{{ url_for('generate_raporsiswa') }}">
+                <div class="parent-icon"><i class='bx bx-file'></i></div>
+                <div class="menu-title">Generate Rapor</div>
+                </a>
+                
+            </li>
+            <li>
+                <a href="{{ url_for('bulk_delete_nilai_akhir_v2') }}">
+                    <div class="parent-icon"><i class='bx bx-trash'></i></div>
+                    <div class="menu-title">Delete Nilai Akhir</div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('delete_rekap_absensi') }}">
+                    <div class="parent-icon"><i class='bx bx-trash'></i></div>
+                    <div class="menu-title">Delete Rekap Absensi</div>
+                </a>
+            </li>
+           
+                
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-edit'></i></div>
+                <div class="menu-title">Pengisian Data</div>
+            </a>
+            <ul>
+                <li><a href="index.html"><i class="bx bx-chevron-right"></i>Default</a></li>
+                <li><a href="{{ url_for('list_sekolah') }}"><i class="bx bx-chevron-right"></i>CRUD Sekolah</a></li>
+                <li><a href="{{ url_for('list_guru') }}"><i class="bx bx-chevron-right"></i>CRUD Guru</a></li>
+                <li><a href="{{ url_for('list_siswa') }}"><i class="bx bx-chevron-right"></i>CRUD Siswa</a></li>
+                <li><a href="{{ url_for('list_kelas') }}"><i class="bx bx-chevron-right"></i>CRUD Kelas</a></li>
+                <li><a href="{{ url_for('list_mapel') }}"><i class="bx bx-chevron-right"></i>CRUD Mapel</a></li>
+            </ul>
+        </li>
+        
+        </li>
+        
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-list-ul"></i></div>
+                <div class="menu-title">Laporan</div>
+            </a>
+            <ul>
+                <li><a href="{{ url_for('nilai_akhir') }}"><i class="bx bx-chevron-right"></i>Laporan Perkelas</a></li>
+                <li><a href="{{ url_for('laporan_gurusdh') }}"><i class="bx bx-chevron-right"></i>Download Excel</a></li>
+                <li><a href="{{ url_for('laporan') }}"><i class="bx bx-chevron-right"></i>Laporan Guru Mengajar</a></li>
+                <li><a href="{{ url_for('chart1') }}"><i class="bx bx-chevron-right"></i>Laporan Siswa</a></li>
+                
+            </ul>
+        </li>
+        <li>
+            <a href="{{ url_for('logout') }}">
+                <div class="parent-icon"><i class='bx bx-log-out'></i></div>
+                <div class="menu-title">Log Out</div>
+            </a>
+        </li>
+    </ul>
+    <!-- end navigation -->
+</div>

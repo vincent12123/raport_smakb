@@ -1,0 +1,56 @@
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Chart Container -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Jumlah Siswa per Kelas</h5>
+                    <canvas id="studentCountChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/api/student_count_per_class')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);  // Debug output
+
+            const classNames = data.map(item => item.kelas);
+            const studentCounts = data.map(item => item.jumlah);
+
+            const ctx = document.getElementById('studentCountChart').getContext('2d');
+            const studentCountChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: classNames,
+                    datasets: [{
+                        label: 'Jumlah Siswa',
+                        data: studentCounts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+});
+</script>
+{% endblock content %}

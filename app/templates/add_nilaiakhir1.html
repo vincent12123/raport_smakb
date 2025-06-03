@@ -1,0 +1,69 @@
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 stretch-card">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title"><font face="times new roman">Tambah Nilai Akhir</font></h4>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card-body">
+                <h6 class="card-title">Form Nilai Akhir</h6>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file">
+                    <input type="submit" value="Upload">
+                </form>
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.id_siswa.label(class="form-label") }}
+                        {{ form.id_siswa(class="form-control") }}
+                        {% for error in form.id_siswa.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.id_mapel.label(class="form-label") }}
+                        {{ form.id_mapel(class="form-control") }}
+                        {% for error in form.id_mapel.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.nilai.label(class="form-label") }}
+                        {{ form.nilai(class="form-control") }}
+                        {% for error in form.nilai.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.capaian_kompetensi.label(class="form-label") }}
+                        {{ form.capaian_kompetensi(class="form-control") }}
+                        {% for error in form.capaian_kompetensi.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laporan Guru</title>
+</head>
+<body>
+    <h1>Laporan Guru</h1>
+    {% for group in grouped_data %}
+        <h2>{{ group.guru }} - {{ group.kelas }}</h2>
+        <ul>
+        {% for item in group.mapel %}
+            <li>{{ item.Mapel.nama_mapel }} - {{ item.Siswa.nama }}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>

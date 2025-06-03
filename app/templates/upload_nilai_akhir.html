@@ -1,0 +1,229 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='assets/css/rapotthemes.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2><i class="ri-upload-cloud-line"></i> Upload Nilai Akhir</h2>
+        <p>Upload file Excel untuk input nilai akhir siswa</p>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {% if category == 'success' %}<i class="ri-checkbox-circle-line me-2"></i>{% endif %}
+        {% if category == 'danger' %}<i class="ri-error-warning-line me-2"></i>{% endif %}
+        {% if category == 'info' %}<i class="ri-information-line me-2"></i>{% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Upload Card -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="upload-card">
+                <div class="upload-card-header">
+                    <i class="ri-file-upload-line"></i>
+                    <h3>Upload File Nilai</h3>
+                </div>
+                <div class="upload-card-body">
+                    <form action="{{ url_for('upload.upload_nilai_akhir') }}" method="post" enctype="multipart/form-data" id="uploadForm">
+                        <label for="fileUploadNilaiAkhir" class="upload-area" id="uploadArea">
+                            <i class="ri-file-excel-2-line"></i>
+                            <h4>Pilih File Excel atau Drag & Drop</h4>
+                            <p>Format yang didukung: .xlsx, .xls (maks. 5MB)</p>
+                            <input type="file" name="file" id="fileUploadNilaiAkhir" class="file-input" accept=".xlsx,.xls">
+                        </label>
+                        
+                        <div class="file-details" id="fileDetails">
+                            <div class="file-icon">
+                                <i class="ri-file-excel-2-line"></i>
+                            </div>
+                            <div class="file-info">
+                                <p class="file-name" id="fileName">filename.xlsx</p>
+                                <p class="file-size" id="fileSize">0 KB</p>
+                            </div>
+                            <div class="file-actions">
+                                <button type="button" class="btn-remove-file" id="removeFile">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload Progress (initially hidden) -->
+                        <div class="upload-progress" id="uploadProgress" style="display: none;">
+                            <div class="upload-progress-bar" id="uploadProgressBar" style="width: 0%"></div>
+                        </div>
+                        
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary btn-icon" id="btnUpload">
+                                <i class="ri-upload-cloud-line"></i> Upload File
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Preview (when available) -->
+    {% if session.df_nilai_akhir %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="data-preview-card">
+                <div class="data-preview-header">
+                    <div class="preview-title">
+                        <i class="ri-table-line"></i>
+                        <h3>Preview Data Nilai Akhir</h3>
+                    </div>
+                    <span class="badge bg-success">File Telah Diupload</span>
+                </div>
+                <div class="data-preview-body">
+                    <div class="table-responsive" style="max-height: 400px;">
+                        <table class="modern-table">
+                            {{ session.df_nilai_akhir|safe }}  <!-- Render DataFrame as HTML table -->
+                        </table>
+                    </div>
+                    <div class="actions-container">
+                        <form action="{{ url_for('upload.submit_nilai_akhir') }}" method="post">
+                            <button type="submit" class="btn btn-success btn-icon">
+                                <i class="ri-check-double-line"></i> Konfirmasi & Simpan Data
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadForm = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('fileUploadNilaiAkhir');
+    const uploadArea = document.getElementById('uploadArea');
+    const fileDetails = document.getElementById('fileDetails');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeFile = document.getElementById('removeFile');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const uploadProgressBar = document.getElementById('uploadProgressBar');
+    const btnUpload = document.getElementById('btnUpload');
+    
+    // Format file size
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    // Handle file selection
+    fileInput.addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            const file = this.files[0];
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileDetails.classList.add('active');
+            uploadArea.style.borderColor = 'var(--primary)';
+            btnUpload.disabled = false;
+        } else {
+            resetFileInput();
+        }
+    });
+    
+    // Handle drag and drop
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    function highlight() {
+        uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.2)';
+        uploadArea.style.borderColor = 'var(--primary)';
+    }
+    
+    function unhighlight() {
+        uploadArea.style.backgroundColor = 'var(--primary-light)';
+        uploadArea.style.borderColor = 'var(--primary)';
+    }
+    
+    uploadArea.addEventListener('drop', handleDrop, false);
+    
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const file = dt.files[0];
+        fileInput.files = dt.files;
+        
+        if (file) {
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileDetails.classList.add('active');
+            btnUpload.disabled = false;
+        }
+    }
+    
+    // Remove selected file
+    removeFile.addEventListener('click', function() {
+        resetFileInput();
+    });
+    
+    function resetFileInput() {
+        fileInput.value = '';
+        fileDetails.classList.remove('active');
+        btnUpload.disabled = true;
+    }
+    
+    // Handle form submission
+    uploadForm.addEventListener('submit', function(e) {
+        if (!fileInput.files.length) {
+            e.preventDefault();
+            alert('Silakan pilih file terlebih dahulu.');
+            return false;
+        }
+        
+        // Show progress bar
+        uploadProgress.style.display = 'block';
+        btnUpload.disabled = true;
+        btnUpload.innerHTML = '<i class="ri-loader-2-line"></i> Uploading...';
+        
+        // Simulate upload progress (in a real app, use XMLHttpRequest or Fetch with progress tracking)
+        let progress = 0;
+        const interval = setInterval(function() {
+            progress += 5;
+            uploadProgressBar.style.width = progress + '%';
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                // Form will submit naturally
+            }
+        }, 100);
+    });
+});
+</script>
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb r-15">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Nilai</li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+
+                <h4 class="card-title text-center">Edit Nilai</h4>
+                
+                <form method="POST" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nilai">Nilai:</label>
+                        <input type="number" name="nilai" id="nilai" class="form-control" value="{{ nilai_akhir.nilai }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

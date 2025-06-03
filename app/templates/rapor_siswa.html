@@ -1,0 +1,327 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='assets/css/rapotthemes.css') }}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Main Content Area -->
+    <div class="row">
+        <!-- Selector Column -->
+        <div class="col-lg-4">
+            <!-- Form Controls -->
+            <div class="selector-container">
+                <h5><i class="ri-file-list-3-line me-2"></i>Generate Rapor Siswa</h5>
+                <form method="POST" class="mt-4" id="filter-form">
+                    <div class="mb-3">
+                        <label for="kelas" class="form-label">Kelas</label>
+                        <select name="kelas" id="kelas" class="form-select" onchange="loadSiswa()" required>
+                            <option value="" selected disabled>Pilih Kelas</option>
+                            {% for k in kelas_list %}
+                            <option value="{{ k.id_kelas }}">{{ k.nama_kelas }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="siswa" class="form-label">Siswa</label>
+                        <select name="siswa" id="siswa" class="form-select" required>
+                            <option value="" selected disabled>Pilih Siswa</option>
+                            {% for s in siswa_list %}
+                            <option value="{{ s.id_siswa }}">{{ s.nama }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="semester" class="form-label">Semester</label>
+                        <select id="semester" name="semester" class="form-select" required>
+                            <option value="" disabled selected>Pilih Semester</option>
+                            {% for sem in semester_list %}
+                                <option value="{{ sem.id }}">{{ sem.tahun_ajaran.tahun }} - Semester {{ sem.semester }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="ri-file-search-line me-1"></i> Generate Rapor
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Batch Download Controls -->
+            <div class="selector-container mt-4">
+                <h5><i class="ri-folder-download-line me-2"></i>Download Rapor Kelas</h5>
+                <div class="accordion mt-3" id="accordionClasses">
+                    {% for k in kelas_list %}
+                    <div class="accordion-item border mb-3 rounded-3 overflow-hidden">
+                        <h2 class="accordion-header" id="heading{{ k.id_kelas }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ k.id_kelas }}" aria-expanded="false" aria-controls="collapse{{ k.id_kelas }}">
+                                <i class="ri-group-line me-2"></i> Kelas {{ k.nama_kelas }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ k.id_kelas }}" class="accordion-collapse collapse" aria-labelledby="heading{{ k.id_kelas }}">
+                            <div class="accordion-body">
+                                <div class="mb-3">
+                                    <label for="semester{{ k.id_kelas }}" class="form-label">Pilih Semester</label>
+                                    <select id="semester{{ k.id_kelas }}" class="form-select mb-3">
+                                        {% for s in semester_list %}
+                                        <option value="{{ s.id }}">{{ s.tahun_ajaran.tahun }} - Semester {{ s.semester }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    
+                                    <button class="btn btn-primary w-100" onclick="downloadRapor({{ k.id_kelas }}, document.getElementById('semester{{ k.id_kelas }}').value)">
+                                        <i class="ri-download-cloud-line me-1"></i> Download Rapor
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Download Button for single student (if generated) -->
+            {% if siswa %}
+            <div class="mt-4">
+                <a href="#" class="download-btn">
+                    <i class="ri-file-download-line"></i> Download Rapor {{ siswa.nama }}
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Rapor Preview Column -->
+        <div class="col-lg-8">
+            {% if siswa %}
+            <div class="raport-preview">
+                <!-- Header with School Info -->
+                <div class="raport-header">
+                    <div class="school-info-container">
+                        <img src="{{ url_for('static', filename='assets/images/sma.png') }}" class="school-logo" alt="Logo Sekolah">
+                        <div>
+                            <h1 class="school-title">SMA KARYA BANGSA</h1>
+                            <p class="school-details">
+                                <i class="ri-map-pin-line me-1"></i> Jalan Sintang - Pontianak <br>
+                                <i class="ri-phone-line me-1"></i> (123) 456-789 <br>
+                                <i class="ri-mail-line me-1"></i> info@smakaryabangsa.ac.id
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Report Title -->
+                <div class="report-title">
+                    <h2>LAPORAN HASIL BELAJAR</h2>
+                    <p>Semester {{semester.semester}} - Tahun Ajaran {{ semester.tahun_ajaran.tahun }}</p>
+                </div>
+                
+                <!-- Student Details -->
+                <div class="student-details-card">
+                    <div class="student-details-grid">
+                        <div class="student-detail-item">
+                            <label><i class="ri-user-3-line me-1"></i> Nama Siswa</label>
+                            <p>{{ siswa.nama }}</p>
+                        </div>
+                        
+                        <div class="student-detail-item">
+                            <label><i class="ri-id-card-line me-1"></i> NISN/NIS</label>
+                            <p>{{ siswa.nisn }}</p>
+                        </div>
+                        
+                        <div class="student-detail-item">
+                            <label><i class="ri-building-2-line me-1"></i> Kelas</label>
+                            <p>{{ siswa.kelas.nama_kelas }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Academic Results -->
+                <div class="section-container">
+                    <h3 class="section-title">Hasil Akademik</h3>
+                    <div class="table-responsive">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th>Mata Pelajaran</th>
+                                    <th class="text-center">Nilai</th>
+                                    <th>Capaian Kompetensi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mapel_nama, baris in mapel_ke_baris.items() %}
+                                    {% for nilai, mapel_obj in nilai_akhir if mapel_obj.nama_mapel == mapel_nama %}
+                                        <tr>
+                                            <td>{{ mapel_obj.nama_mapel }}</td>
+                                            <td class="nilai-cell">{{ nilai.nilai }}</td>
+                                            <td class="competency-cell">{{ nilai.capaian_kompetensi }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Extracurricular Activities -->
+                <div class="section-container">
+                    <h3 class="section-title">Kegiatan Ekstrakurikuler</h3>
+                    <div class="table-responsive">
+                        <table class="modern-table">
+                            <thead>
+                                <tr>
+                                    <th width="60">No</th>
+                                    <th>Kegiatan</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ekstra in ekstrakurikuler %}
+                                <tr>
+                                    <td class="text-center">{{ loop.index }}</td>
+                                    <td>{{ ekstra.kegiatan }}</td>
+                                    <td>{{ ekstra.keterangan }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% if not ekstrakurikuler %}
+                                <tr>
+                                    <td colspan="3" class="text-center py-4">Tidak ada data ekstrakurikuler</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Attendance Summary -->
+                <div class="section-container">
+                    <h3 class="section-title">Kehadiran</h3>
+                    <div class="attendance-container">
+                        <div class="attendance-card sick-card">
+                            <i class="ri-medicine-bottle-line attendance-icon"></i>
+                            <div class="attendance-value">{{ rekap_absensi.total_sakit if rekap_absensi else 0 }}</div>
+                            <div class="attendance-label">Sakit</div>
+                        </div>
+                        
+                        <div class="attendance-card permit-card">
+                            <i class="ri-file-paper-2-line attendance-icon"></i>
+                            <div class="attendance-value">{{ rekap_absensi.total_izin if rekap_absensi else 0 }}</div>
+                            <div class="attendance-label">Izin</div>
+                        </div>
+                        
+                        <div class="attendance-card absent-card">
+                            <i class="ri-error-warning-line attendance-icon"></i>
+                            <div class="attendance-value">{{ rekap_absensi.total_tanpa_keterangan if rekap_absensi else 0 }}</div>
+                            <div class="attendance-label">Tanpa Keterangan</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Signature Section -->
+                <div class="section-container" style="display: none;">
+                    <div class="signature-section">
+                        <div class="signature-box">
+                            <div class="signature-date">Sintang, 12 Desember 2025</div>
+                            <div class="signature-role">Wali Kelas</div>
+                            <div class="signature-line"></div>
+                            <div class="signature-name">Janiawati Nababan, S.Pd</div>
+                            <div class="signature-nip">NIP. -</div>
+                        </div>
+                        
+                        <div class="stamp-area">
+                            <img src="{{ url_for('static', filename='assets/images/sma.png') }}" alt="Stempel Sekolah" width="100">
+                        </div>
+                        
+                        <div class="signature-box">
+                            <div class="signature-date">Sintang, 12 Desember 2025</div>
+                            <div class="signature-role">Kepala Sekolah</div>
+                            <div class="signature-line"></div>
+                            <div class="signature-name">Drs. Bambang Supriyadi</div>
+                            <div class="signature-nip">NIP. 196807121995031001</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="d-flex align-items-center justify-content-center h-100" style="min-height: 400px;">
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='assets/images/report-placeholder.svg') }}" alt="Empty Report" style="width: 200px; opacity: 0.3;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4064/4064269.png';">
+                    <h3 class="mt-4 text-secondary">Rapor Belum Dibuat</h3>
+                    <p class="text-muted">Silahkan pilih kelas, siswa, dan semester untuk melihat rapor</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function downloadRapor(id_kelas, id_semester) {
+        const btn = event.target;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ri-loader-4-line me-1"></i> Downloading...';
+        
+        fetch(`/generate-raporsiswa/generate-rapor-kelas/${id_kelas}/${id_semester}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+            }
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rapor_kelas_${id_kelas}_semester_${id_semester}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Download failed. Please try again.');
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="ri-download-cloud-line me-1"></i> Download Rapor';
+        });
+    }
+    
+    function loadSiswa() {
+        var kelasId = document.getElementById('kelas').value;
+        var siswaSelect = document.getElementById('siswa');
+        siswaSelect.innerHTML = '<option value="">Loading...</option>';
+    
+        if (kelasId) {
+            fetch('/generate-raporsiswa/get_siswa_by_kelas/' + kelasId)
+                .then(response => response.json())
+                .then(data => {
+                    siswaSelect.innerHTML = '<option value="" disabled selected>Pilih Siswa</option>';
+                    data.forEach(function(siswa) {
+                        var option = document.createElement('option');
+                        option.value = siswa.id_siswa;
+                        option.text = siswa.nama;
+                        siswaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    siswaSelect.innerHTML = '<option value="">Error loading data</option>';
+                    console.error('Error:', error);
+                });
+        } else {
+            siswaSelect.innerHTML = '<option value="" disabled selected>Pilih Siswa</option>';
+        }
+    }
+</script>
+{% endblock content %}

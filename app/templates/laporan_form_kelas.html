@@ -1,0 +1,30 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Form</li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+
+                <h4 class="card-title text-center">Pilih kelas</h4>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.kelas.label }}
+                        {{ form.kelas(class="form-control") }}
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

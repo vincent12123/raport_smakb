@@ -1,0 +1,79 @@
+<header>
+    <div class="topbar d-flex align-items-center">
+        <nav class="navbar navbar-expand">
+            <div class="mobile-toggle-menu"><i class='bx bx-menu'></i></div>
+            <div class="search-bar flex-grow-1">
+                <div class="position-relative search-bar-box">
+                    <input type="text" class="form-control search-control" placeholder="Type to search...">
+                    <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+                    <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
+                </div>
+            </div>
+            <div class="top-menu ms-auto">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item mobile-search-icon">
+                        <a class="nav-link" href="#"><i class='bx bx-search'></i></a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="user-box dropdown">
+                <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ url_for('static', filename='assets/images/avatars/avatar-1.png') }}" class="user-img" alt="user avatar">
+
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    
+                    <li><div class="dropdown-divider mb-0"></div></li>
+                    <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class='bx bx-log-out-circle'></i><span>Logout</span></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<style>
+/* Add some spacing adjustments since we removed elements */
+.top-menu {
+    margin-right: 20px;
+}
+
+.user-box .user-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #e5e7eb;
+    object-fit: cover;
+}
+
+.user-box .user-info .user-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.user-box .user-info .designattion {
+    font-size: 13px;
+    color: #8a909d;
+}
+
+.dropdown-menu {
+    border: 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.dropdown-item {
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-item i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.dropdown-divider {
+    border-top: 1px solid #e5e7eb;
+}
+</style>

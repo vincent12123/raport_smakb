@@ -1,0 +1,93 @@
+{% extends "basedashboardone.html" %}
+{% block title %}Daftar Nilai Akhir{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Daftar Nilai Akhir</h5>
+                        <div class="table-responsive">
+                            <table id="example" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Siswa</th>
+                                        <th>Nama Mata Pelajaran</th>
+                                        <th>Nilai</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for nilai in nilai_akhir_list %}
+                                        <tr>
+                                            <td>{{ nilai.NilaiAkhir.id_nilai }}</td>
+                                            <td>{{ nilai.Siswa.nama }}</td>
+                                            <td>{{ nilai.Mapel.nama_mapel }}</td>
+                                            <td>{{ nilai.NilaiAkhir.nilai }}</td>
+                                            <td>
+                                                <a href="{{ url_for('edit_nilai_akhir', id_nilai=nilai.NilaiAkhir.id_nilai) }}" class="btn btn-primary">Edit</a>
+                                                <form id="delete-form" action="{{ url_for('delete_nilai_akhir', id_nilai=nilai.NilaiAkhir.id_nilai) }}" method="post" style="display:inline;">
+                                                    <input type="submit" value="Hapus" class="btn btn-danger">
+                                                </form>
+                                                
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block script %}
+    
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTableExample1').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
+                "aLengthMenu": [
+                    [10, 30, 50, -1],
+                    [10, 30, 50, "All"]
+                ],
+                "iDisplayLength": 10,
+                "language": {
+                    search: ""
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.getElementById('delete-button').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form').submit();
+            }
+        });
+    });
+</script>
+
+    {% endblock script %}
+{% endblock %}

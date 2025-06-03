@@ -1,0 +1,46 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('laporan_guru_mengajar.laporan') }}">Pilih Kelas</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Laporan Kelas</li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+
+                <h4 class="card-title text-center mb-4">Laporan untuk Kelas {{ kelas.nama_kelas }}</h4>
+                <p class="card-description text-center mb-4">Wali Kelas: <strong>{{ wali_kelas.nama_guru }}</strong></p>
+                <div class="text-center mb-4">
+                    <a href="{{ url_for('laporan_guru_mengajar.download_laporan_kelas', id_kelas=kelas.id_kelas) }}" class="btn btn-primary w-100">Download Laporan Excel</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Guru Pengajar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mapel, guru in mapel_guru_pairs %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ mapel.nama_mapel }}</td>
+                                <td>{{ guru.nama_guru }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

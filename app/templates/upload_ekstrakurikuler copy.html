@@ -1,0 +1,38 @@
+{% extends "basedashboardone.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Upload Data Ekstrakurikuler</li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+
+                <h4 class="card-title text-center">Upload Data Ekstrakurikuler</h4>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <form action="/upload-ekstrakurikuler" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fileUploadEkstrakurikuler">Pilih File Excel</label>
+                        <input type="file" name="file" id="fileUploadEkstrakurikuler" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Upload" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

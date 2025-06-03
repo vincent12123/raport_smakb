@@ -1,0 +1,257 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<style>
+    .table-center td.nilai {
+        vertical-align: middle; /* Vertikal tengah */
+        text-align: center; /* Horizontal tengah */
+    }
+</style>
+
+<!-- Anda bisa menambahkan CSS tambahan di sini jika diperlukan -->
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container mb-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#"><i class="bx bx-home-alt"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Rapor</li>
+            </ol>
+        </nav>
+    </div>
+    <!-- End Breadcrumb -->
+
+    <div class="row mb-4">
+        <div class="col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Generate Rapor Siswa</h5>
+                    <form method="POST" class="row g-3" id="filter-form">
+                        <div class="col-md-6">
+                            <label for="kelas" class="form-label">Pilih Kelas:</label>
+                            <select name="kelas" id="kelas" class="form-select" onchange="loadSiswa()">
+                                <option value="">Pilih Kelas</option>
+                                {% for k in kelas_list %}
+                                <option value="{{ k.id_kelas }}">{{ k.nama_kelas }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="siswa" class="form-label">Pilih Siswa:</label>
+                            <select name="siswa" id="siswa" class="form-select">
+                                <option value="">Pilih Siswa</option>
+                                {% for s in siswa_list %}
+                                <option value="{{ s.id_siswa }}">{{ s.nama }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="semester" class="form-label">Pilih Semester:</label>
+                            <select id="semester" name="semester" class="form-select" required>
+                                <option value="" disabled selected>Pilih Semester</option>
+                                {% for sem in semester_list %}
+                                    <option value="{{ sem.id }}">{{ sem.tahun_ajaran }} - Semester {{ sem.semester }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100">Generate</button>
+                        </div>
+                    </form>    
+                    {% if siswa %}
+                    <a href="#" class="btn btn-primary mt-3 w-100">Download Rapor {{ siswa.nama }}</a> 
+                    <!--
+                    <a href="{{ url_for('generate_rapor_nama', nama_siswa=siswa.nama) }}" class="btn btn-primary mt-3 w-100">Download Rapor {{ siswa.nama }}</a> 
+                     -->   
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Download ZIP</h5>
+                    <div class="accordion" id="accordionExample">
+                        {% for k in kelas_list %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ k.id_kelas }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ k.id_kelas }}" aria-expanded="false" aria-controls="collapse{{ k.id_kelas }}">
+                                    Kelas {{ k.nama_kelas }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ k.id_kelas }}" class="accordion-collapse collapse" aria-labelledby="heading{{ k.id_kelas }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label for="semester{{ k.id_kelas }}" class="form-label">Pilih Semester</label>
+                                        <select id="semester{{ k.id_kelas }}" class="form-select" aria-label="Pilih Semester">
+                                            {% for s in semester_list %}
+                                            <option value="{{ s.id }}">{{ s.semester }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <a href="#" class="btn btn-secondary w-100" onclick="downloadRapor({{ k.id_kelas }}, document.getElementById('semester{{ k.id_kelas }}').value)">Download Rapor Kelas {{ k.nama_kelas }}</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if siswa %}
+    <div class="card">
+        <div class="card-body">
+            <header class="mb-4">
+                <div class="row">
+                    <div class="col">
+                        <img src="{{ url_for('static', filename='assets/images/smk.png') }}" width="150" alt="">
+                    </div>
+                    <div class="col text-end">
+                        <h2>SMK Karya Bangsa</h2>
+                        <p>Jalan Sintang - Pontianak</p>
+                        <p>(123) 456-789</p>
+                        <p>info@smkkaryabangsa.ac.id</p>
+                    </div>
+                </div>
+            </header>
+            <main>
+                <div class="student-info mb-4">
+                    <h3>LAPORAN HASIL BELAJAR (RAPOR)</h3>
+                    <p><strong>Nama:</strong> {{ siswa.nama }}</p>
+                    <p><strong>Kelas:</strong> {{ siswa.kelas.nama_kelas }}</p>
+                    <p><strong>NISN/NIS:</strong> {{ siswa.nisn }}</p>
+                    <p><strong>Nama Sekolah:</strong> SMK Karya Bangsa</p>
+                    <p><strong>Alamat:</strong> Jalan Sintang - Pontianak</p>
+                    <p><strong>Semester:</strong> {{semester.semester}}/{{semester.fase}}</p>
+                    <p><strong>Tahun Ajaran:</strong> {{ semester.tahun_ajaran }}</p>
+                </div>
+                <section class="academic-performance mb-4">
+                    <h4 class="subtitle">Kelompok Mata Pelajaran Umum dan Kejuruan</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Nilai Akhir</th>
+                                    <th>Capaian Kompetensi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mapel, baris in mapel_ke_baris.items() %}
+                                    {% for nilai in nilai_akhir if nilai.mapel.nama_mapel == mapel %}
+                                        <tr>
+                                            <td>{{ nilai.mapel.nama_mapel }}</td>
+                                            <td class="nilai">{{ nilai.nilai }}</td>
+                                            <td>
+                                                <div class="capaian-kompetensi" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ nilai.capaian_kompetensi }}">
+                                                    {{ nilai.capaian_kompetensi }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="extracurricular mb-4">
+                    <h4 class="subtitle">Kegiatan Ekstrakurikuler</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kegiatan Ekstrakurikuler</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ekstra in ekstrakurikuler %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ ekstra.kegiatan }}</td>
+                                    <td>{{ ekstra.keterangan }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="industry-partners mb-4">
+                    <h4 class="subtitle">Mitra Induka</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Mitra Induka</th>
+                                    <th>Lokasi</th>
+                                    <th>Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mitra in kegiatan_industri %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ mitra.mitra_induka }}</td>
+                                    <td>{{ mitra.lokasi }}</td>
+                                    <td>{{ mitra.keterangan }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section class="attendance-summary mb-4">
+                    <h4 class="subtitle">Rekap Absensi</h4>
+                    <p><strong>Sakit:</strong> {{ rekap_absensi.total_sakit }} hari</p>
+                    <p><strong>Izin:</strong> {{ rekap_absensi.total_izin }} hari</p>
+                    <p><strong>Tanpa Keterangan:</strong> {{ rekap_absensi.total_tanpa_keterangan }} hari</p>
+                </section>
+            </main>
+            <footer class="text-center mt-4">
+                Nama: {{ siswa.nama }} | NIS: {{ siswa.nisn }} | Kelas: {{ siswa.kelas.nama_kelas }}
+                <br>
+                Rapor ini dibuat secara otomatis oleh sistem dan sah tanpa tanda tangan dan stempel.
+            </footer>
+        </div>
+    </div>
+    {% endif %}
+</div>
+<script>
+    function downloadRapor(id_kelas, id_semester) {
+        window.location.href = `/generate-rapor-kelas/${id_kelas}/${id_semester}`;
+    }
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+function loadSiswa() {
+    var kelasId = document.getElementById('kelas').value;
+    var siswaSelect = document.getElementById('siswa');
+    siswaSelect.innerHTML = '<option value="">Loading...</option>';
+    fetch('/get_siswa_by_kelas/' + kelasId)
+        .then(response => response.json())
+        .then(data => {
+            siswaSelect.innerHTML = '<option value="">Pilih Siswa</option>';
+            data.forEach(function(siswa) {
+                var option = document.createElement('option');
+                option.value = siswa.id_siswa;
+                option.text = siswa.nama;
+                siswaSelect.appendChild(option);
+            });
+        });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+
+{% endblock content %}

@@ -1,0 +1,268 @@
+{% extends "basedashboardone.html" %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='assets/css/rapotthemes.css') }}" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/highcharts-more.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/exporting.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/export-data.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/plugins/highcharts/js/accessibility.js') }}"></script>
+{% endblock head %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2><i class="ri-line-chart-line me-2"></i>Progress Pengisian Nilai oleh Guru</h2>
+                <p>Pantau kemajuan pengisian nilai guru untuk setiap kelas dan semester</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="filter-card">
+                <div class="filter-title">
+                    <i class="ri-filter-3-line"></i>
+                    <h5>Filter Data</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="classSelect2" class="form-label">Kelas</label>
+                        <select class="form-select" id="classSelect2">
+                            <option value="" selected disabled>Pilih Kelas</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="semesterSelect2" class="form-label">Semester</label>
+                        <select class="form-select" id="semesterSelect2">
+                            <option value="" selected disabled>Pilih Semester</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="col-lg-6">
+            <div class="stats-card-container">
+                <div class="stats-card complete-card">
+                    <div class="stats-icon">
+                        <i class="ri-check-double-line"></i>
+                    </div>
+                    <div class="stats-value" id="completeCount">0</div>
+                    <p class="stats-label">Selesai</p>
+                </div>
+
+                <div class="stats-card in-progress-card">
+                    <div class="stats-icon">
+                        <i class="ri-time-line"></i>
+                    </div>
+                    <div class="stats-value" id="progressCount">0</div>
+                    <p class="stats-label">Sedang Diproses</p>
+                </div>
+
+                <div class="stats-card pending-card">
+                    <div class="stats-icon">
+                        <i class="ri-error-warning-line"></i>
+                    </div>
+                    <div class="stats-value" id="pendingCount">0</div>
+                    <p class="stats-label">Belum Dikerjakan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Content -->
+    <div class="progress-container">
+        <div class="progress-header">
+            <div class="progress-title">
+                <i class="ri-user-settings-line"></i>
+                <span>Daftar Progress Guru</span>
+            </div>
+        </div>
+        
+        <!-- Progress Items List -->
+        <div id="progressBars"></div>
+        
+        <!-- Empty State (will be shown when no data) -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <img src="{{ url_for('static', filename='assets/images/empty-data.svg') }}" alt="No Data" onerror="this.src='https://cdn-icons-png.flaticon.com/512/6598/6598519.png';">
+            <h4>Belum ada data progress</h4>
+            <p>Pilih kelas dan semester untuk melihat data progress pengisian nilai</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch and populate classes
+        fetch('/api/classes')
+            .then(response => response.json())
+            .then(data => {
+                const classSelect = document.getElementById('classSelect2');
+                data.forEach(kelas => {
+                    const option = document.createElement('option');
+                    option.value = kelas.id;
+                    option.text = kelas.nama;
+                    classSelect.appendChild(option);
+                });
+                
+                // Select first class by default if available
+                if (data.length > 0) {
+                    classSelect.value = data[0].id;
+                }
+            });
+    
+        // Fetch and populate semesters
+        fetch('/api/semesterall')
+            .then(response => response.json())
+            .then(data => {
+                const semesterSelect = document.getElementById('semesterSelect2');
+                data.forEach(semester => {
+                    const option = document.createElement('option');
+                    option.value = semester.id;
+                    option.text = `${semester.tahun_ajaran} - ${semester.semester}`;
+                    semesterSelect.appendChild(option);
+                });
+    
+                // Select first semester by default and load initial data
+                if (data.length > 0) {
+                    semesterSelect.value = data[0].id;
+                    const initialClassId = document.getElementById('classSelect2').value;
+                    const initialSemesterId = data[0].id;
+                    if (initialClassId && initialSemesterId) {
+                        fetchProgressData(initialClassId, initialSemesterId);
+                    }
+                }
+            });
+    
+        // Event listeners for dropdowns
+        document.getElementById('classSelect2').addEventListener('change', function() {
+            const selectedClassId = this.value;
+            const selectedSemesterId = document.getElementById('semesterSelect2').value;
+            if (selectedClassId && selectedSemesterId) {
+                fetchProgressData(selectedClassId, selectedSemesterId);
+            }
+        });
+    
+        document.getElementById('semesterSelect2').addEventListener('change', function() {
+            const selectedClassId = document.getElementById('classSelect2').value;
+            const selectedSemesterId = this.value;
+            if (selectedClassId && selectedSemesterId) {
+                fetchProgressData(selectedClassId, selectedSemesterId);
+            }
+        });
+    
+        // Function to fetch and display progress data
+        function fetchProgressData(classId, semesterId) {
+            fetch(`/api/progress_per_class/${classId}/${semesterId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const progressBarsContainer = document.querySelector('#progressBars');
+                    progressBarsContainer.innerHTML = ''; // Clear previous content
+                    
+                    // Show empty state if no data
+                    if (!data || data.length === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                        document.getElementById('completeCount').textContent = '0';
+                        document.getElementById('progressCount').textContent = '0';
+                        document.getElementById('pendingCount').textContent = '0';
+                        return;
+                    }
+                    
+                    document.getElementById('emptyState').style.display = 'none';
+                    
+                    // Update stats counters
+                    let complete = 0;
+                    let inProgress = 0;
+                    let pending = 0;
+                    
+                    data.forEach((item, index) => {
+                        const progress = Math.round(item.progress);
+                        
+                        // Count for stats
+                        if (progress === 100) complete++;
+                        else if (progress > 0) inProgress++;
+                        else pending++;
+                        
+                        // Create progress item
+                        const progressItem = document.createElement('div');
+                        progressItem.className = 'progress-item';
+                        
+                        // Get initials for avatar
+                        const nameParts = item.guru.split(' ');
+                        let initials = nameParts[0][0];
+                        if (nameParts.length > 1) {
+                            initials += nameParts[1][0];
+                        }
+                        
+                        // Determine status class
+                        let statusClass = 'status-pending';
+                        let statusText = 'Belum Dikerjakan';
+                        let barColor = '#ef4444';
+                        
+                        if (progress === 100) {
+                            statusClass = 'status-complete';
+                            statusText = 'Selesai';
+                            barColor = '#10b981';
+                        } else if (progress > 0) {
+                            statusClass = 'status-progress';
+                            statusText = 'Sedang Diproses';
+                            barColor = '#f59e0b';
+                        }
+                        
+                        // Build HTML
+                        progressItem.innerHTML = `
+                            <div class="teacher-info">
+                                <div class="teacher-avatar">${initials}</div>
+                                <div>
+                                    <p class="teacher-name">${item.guru}</p>
+                                    <p class="teacher-subject">${item.mapel}</p>
+                                </div>
+                                <span class="ms-auto status-tag ${statusClass}">${statusText}</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: ${progress}%; background-color: ${barColor};"></div>
+                            </div>
+                            <div class="progress-percentage">
+                                <span class="percentage">${progress}% complete</span>
+                                <a href="#" class="detail-link">Detail <i class="ri-arrow-right-s-line"></i></a>
+                            </div>
+                        `;
+                        
+                        progressBarsContainer.appendChild(progressItem);
+                    });
+                    
+                    // Update stats cards
+                    document.getElementById('completeCount').textContent = complete;
+                    document.getElementById('progressCount').textContent = inProgress;
+                    document.getElementById('pendingCount').textContent = pending;
+                })
+                .catch(error => {
+                    console.error('Error loading progress data:', error);
+                    document.getElementById('emptyState').style.display = 'block';
+                    document.getElementById('progressBars').innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="ri-error-warning-line me-2"></i>
+                            Gagal memuat data: ${error.message}
+                        </div>
+                    `;
+                });
+        }
+    });
+</script>
+{% endblock content %}

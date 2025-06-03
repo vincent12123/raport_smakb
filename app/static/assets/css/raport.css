@@ -1,0 +1,379 @@
+/* Reset & Base Styles */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+/* New Modern Styles */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --text-color: #1f2937;
+    --border-color: #e5e7eb;
+    --background-light: #f8fafc;
+    --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.raport-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 3rem;
+}
+
+/* Header Styles */
+.school-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.school-logo-wrapper {
+    margin-bottom: 1.5rem;
+}
+
+.school-logo {
+    width: 200px;
+    height: auto;
+}
+
+.school-info h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--secondary-color);
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+}
+
+.divider {
+    height: 4px;
+    width: 100px;
+    background: var(--primary-color);
+    margin: 1rem auto;
+    border-radius: 2px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+/* Student Info Card */
+.student-info-card {
+    background: linear-gradient(145deg, #ffffff, var(--background-light));
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border-color);
+}
+
+.student-info-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.student-info-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.semester-info {
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.student-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.detail-item {
+    margin-bottom: 1rem;
+}
+
+.detail-item label {
+    font-size: 0.9rem;
+    color: #6b7280;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.detail-item p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Tables */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin-top: 1rem;
+}
+
+.grades-table, .extra-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grades-table th, .extra-table th {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 1rem;
+    text-align: left;
+}
+
+.grades-table td, .extra-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nilai-cell {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+/* Attendance Section */
+.attendance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.attendance-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.attendance-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.attendance-label {
+    font-size: 0.95rem;
+    color: #6b7280;
+}
+
+/* Footer */
+.raport-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.signature-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Print Styles */
+@media print {
+    .raport-card {
+        box-shadow: none;
+        margin: 0;
+        padding: 1rem;
+    }
+
+    .table thead th {
+        background: #f1f5f9 !important;
+        color: #1a1a1a !important;
+    }
+
+    .student-info {
+        background: none;
+        border: 1px solid #e2e8f0;
+    }
+
+    .attendance-summary {
+        background: none;
+        border: 1px solid #e2e8f0;
+    }
+
+    .signature-section {
+        margin-top: 4rem;
+    }
+    
+    .watermark {
+        opacity: 0.3;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .raport-card {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .school-info h2 {
+        font-size: 1.5rem;
+    }
+
+    .student-info {
+        padding: 1.5rem;
+    }
+
+    .table {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tooltips */
+.capaian-kompetensi {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Animations */
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* Form Controls */
+.form-select, .form-control {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, #2563eb, #1d4ed8);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+/* Signature Section Styles */
+.signature-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.signature-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.place-date {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.position {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 3rem;
+}
+
+.signature-line {
+    width: 200px;
+    height: 1px;
+    background-color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+}
+
+.nip {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* Watermark for Official Documents */
+.watermark {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    opacity: 0.7;
+    width: 120px;
+    height: auto;
+}
+
+.watermark img {
+    width: 100%;
+    height: auto;
+}
+
+/* Section Titles and Spacing */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--primary-color);
+}
+
+/* First section title needs less top margin */
+.grades-section .section-title {
+    margin-top: 2rem;
+}
+
+/* Sections need proper spacing */
+.grades-section,
+.extra-section,
+.attendance-section {
+    margin-bottom: 3rem;
+}

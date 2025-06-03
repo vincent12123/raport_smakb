@@ -1,0 +1,211 @@
+<div class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+        <div>
+            <img src="{{ url_for('static', filename='assets/images/smk.png') }}" class="logo-icon" alt="logo icon">
+        </div>
+        <div>
+            <h4 class="logo-text">Raport SMA Karsa</h4>
+        </div>
+        <div class="toggle-icon ms-auto">
+            <i class='bx bx-arrow-to-left'></i>
+        </div>
+    </div>
+    
+    <!-- navigation -->
+    <ul class="metismenu" id="menu">
+        <!-- MAIN NAVIGATION -->
+        <li class="menu-label">Main Navigation</li>
+        
+        <li>
+            <a href="{{ url_for('admin.dashboard') }}">
+                <div class="parent-icon"><i class='bx bxs-dashboard'></i></div>
+                <div class="menu-title">Dashboard</div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="{{ url_for('progress_guru.progress_guru') }}">
+                <div class="parent-icon"><i class='bx bx-line-chart'></i></div>
+                <div class="menu-title">Progress Guru</div>
+            </a>
+        </li>
+        
+        <!-- DATA MANAGEMENT -->
+        <li class="menu-label">Data Management</li>
+        
+        <li>
+            <a href="{{ url_for('download_files.download_files') }}">
+                <div class="parent-icon"><i class='bx bx-cloud-download'></i></div>
+                <div class="menu-title">
+                    Download Files
+                    <i class='bx bx-error-circle text-danger ms-2'></i>
+                </div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-cloud-upload"></i></div>
+                <div class="menu-title">Upload Data</div>
+            </a>
+            <ul>
+                <li><a href="{{ url_for('upload.upload_nilai_akhir') }}"><i class="bx bx-file"></i>Upload Nilai</a></li>
+                <li><a href="{{ url_for('upload.upload_rekap_absensi') }}"><i class="bx bx-calendar-check"></i>Upload Absensi</a></li>
+                <li><a href="{{ url_for('upload.upload_ekstrakurikuler') }}"><i class="bx bx-trophy"></i>Upload Ekstrakurikuler</a></li>
+            </ul>
+        </li>
+        
+        <li>
+            <a href="{{ url_for('generate.generate_raporsiswa') }}">
+                <div class="parent-icon"><i class='bx bxs-file-pdf'></i></div>
+                <div class="menu-title">Generate Rapor</div>
+            </a>
+        </li>
+        
+        <!-- DATA MAINTENANCE -->
+        <li class="menu-label">Data Maintenance</li>
+        
+        <li>
+            <a href="{{ url_for('bulk_delete.bulk_delete_nilai_akhir_v2') }}">
+                <div class="parent-icon"><i class='bx bx-trash-alt'></i></div>
+                <div class="menu-title">Delete Nilai Akhir</div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="{{ url_for('bulk_delete.delete_rekap_absensi') }}">
+                <div class="parent-icon"><i class='bx bx-eraser'></i></div>
+                <div class="menu-title">Delete Rekap Absensi</div>
+            </a>
+        </li>
+        
+        <!-- SYSTEM CONFIGURATION -->
+        <li class="menu-label">System Configuration</li>
+        
+        <li>
+            <a href="{{ url_for('semester_admin.list_semester') }}">
+                <div class="parent-icon"><i class='bx bx-calendar'></i></div>
+                <div class="menu-title">Manajemen Semester</div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="{{ url_for('semester_admin.change_active_semester') }}">
+                <div class="parent-icon"><i class='bx bx-calendar-star'></i></div>
+                <div class="menu-title">Ubah Semester Aktif</div>
+            </a>
+        </li>
+        
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class='bx bx-data'></i></div>
+                <div class="menu-title">Pengisian Data</div>
+            </a>
+            <ul>
+                <li><a href="{{ url_for('crud_sekolah.list_sekolah') }}"><i class="bx bxs-school"></i>CRUD Sekolah</a></li>
+                <li><a href="{{ url_for('guru.list_guru') }}"><i class="bx bxs-user-voice"></i>CRUD Guru</a></li>
+                <li><a href="{{ url_for('crud_siswa.list_siswa') }}"><i class="bx bxs-user"></i>CRUD Siswa</a></li>
+                <li><a href="{{ url_for('crud_kelas.list_kelas') }}"><i class="bx bxs-building"></i>CRUD Kelas</a></li>
+                <li><a href="{{ url_for('crud_mapel.list_mapel') }}"><i class="bx bxs-book"></i>CRUD Mapel</a></li>
+            </ul>
+        </li>
+        
+        <!-- REPORTS -->
+        <li class="menu-label">Reports & Analytics</li>
+        
+        <li>
+            <a href="javascript:;" class="has-arrow">
+                <div class="parent-icon"><i class="bx bx-pie-chart-alt-2"></i></div>
+                <div class="menu-title">Laporan</div>
+            </a>
+            <ul>
+                <li><a href="{{ url_for('laporan_kelas.nilai_akhir') }}"><i class="bx bx-group"></i>Laporan Perkelas</a></li>
+                <li><a href="{{ url_for('laporan_guru.laporan_gurusdh') }}"><i class="bx bx-spreadsheet"></i>Download Excel</a></li>
+                <li><a href="{{ url_for('laporan_guru_mengajar.laporan') }}"><i class="bx bx-chalkboard"></i>Laporan Guru Mengajar</a></li>
+                <li><a href="{{ url_for('laporan_siswa.chart1') }}"><i class="bx bx-bar-chart-alt-2"></i>Laporan Siswa</a></li>
+            </ul>
+        </li>
+        
+        <!-- ACCOUNT -->
+        <li class="menu-label">Account</li>
+        
+        <li>
+            <a href="{{ url_for('auth.logout') }}" onclick="return confirm('Are you sure you want to logout?');">
+                <div class="parent-icon"><i class='bx bx-log-out-circle'></i></div>
+                <div class="menu-title">Logout</div>
+            </a>
+        </li>
+    </ul>
+    <!-- end navigation -->
+</div>
+
+<style>
+    /* Custom styling for sidebar categories */
+    .menu-label {
+        color: #a0aec0;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 20px 15px 8px;
+        display: block;
+        margin: 0;
+    }
+    
+    /* First menu label should have smaller top padding */
+    .menu-label:first-of-type {
+        padding-top: 10px;
+    }
+    
+    /* Custom styling for submenu icons */
+    .metismenu ul a i {
+        font-size: 16px;
+        margin-right: 6px;
+        width: 20px;
+        display: inline-block;
+    }
+    
+    /* Highlight active menu item */
+    .metismenu li.mm-active > a {
+        background-color: rgba(0, 123, 255, 0.1);
+        color: #4361ee;
+    }
+    
+    .metismenu li.mm-active > a .parent-icon i {
+        color: #4361ee;
+    }
+    
+    /* Better icon alignment */
+    .parent-icon {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 123, 255, 0.05);
+        border-radius: 6px;
+        margin-right: 10px;
+        transition: all 0.3s;
+    }
+    
+    .metismenu li a:hover .parent-icon {
+        background-color: rgba(0, 123, 255, 0.1);
+    }
+    
+    /* Fix menu spacing */
+    .metismenu > li > a {
+        padding: 10px 15px;
+        margin: 3px 0;
+    }
+    
+    /* Cleaner submenu appearance */
+    .metismenu ul {
+        border-left: 1px dashed #ced4da;
+        margin-left: 28px;
+        padding-left: 0;
+    }
+    
+    .metismenu ul a {
+        padding: 6px 15px;
+    }
+</style>

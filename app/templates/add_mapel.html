@@ -1,0 +1,36 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<div class="container">
+    <h2>Tambah Mata Pelajaran</h2>
+    <form method="POST" action="{{ url_for('crud_mapel.add_mapel') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.nama_mapel.label }}
+            {{ form.nama_mapel(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.deskripsi.label }}
+            {{ form.deskripsi(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.jumlah_jam.label }}
+            {{ form.jumlah_jam(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.kategori.label }}
+            {{ form.kategori(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.id_kelas.label }}
+            {{ form.id_kelas(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.id_guru.label }}
+            {{ form.id_guru(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

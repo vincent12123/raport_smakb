@@ -1,0 +1,21 @@
+{% extends "basedashboardone.html" %}
+{% block content %}
+<body>
+	<div class="main-wrapper">
+		<div class="page-wrapper full-page">
+			<div class="page-content d-flex align-items-center justify-content-center">
+
+				<div class="row w-100 mx-0 auth-page">
+					<div class="col-md-8 col-xl-6 mx-auto d-flex flex-column align-items-center">
+						
+						<h1 class="fw-bolder mb-22 mt-2 tx-80 text-muted">403</h1>
+						<h4 class="mb-2">Access Denied</h4>
+						<h6 class="text-muted mb-3 text-center">Oops!! Anda tidak memiliki izin untuk mengakses halaman ini.</h6>
+						<a href="{{url_for('dashboard')}}">Kembali ke beranda</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	{% endblock content %}
