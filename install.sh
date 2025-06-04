@@ -102,12 +102,12 @@ EOF
 fi
 
 # Install and configure firewall (optional)
-echo "Configuring firewall..."
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 3000/tcp
-echo "y" | sudo ufw enable
+#echo "Configuring firewall..."
+#sudo ufw allow 22/tcp
+#sudo ufw allow 80/tcp
+#sudo ufw allow 443/tcp
+#sudo ufw allow 3000/tcp
+#echo "y" | sudo ufw enable
 
 # Start the application
 echo "Starting application..."
