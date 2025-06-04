@@ -7,17 +7,9 @@ echo "=========================================="
 echo "  Installing Raport Ortu SMA Karya Bangsa"
 echo "=========================================="
 
-# Update system
-echo "Updating system packages..."
-sudo apt update
-sudo apt upgrade -y
-
-# Install Python dan pip
-echo "Installing Python and dependencies..."
-sudo apt install -y python3 python3-pip python3-venv python3-dev build-essential
-
-# Install git jika belum ada
-sudo apt install -y git
+# Install dependencies yang diperlukan
+echo "Installing required dependencies..."
+sudo apt install -y python3-pip python3-venv python3-dev build-essential
 
 # Create app directory
 APP_DIR="/opt/raport_ortu_smakb"
@@ -72,43 +64,6 @@ echo "Enabling and starting service..."
 sudo systemctl daemon-reload
 sudo systemctl enable raport-ortu.service
 
-# Create nginx configuration (optional)
-if command -v nginx &> /dev/null; then
-    echo "Creating nginx configuration..."
-    sudo tee /etc/nginx/sites-available/raport-ortu > /dev/null <<EOF
-server {
-    listen 80;
-    server_name localhost;
-
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-    }
-
-    location /static {
-        alias $APP_DIR/app/static;
-        expires 30d;
-    }
-}
-EOF
-
-    # Enable nginx site
-    sudo ln -sf /etc/nginx/sites-available/raport-ortu /etc/nginx/sites-enabled/
-    sudo nginx -t && sudo systemctl reload nginx
-    echo "Nginx configuration created and enabled."
-fi
-
-# Install and configure firewall (optional)
-#echo "Configuring firewall..."
-#sudo ufw allow 22/tcp
-#sudo ufw allow 80/tcp
-#sudo ufw allow 443/tcp
-#sudo ufw allow 3000/tcp
-#echo "y" | sudo ufw enable
-
 # Start the application
 echo "Starting application..."
 sudo systemctl start raport-ortu.service
@@ -119,14 +74,11 @@ echo "  Installation completed successfully!"
 echo "=========================================="
 echo ""
 echo "Application is running on:"
-echo "  - Direct access: http://$(hostname -I | awk '{print $1}'):3000"
-if command -v nginx &> /dev/null; then
-    echo "  - Via Nginx: http://$(hostname -I | awk '{print $1}')"
-fi
+echo "  - Direct access: http://$(hostname -I | awk '{print $1}'):3123"
 echo ""
 echo "Useful commands:"
 echo "  sudo systemctl status raport-ortu    # Check status"
 echo "  sudo systemctl restart raport-ortu   # Restart app"
-echo "  sudo systemctl logs raport-ortu      # View logs"
+echo "  sudo systemctl stop raport-ortu      # Stop app"
 echo "  sudo journalctl -u raport-ortu -f    # Follow logs"
 echo ""
